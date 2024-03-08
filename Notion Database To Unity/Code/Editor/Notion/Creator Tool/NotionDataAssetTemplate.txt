@@ -1,0 +1,12 @@
+﻿using CarterGames.Cart.Data.Notion;
+using UnityEngine;
+
+
+namespace Data
+{
+    [CreateAssetMenu(fileName = "%DataAssetName%")]
+    public class %DataAssetName% : NotionDataAsset<%DataTypeName%>
+    {
+        
+    }
+}

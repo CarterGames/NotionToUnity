@@ -1,0 +1,16 @@
+{
+    "name": "NotionToUnity.Runtime",
+    "rootNamespace": "NotionToUnity.Runtime",
+    "references": [
+        "GUID:6f844c9df8325c245876cf2e98532a62"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

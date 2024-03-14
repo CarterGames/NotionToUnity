@@ -1,6 +1,8 @@
 # Notion Database To Unity Scriptable Object
 A system to import Notion database data into a Unity scriptable object for use in game. 
 
+![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge)
+
 <b>Note:</b> This is experimental and still in development to an extent. 
 
 <br>

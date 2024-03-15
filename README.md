@@ -59,7 +59,7 @@ The asset creator is an editor window that handles creating the classes for a ``
 
 ![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/50d42e71-c459-4376-8a1e-7213fa03b067)
 
-Once setup you'll just need to write your data class to have the fields you want. An example of a Persona heling skill data class
+Once setup you'll just need to write your data class to have the fields you want. An example of a Persona healing skill data class
 
 ```
     [Serializable]

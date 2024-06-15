@@ -17,14 +17,15 @@ A system to import Notion database data into a Unity scriptable object for use i
 | Toggle | ```bool``` |
 | Single-Select | ```string``` ```enum``` |
 | Multi-Select | ```string[]``` ```List<string>``` ```enum flags``` |
+| Rollup | ```Any supported from above types.``` |
 
-Any ```string``` convertable should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset``` 
+Any ```string```convertible should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset```. Note that rollups are supported only when they show a property that is otherwise supported. 
 
 <br>
 
 ## Limitations
 - Your Notion database can only have 100 entries max (Notion API limit).
-- Downloaded data is in the order of creation (Notion API limit, its how the HTTP request returns the data). You can self order these after download should you wish with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset``` classes.
+- Downloaded data is in the order of creation (Notion API limit, its how the HTTP request returns the data). You can self-order these after download should you wish with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset``` classes.
 - Limited Notion property support (May be improved in the future).
 
 <br>
@@ -39,15 +40,15 @@ Download the repo/clone it and import the files into your project manually.
 <br>
 
 ## 💽 Notion setup
-You need to make an intergration in order for the downloading to work. You can make an intergration <a href="https://www.notion.so/my-integrations">here</a>. The steps to follow are:
-- Make a new intergration with the ```New intergration``` button.
-- Select the workspace the intergrations can access. This should be the workspace the database(s) you want to download are in.
-- Give the intergration a name & continnue to the next page.
-- Navigate to the ```Capabilities``` tab from the side bar and ensure the intergration has read access. You can disable the rest as you only need the read ability.
+You need to make an integration in order for the downloading to work. You can make an intergration <a href="https://www.notion.so/my-integrations">here</a>. The steps to follow are:
+- Make a new integration with the ```New integration``` button.
+- Select the workspace the integrations can access. This should be the workspace the database(s) you want to download are in.
+- Give the integration a name & continue to the next page.
+- Navigate to the ```Capabilities``` tab from the sidebar and ensure the integration has read access. You can disable the rest as you only need the readability.
 - Navigate to the ```Secrets``` tab and copy the key for use in Unity.
 
-Once done you can then enter Notion and add the intergration to one or multiple pages to allow the Notion API to access the data. This is done from: ```... > Manage Connections > "Find and add your intergration from the options"```
-If you don't see the intergration you just made listed, close & open Notion and follow the steps again. 
+Once done you can then enter Notion and add the integration to one or multiple pages to allow the Notion API to access the data. This is done from: ```... > Manage Connections > "Find and add your integration from the options"```
+If you don't see the integration you just made listed, close & open Notion and follow the steps again. 
 
 <br>
 

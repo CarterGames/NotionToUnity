@@ -80,7 +80,7 @@ namespace NotionToUnity
                         var valueData = row.DataLookup[field.Name.Trim().ToLower()];
                         var fieldType = field.FieldType;
                         
-                        if (fieldType.BaseType.FullName.Contains("Notion.NotionWrapper"))
+                        if (fieldType.BaseType.FullName.Contains(typeof(NotionWrapper<>).Namespace + ".NotionWrapper"))
                         {
                             var instance = valueData.GetValueAs(fieldType);
                             field.SetValue(newEntry, instance);

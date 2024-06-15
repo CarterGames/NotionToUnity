@@ -1,4 +1,4 @@
-﻿using CarterGames.Cart.Data.Notion;
+﻿using NotionToUnity;
 using UnityEngine;
 
 

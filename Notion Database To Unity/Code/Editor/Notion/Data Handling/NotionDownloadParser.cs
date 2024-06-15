@@ -35,7 +35,7 @@ namespace NotionToUnity.Editor
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
         /// Handles parsing the data from the database into the query class for use.
         /// </summary>
@@ -44,7 +44,7 @@ namespace NotionToUnity.Editor
         public static NotionDatabaseQueryResult Parse(string data)
         {
             var result = new List<NotionDatabaseRow>();
-                    
+
             for (var i = 0; i < JSONNode.Parse(data)["results"].AsArray.Count; i++)
             {
                 result.Add(GetRowData(JSONNode.Parse(data)["results"][i]["properties"]));
@@ -63,68 +63,80 @@ namespace NotionToUnity.Editor
         {
             var keys = new List<string>();
             var lookup = new SerializableDictionary<string, NotionProperty>();
-                
-            
+
+
             foreach (var k in element.Keys)
             {
                 keys.Add(k);
             }
-            
-            
+
+
             for (var i = 0; i < keys.Count; i++)
             {
                 var propName = keys[i];
                 var propType = element.AsObject[i]["type"].Value;
                 var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
-                
+
+
                 switch (element.AsObject[i]["type"].Value)
                 {
                     case "title":
-                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, element.AsObject[i]["title"][0]["text"]["content"].Value));
-                        break;
                     case "rich_text":
-                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, element.AsObject[i]["rich_text"][0]["text"]["content"].Value));
-                        break;
                     case "number":
-                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, element.AsObject[i]["number"].Value));
-                        break;
                     case "checkbox":
-                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, element.AsObject[i]["checkbox"].Value));
-                        break;
                     case "select":
-
-                        if (element.AsObject[i]["select"]["name"] == null)
-                        {
-                            lookup.Add(adjustedKey, new NotionProperty(propName, propType, null));
-                        }
-                        else
-                        {
-                            lookup.Add(adjustedKey, new NotionProperty(propName, propType, element.AsObject[i]["select"]["name"].Value));
-                        }
-                 
-                        break;
                     case "multi_select":
-
-                        var elements = new NotionArrayWrapper<string>
-                        {
-                            list = new List<string>()
-                        };
-
-                        for (var j = 0; j < element.AsObject[i]["multi_select"].Count; j++)
-                        {
-                            elements.list.Add(element.AsObject[i]["multi_select"][j]["name"].Value);
-                        }
-                        
-                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, JsonUtility.ToJson(elements)));
+                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i])));
+                        break;
+                    case "rollup":
+                        lookup.Add(adjustedKey, new NotionProperty(propName, propType, GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0])));
                         break;
                     default:
-                        Debug.LogError($"Unable to assign value: {keys[i]} as the Notion data type was not found.");
+                        Debug.LogWarning($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.");
                         break;
                 }
             }
-            
-                
+
             return new NotionDatabaseRow(lookup);
+        }
+
+
+        /// <summary>
+        /// Gets the value of the notion property type entered.
+        /// </summary>
+        /// <param name="type">The type to read.</param>
+        /// <param name="element">The element to get the value from.</param>
+        /// <returns>The value found.</returns>
+        private static string GetValueForType(string type, JSONNode element)
+        {
+            switch (type)
+            {
+                case "title":
+                    return element["title"][0]["text"]["content"].Value;
+                case "rich_text":
+                    return element["rich_text"][0]["text"]["content"].Value;
+                case "number":
+                    return element["number"].Value;
+                case "checkbox":
+                    return element["checkbox"].Value;
+                case "select":
+                    return element["select"]["name"] == null ? null : element["select"]["name"].Value;
+                case "multi_select":
+
+                    var elements = new NotionArrayWrapper<string>
+                    {
+                        list = new List<string>()
+                    };
+
+                    for (var j = 0; j < element["multi_select"].Count; j++)
+                    {
+                        elements.list.Add(element["multi_select"][j]["name"].Value);
+                    }
+
+                    return JsonUtility.ToJson(elements);
+                default:
+                    return null;
+            }
         }
     }
 }

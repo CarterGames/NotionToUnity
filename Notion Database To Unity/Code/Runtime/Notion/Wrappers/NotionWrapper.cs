@@ -30,19 +30,42 @@ namespace NotionToUnity
     [Serializable]
     public class NotionWrapper<T> where T : Object
     {
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Fields
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
         [SerializeField] private string id;
         [SerializeField] private T value;
 
-        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The value stored in the wrapper.
+        /// </summary>
         public T Value => value;
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// Makes a new wrapper with the entered id.
+        /// </summary>
+        /// <param name="id"></param>
         public NotionWrapper(string id)
         {
             this.id = id;
         }
-        
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Methods
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Assigns the reference when called.
+        /// </summary>
         private void Assign()
         {
 #if UNITY_EDITOR
@@ -68,13 +91,26 @@ namespace NotionToUnity
 #endif
         }
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Operator
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        /// <summary>
+        /// Converts the wrapper to its implementation type.
+        /// </summary>
+        /// <param name="wrapper">The wrapper to convert.</param>
+        /// <returns>The value of the wrapper.</returns>
         public static implicit operator T(NotionWrapper<T> wrapper)
         {
             return wrapper.Value;
         }
-        
-        
+
+
+        /// <summary>
+        /// Converts the type to thr wrapper.
+        /// </summary>
+        /// <param name="reference">The value to convert.</param>
+        /// <returns>The wrapper with the value.</returns>
         public static implicit operator NotionWrapper<T>(T reference)
         {
             return new NotionWrapper<T>(reference.name);

@@ -1,14 +1,25 @@
 # Notion Database To Unity Scriptable Object
-A system to import Notion database data into a Unity scriptable object for use in game. 
 
 ![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge)
 
-<b>Note:</b> This is experimental and still in development to an extent. 
+A system to import Notion database data into a Unity scriptable object for use in game. 
+<b>Note:</b> This is experimental. While functional, there may be issues or edge cases that are not covered. Updates will also be slow/infrequent.
 
 <br>
 
-## Supported data types
-### Notion
+# Table of Contents
+* [Supported notion/Unity data types](#supported-data-types)
+* [Installation](#installation)
+    * [Unity Package Manager (Git URL)](#Unity-Package-Manager-(Git-URL))
+    * [Package](#package)
+    * [Manual](#manual)
+* [Setup](#setup)
+  * [Notion Setup](#notion-setup)
+
+
+<br>
+
+# Supported data types
 | Property type | Conversion types supported (Unity) |
 | --- | --- |
 | Title | ```string``` |
@@ -18,19 +29,29 @@ A system to import Notion database data into a Unity scriptable object for use i
 | Single-Select | ```string``` ```enum``` |
 | Multi-Select | ```string[]``` ```List<string>``` ```enum flags``` |
 | Rollup | ```Any supported from above types.``` |
+| Date | ```SerializableDateTime``` |
 
-Any ```string```convertible should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset```. Note that rollups are supported only when they show a property that is otherwise supported. 
-
-<br>
-
-## Limitations
-- Your Notion database can only have 100 entries max (Notion API limit).
-- Downloaded data is in the order of creation (Notion API limit, its how the HTTP request returns the data). You can self-order these after download should you wish with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset``` classes.
-- Limited Notion property support (May be improved in the future).
+Any ```string``` convertible should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset```. Note that rollups are supported only when they show a property that is otherwise supported. 
 
 <br>
 
-## Installation
+
+# Installation
+### Unity Package Manager (Git URL)
+<b>Release:</b>
+<br>
+<i>The most up-to-date version of the repo that is considered stable enough for public use.</i>
+```
+https://github.com/CarterGames/NotionToUnity.git
+```
+
+<b>Pre-release:</b>
+<br>
+<i>Used to prepare future releases before releasing them, checking for bugs mainly. Will have the latest features but may not be stable just yet. Use at your own risk.</i>
+```
+https://github.com/CarterGames/NotionToUnity.git#pre-release
+```
+
 ### Package
 Import the package found in the releases section through the "Import custom package" right-click menu option in Unity's project tab. 
 
@@ -38,6 +59,9 @@ Import the package found in the releases section through the "Import custom pack
 Download the repo/clone it and import the files into your project manually.
 
 <br>
+
+
+# Setup Guide
 
 ## 💽 Notion setup
 You need to make an integration in order for the downloading to work. You can make an intergration <a href="https://www.notion.so/my-integrations">here</a>. The steps to follow are:

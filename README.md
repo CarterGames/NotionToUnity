@@ -33,7 +33,8 @@ A flexible system to import Notion databases into a Unity scriptable object for 
 * [Setup Guide](#setup-guide)
    * [Notion Setup](#-notion-setup)
    * [Unity Setup](#-unity-setup)
-* [Downloading Data](#downloading-the-data)
+* [Downloading Data](#downloading-the-data)  
+   * [Sorting Properties](#sorting-properties)
    * [Weapper Classes](#wrapper-classes)
    * [Post Download Logic](#post-download-logic)
 * [API Access](#scripting-api-info)
@@ -170,7 +171,7 @@ Once setup you'll just need to write your data class to have the fields you want
 
 # Downloading the data
 
-To download your data you will need the link to the database page and the secret key for the intergration you made earlier. The Database link can be grabbed from the ... menu on the page the database is on:
+To download your data you will need the link to the database page and the secret key for the integration you made earlier. The Database link can be grabbed from the ... menu on the page the database is on:
 
 ![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/875ea852-c437-45c0-94cf-9b1940a88a1e)
 
@@ -179,6 +180,17 @@ Then just fill the fields on the data asset (make one from the ```CreateAssetMen
 ![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/a78e3d35-e37d-4e12-ba3d-1a9d18109d04)
 
 <i>(Image from The Cart implementation of the system, so secret key is in a global field, you'll have to assign it per asset with this setup).</i>
+
+
+<br>
+
+
+## Sorting Properties
+You can apply sorting properties to your download requests by adding them to the sort properties list in the inspector. The text for each entry is the Notion property name you want to sort by, with the tick box set to if you want to sort ascending for that property. The order of the sort properties in the list defines the order they are used, just like in Notion. 
+
+<i>The editor for this will be improved at some point.</i>
+
+![image](https://github.com/user-attachments/assets/e35eab63-6e8a-4a4e-b866-b3810697fbee)
 
 
 <br>
@@ -261,6 +273,6 @@ A database of all the skills for healing:
 <b>Unity</b>
 The downloaded data in Unity:
 
-![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/184013f5-6c60-4331-a64c-fec8e16d09b0)
+![313001350-184013f5-6c60-4331-a64c-fec8e16d09b0](https://github.com/user-attachments/assets/ceaa7564-7680-4d2a-b4c3-4fd9859f39c5)
 
 <br>

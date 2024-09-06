@@ -1,25 +1,73 @@
-# Notion Database To Unity Scriptable Object
+# Notion Database to Unity Scriptable Object
 
-![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge)
+A flexible system to import Notion databases into a Unity scriptable object for use in Unity game projects. Note: This is experimental. While functional, there may be issues or edge cases that are not covered. Updates will also be slow/infrequent.
 
-A system to import Notion database data into a Unity scriptable object for use in game. 
-<b>Note:</b> This is experimental. While functional, there may be issues or edge cases that are not covered. Updates will also be slow/infrequent.
 
 <br>
 
-# Table of Contents
-* [Supported notion/Unity data types](#supported-data-types)
+
+![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge&color=8b8b8b)
+![Notion API](https://img.shields.io/badge/Notion_API-(V1)_2022/06/28-critical?style=for-the-badge&color=918f48)
+![GitHub all releases](https://img.shields.io/github/downloads/CarterGames/NotionToUnity/total?style=for-the-badge&color=8d6ca1)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CarterGames/NotionToUnity?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/CarterGames/NotionToUnity?style=for-the-badge)
+![Static Badge](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+
+
+<br>
+
+### Authors
+- <a href="https://github.com/JonathanMCarter">Jonathan Carter</a>
+
+
+<br><br>
+
+# Table of contents
+* [Features](#features)
+* [Planned Features](#planned-features)
+* [Supported Properties](#supported-properties)
 * [Installation](#installation)
-    * [Unity Package Manager (Git URL)](#Unity-Package-Manager-(Git-URL))
-    * [Package](#package)
-    * [Manual](#manual)
-* [Setup](#setup)
-  * [Notion Setup](#notion-setup)
+   * [Unity Package Manager (Git URL)](#unity-package-manager-git-url-recommended)
+   * [Package Import (.unityPackage)](#unity-package-unitypackage)
+   * [Manual (Clone)](#manual-clone)
+* [Setup Guide](#setup-guide)
+   * [Notion Setup](#-notion-setup)
+   * [Unity Setup](#-unity-setup)
+* [Downloading Data](#downloading-the-data)
+   * [Weapper Classes](#wrapper-classes)
+   * [Post Download Logic](#post-download-logic)
+* [API Access](#scripting-api-info)
+* [Accessing Notion Data Assets](#accessing-notion-data-assets)
+* [Usage Example](#usage-example)
+
+<br><br>
 
 
-<br>
+# Features
+- Download databases of any size.
+- Apply sorting to data to order it just as it is in a Notion database view.
+- Automatic parsing of data into their field types.
+- Support for most useful Notion data properties.
+- Automatic API key removal on build creation for security.
+- System to reference assets in code without a direct inspector reference.
 
-# Supported data types
+
+<br><br>
+
+
+# Planned Features
+- Support for applying filters when downloading a Notion database.
+
+
+<br><br>
+
+
+# Supported Properties
+
+Any ```string``` convertible type should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset```. 
+
+Note that rollups are supported only when they show a property that is otherwise supported below:
+
 | Property type | Conversion types supported (Unity) |
 | --- | --- |
 | Title | ```string``` |
@@ -31,13 +79,12 @@ A system to import Notion database data into a Unity scriptable object for use i
 | Rollup | ```Any supported from above types.``` |
 | Date | ```SerializableDateTime``` |
 
-Any ```string``` convertible should also support JSON for custom classes, but the mileage may vary. Best to just store raw data in these assets and convert the data with an override to the ```PostDataDownloaded()``` method in the ```Notion Data Asset```. Note that rollups are supported only when they show a property that is otherwise supported. 
 
-<br>
+<br><br>
 
 
 # Installation
-### Unity Package Manager (Git URL)
+## Unity Package Manager (Git URL) [Recommended]
 <b>Release:</b>
 <br>
 <i>The most up-to-date version of the repo that is considered stable enough for public use.</i>
@@ -52,16 +99,26 @@ https://github.com/CarterGames/NotionToUnity.git
 https://github.com/CarterGames/NotionToUnity.git#pre-release
 ```
 
-### Package
+<br>
+
+
+## Unity Package (.unitypackage)
 Import the package found in the releases section through the "Import custom package" right-click menu option in Unity's project tab. 
 
-### Manual 
-Download the repo/clone it and import the files into your project manually.
 
 <br>
 
 
+## Manual (Clone)
+Download the repo/clone it and import the files into your project manually.
+
+
+<br><br>
+
+
 # Setup Guide
+
+<br>
 
 ## 💽 Notion setup
 You need to make an integration in order for the downloading to work. You can make an intergration <a href="https://www.notion.so/my-integrations">here</a>. The steps to follow are:
@@ -74,7 +131,7 @@ You need to make an integration in order for the downloading to work. You can ma
 Once done you can then enter Notion and add the integration to one or multiple pages to allow the Notion API to access the data. This is done from: ```... > Manage Connections > "Find and add your integration from the options"```
 If you don't see the integration you just made listed, close & open Notion and follow the steps again. 
 
-<br>
+<br><br>
 
 ## 🎮 Unity setup
 In Unity you use a ```Notion Data Asset``` to store the data. This is just a scriptable object which has a custom inspect or to aid with the data download. Each instance you wake will consist of the data asset, a scriptable object class and the data class which holds the data structure for the data asset to store. There is a tool to make these for you which can be found under ```Tools > Notion To Unity > Asset Creator```
@@ -107,7 +164,11 @@ Once setup you'll just need to write your data class to have the fields you want
     }
 ```
 
-### Downloading the data
+
+<br><br>
+
+
+# Downloading the data
 
 To download your data you will need the link to the database page and the secret key for the intergration you made earlier. The Database link can be grabbed from the ... menu on the page the database is on:
 
@@ -120,12 +181,18 @@ Then just fill the fields on the data asset (make one from the ```CreateAssetMen
 <i>(Image from The Cart implementation of the system, so secret key is in a global field, you'll have to assign it per asset with this setup).</i>
 
 
-### Wrapper classes
+<br>
+
+
+## Wrapper classes
 Some data needs a wrapper class to assign references. This is provided for GameObject prefabs, Sprites & AudioClips should you need it. They are assigned by the name of the asset when downloading the data.
 
 
-### Post Download Logic
-You can also manipulate the data you downlaod after receiving it by writting an override to the method called ```PostDataDownloaded()``` on the ```Notion Data Asset``` . Note if you need to run editor logic, make sure it is in a #ifdef. An example below:
+<br>
+
+
+## Post Download Logic
+You can also manipulate the data you download after receiving it by writing an override to the method called ```PostDataDownloaded()``` on the ```Notion Data Asset``` . Note if you need to run editor logic, make sure it is in a #ifdef. An example below:
 
 ```
 #if UNITY_EDITOR
@@ -150,9 +217,39 @@ You can also manipulate the data you downlaod after receiving it by writting an 
 #endif
 ```
 
+
+<br><br>
+
+
+# Scripting Api Info
+If you are using custom assembly definitions you will need to reference the runtime assembly from this asset in-order to access the API such as the ```DataAccess``` class. If you are not using custom assemblies, you should be able to access all the API by default. The runtime assembly is called ```CarterGames.Standalone.NotionData.Runtime```
+
+
+<br><br>
+
+
+# Accessing Notion Data Assets
+You can reference the assets as you would a normal scriptable object in the inspector. Or you can use the ```DataAccess``` class in the project to get them via code. Each Notion Data Asset has a variant id in the inspector. By default the variant id is a new GUID on creation. You can change this to help you identify a single instance of assets of the same type as another. Some example usage below:
+
+```
+private void OnEnable()
+{
+	// Gets the first asset of the type found.
+	var asset = DataAccess.GetAsset<NotionDataAssetLevels>();
+	
+	// Gets the asset of the matching variant id.
+	asset = DataAccess.GetAsset<NotionDataAssetLevels>("MyAssetVariantId");
+	
+	// Gets all of the assets of the type found.
+	var assets = DataAccess.GetAssets<NotionDataAssetLevels>();
+}
+```
+
+
+
 <br>
 
-## Usage Example
+# Usage Example
 Below is an example using the system to store data for Persona 5 healing skills for persona's
 
 <b>Notion</b>
@@ -167,11 +264,3 @@ The downloaded data in Unity:
 ![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/184013f5-6c60-4331-a64c-fec8e16d09b0)
 
 <br>
-
-## Licence
-MIT Licence
-
-<br>
-
-## Authors
-- <a href="https://github.com/JonathanMCarter">Jonathan Carter</a>

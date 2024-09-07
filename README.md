@@ -177,7 +177,7 @@ To download your data you will need the link to the database page and the secret
 
 Then just fill the fields on the data asset (make one from the ```CreateAssetMenu``` if you haven't already) and then press the download button. If all goes well you'll see a dialogue stating so. If it fails you should see the error in the console.
 
-![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/a78e3d35-e37d-4e12-ba3d-1a9d18109d04)
+![313002443-a78e3d35-e37d-4e12-ba3d-1a9d18109d04](https://github.com/user-attachments/assets/ef095cb6-befa-4287-bfcd-18dbed225df9)
 
 <i>(Image from The Cart implementation of the system, so secret key is in a global field, you'll have to assign it per asset with this setup).</i>
 

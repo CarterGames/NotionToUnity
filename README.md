@@ -35,10 +35,11 @@ A flexible system to import Notion databases into a Unity scriptable object for 
    * [Unity Setup](#-unity-setup)
 * [Downloading Data](#downloading-the-data)  
    * [Sorting Properties](#sorting-properties)
-   * [Weapper Classes](#wrapper-classes)
+   * [Wrapper Classes](#wrapper-classes)
    * [Post Download Logic](#post-download-logic)
+   * [Updating all assets](#updating-all-assets)
 * [API Access](#scripting-api-info)
-* [Accessing Notion Data Assets](#accessing-notion-data-assets)
+	* [Accessing Notion Data Assets](#accessing-notion-data-assets)
 * [Usage Example](#usage-example)
 
 <br><br>
@@ -230,6 +231,15 @@ You can also manipulate the data you download after receiving it by writing an o
 ```
 
 
+<br>
+
+
+## Updating all assets
+You can download all data assets in one process through an additional editor window. The window can be found under ```Tools > Carter Games > Standalone > Notion Data > Update Data```. The window has the option to halt the downloading of assets if an error occurs, by default this true. To download all assets in the project, just press the download button and wait for the process to complete.
+
+![image](https://github.com/user-attachments/assets/5f5bfbd0-f805-4e90-be74-570b45ab476f)
+
+
 <br><br>
 
 
@@ -237,7 +247,7 @@ You can also manipulate the data you download after receiving it by writing an o
 If you are using custom assembly definitions you will need to reference the runtime assembly from this asset in-order to access the API such as the ```DataAccess``` class. If you are not using custom assemblies, you should be able to access all the API by default. The runtime assembly is called ```CarterGames.Standalone.NotionData.Runtime```
 
 
-<br><br>
+<br>
 
 
 # Accessing Notion Data Assets
@@ -259,7 +269,7 @@ private void OnEnable()
 
 
 
-<br>
+<br><br>
 
 # Usage Example
 Below is an example using the system to store data for Persona 5 healing skills for persona's

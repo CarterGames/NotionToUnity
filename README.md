@@ -155,11 +155,11 @@ Once setup you'll just need to write your data class to have the fields you want
 
         [SerializeField] protected string skillName;
         [SerializeField, TextArea] protected string desc;
-        [SerializeField] protected NotionSpriteWrapper icon;
+        [SerializeField] protected NotionDataWrapperSprite icon;
         [SerializeField] protected SkillType type;
         [SerializeField] protected ActionTarget target;
         [SerializeField] protected SkillCost cost;
-        [SerializeField] protected NotionPrefabWrapper effect;
+        [SerializeField] protected NotionDataWrapperPrefab effect;
         [SerializeField] private float power;
         [SerializeField] private StatusAilment cureAilments;
         [SerializeField] private bool canRevive;

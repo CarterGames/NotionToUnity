@@ -76,11 +76,11 @@ namespace CarterGames.Standalone.NotionData
             
             if (!string.IsNullOrEmpty(id))
             {
-                var asset = UnityEditor.AssetDatabase.FindAssets(id)[0];
+                var asset = UnityEditor.AssetDatabase.FindAssets(id);
                 
                 if (asset.Length > 0)
                 {
-                    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset);
+                    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
                     value = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
                 }
                 else

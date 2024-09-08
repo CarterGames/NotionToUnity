@@ -107,10 +107,10 @@ namespace CarterGames.Standalone.NotionData.Editor
                     case "select":
                     case "date":
                     case "multi_select":
-                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, propType, GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i])));
+                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, element.AsObject[i]["type"].Value, GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i])));
                         break;
                     case "rollup":
-                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, propType, GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0])));
+                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, element.AsObject[i]["rollup"]["array"][0]["type"].Value, GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0])));
                         break;
                     default:
                         Debug.LogWarning($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.");
@@ -130,7 +130,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <returns>The value found.</returns>
         private static string GetValueForType(string type, JSONNode element)
         {
-            return DatabasePropertyParserLookup[type].GetValue(element);
+            return DatabasePropertyParserLookup[type].GetJsonValue(element);
         }
     }
 }

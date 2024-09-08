@@ -21,16 +21,17 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Editor
 {
 	public class NotionDatabasePropertyParserRichText : INotionDatabasePropertyParser
 	{
 		public string PropertyIdentifier => "rich_text";
 		
-		
-		public string GetValue(JSONNode json)
+
+		public string GetJsonValue(JSONNode json)
 		{
 			return json["rich_text"][0]["text"]["content"].Value;
 		}

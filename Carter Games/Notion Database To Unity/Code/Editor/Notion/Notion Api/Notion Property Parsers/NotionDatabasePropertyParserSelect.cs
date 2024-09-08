@@ -21,18 +21,19 @@
  * THE SOFTWARE.
  */
 
+using System;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Editor
 {
-	public class NotionDatabasePropertyParserNumber : INotionDatabasePropertyParser
+	public class NotionDatabasePropertyParserSelect : INotionDatabasePropertyParser
 	{
-		public string PropertyIdentifier => "number";
+		public string PropertyIdentifier => "select";
 		
-		
-		public string GetValue(JSONNode json)
+
+		public string GetJsonValue(JSONNode json)
 		{
-			return json["number"].Value;
+			return json["select"]["name"] == null ? null : json["select"]["name"].Value;
 		}
 	}
 }

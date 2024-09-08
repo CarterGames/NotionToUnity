@@ -25,14 +25,14 @@ using System;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Editor
 {
 	public class NotionDatabasePropertyParserDate : INotionDatabasePropertyParser
 	{
 		public string PropertyIdentifier => "date";
 		
-		
-		public string GetValue(JSONNode json)
+
+		public string GetJsonValue(JSONNode json)
 		{
 			var entry = json["date"]["start"];
 			DateTime dateTime;

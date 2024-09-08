@@ -21,16 +21,18 @@
  * THE SOFTWARE.
  */
 
+using System;
+using System.Collections.Generic;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Editor
 {
 	public class NotionDatabasePropertyParserMultiSelect : INotionDatabasePropertyParser
 	{
 		public string PropertyIdentifier => "multi_select";
 		
-		
-		public string GetValue(JSONNode json)
+
+		public string GetJsonValue(JSONNode json)
 		{
 			var elements = new JSONArray();
 

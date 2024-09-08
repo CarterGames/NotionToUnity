@@ -81,10 +81,11 @@ namespace CarterGames.Standalone.NotionData
                         var valueData = row.DataLookup[field.Name.Trim().ToLower()];
                         var fieldType = field.FieldType;
                         
-                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionWrapper"))
+                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
                         {
                             var instance = valueData.GetValueAs(fieldType);
                             field.SetValue(newEntry, instance);
+                            
                             instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
                                 ?.Invoke(instance, null);
                         }

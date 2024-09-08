@@ -31,7 +31,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.2.1";
+        public static string VersionNumber => "0.2.2";
         
         
         /// <summary>

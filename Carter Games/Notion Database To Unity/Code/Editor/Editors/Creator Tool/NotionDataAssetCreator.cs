@@ -127,7 +127,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             TextAsset template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
             template = new TextAsset(template.text);
             var replace = template.text.Replace("%DataAssetName%", "NotionDataAsset" + dataAssetName);
-            replace = replace.Replace("%DataTypeName%", "Data" + dataAssetName);
+            replace = replace.Replace("%DataTypeName%", "NotionData" + dataAssetName);
 
             File.WriteAllText(filePath, replace);
             EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile));
@@ -148,7 +148,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             TextAsset template = AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile);
             template = new TextAsset(template.text);
-            var replace = template.text.Replace("%DataTypeName%", "Data" + dataAssetName);
+            var replace = template.text.Replace("%DataTypeName%", "NotionData" + dataAssetName);
 
             File.WriteAllText(lastSavePath, replace);
             EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<TextAsset>(pathToTextFile));

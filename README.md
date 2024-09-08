@@ -73,7 +73,7 @@ Note that rollups are supported only when they show a property that is otherwise
 | Property type | Conversion types supported (Unity) |
 | --- | --- |
 | Title | ```string``` |
-| Text | ```string``` ```NotionDataWrapper(GameObject(Prefab)/Sprite/AudioClip)``` |
+| Text | ```string``` ```NotionDataWrapper(GameObject(Prefab)/Sprite/AudioClip)```, List/Array of ```string```, ```int```, ```float```, ```double```, ```bool``` |
 | Number | ```int``` ```float``` ```double``` etc |
 | Toggle | ```bool``` |
 | Single-Select | ```string``` ```enum``` |

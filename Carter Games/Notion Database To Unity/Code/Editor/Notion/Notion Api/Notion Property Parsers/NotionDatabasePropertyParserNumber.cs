@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
 namespace CarterGames.Standalone.NotionData.Editor

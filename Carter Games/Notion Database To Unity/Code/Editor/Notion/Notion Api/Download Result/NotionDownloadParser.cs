@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using CarterGames.Standalone.NotionData.Common;
 using CarterGames.Standalone.NotionData.ThirdParty;
@@ -130,7 +131,17 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <returns>The value found.</returns>
         private static string GetValueForType(string type, JSONNode element)
         {
-            return DatabasePropertyParserLookup[type].GetJsonValue(element);
+            // Avoids issues where the type is not supported but the notion property type is (like a rollup showing a page etc).
+            try
+            {
+                return DatabasePropertyParserLookup[type].GetJsonValue(element);
+            }
+#pragma warning disable
+            catch (Exception e)
+#pragma warning restore
+            {
+                return string.Empty;
+            }
         }
     }
 }

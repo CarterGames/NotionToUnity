@@ -42,7 +42,7 @@ namespace CarterGames.Standalone.NotionData
 #pragma warning disable
         [SerializeField, HideInInspector] private string linkToDatabase;     // Is used in editor space, so ignore the not used warning.
         [SerializeField, HideInInspector] private string databaseApiKey;     // Is used in editor space, so ignore the not used warning.
-        [SerializeField, HideInInspector] private List<NotionSortProperty> sortProperties;
+        [SerializeField] private List<NotionSortProperty> sortProperties;
 #pragma warning restore
         
         [SerializeField] private List<T> data;
@@ -56,6 +56,12 @@ namespace CarterGames.Standalone.NotionData
         /// </summary>
         public List<T> Data => data;
         
+        
+        /// <summary>
+        /// Defines the parser used to apply the data to the asset from Notion.
+        /// </summary>
+        protected virtual INotionDatabaseParser<T> DatabaseParser => new NotionDatabaseParserStandard<T>();
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -66,40 +72,7 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            var list = new List<T>();
-
-
-            foreach (var row in result.Rows)
-            {
-                var newEntry = new T();
-                var newEntryFields = newEntry.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                foreach (var field in newEntryFields)
-                {
-                    if (row.DataLookup.ContainsKey(field.Name.Trim().ToLower()))
-                    {
-                        var valueData = row.DataLookup[field.Name.Trim().ToLower()];
-                        var fieldType = field.FieldType;
-                        
-                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
-                        {
-                            var instance = valueData.GetValueAs(fieldType);
-                            field.SetValue(newEntry, instance);
-                            
-                            instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
-                                ?.Invoke(instance, null);
-                        }
-                        else
-                        {
-                            field.SetValue(newEntry, valueData.GetValueAs(fieldType));
-                        }
-                    }
-                }
-                
-                list.Add(newEntry);
-            }
-            
-            data = list;
+            data = DatabaseParser.Parse(result);
             PostDataDownloaded();
             
 #if UNITY_EDITOR

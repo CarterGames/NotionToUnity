@@ -30,9 +30,9 @@ namespace CarterGames.Standalone.NotionData
     /// The standard data parser from Notion to a NotionDataAsset. Matches the property name for parses the data to each entry.
     /// </summary>
     /// <typeparam name="T">The type to parse to.</typeparam>
-    public sealed class NotionDatabaseParserStandard<T> : INotionDatabaseParser<T> where T : new()
+    public sealed class NotionDatabaseProcessorStandard<T> : INotionDatabaseProcessor<T> where T : new()
     {
-        public List<T> Parse(NotionDatabaseQueryResult result)
+        public List<T> Process(NotionDatabaseQueryResult result)
         {
             var list = new List<T>();
 

@@ -60,7 +60,7 @@ namespace CarterGames.Standalone.NotionData
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual INotionDatabaseParser<T> DatabaseParser => new NotionDatabaseParserStandard<T>();
+        protected virtual INotionDatabaseProcessor<T> DatabaseProcessor => new NotionDatabaseProcessorStandard<T>();
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -72,7 +72,7 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            data = DatabaseParser.Parse(result);
+            data = DatabaseProcessor.Process(result);
             PostDataDownloaded();
             
 #if UNITY_EDITOR

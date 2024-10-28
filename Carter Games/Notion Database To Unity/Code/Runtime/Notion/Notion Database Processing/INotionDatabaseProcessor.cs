@@ -21,25 +21,16 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+using System.Collections.Generic;
+
+namespace CarterGames.Standalone.NotionData
 {
 	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
+	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
 	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.3.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/10/28";
-    }
+	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
+	public interface INotionDatabaseProcessor<T>
+	{
+		List<T> Process(NotionDatabaseQueryResult result);
+	}
 }

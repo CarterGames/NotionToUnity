@@ -32,8 +32,9 @@ namespace CarterGames.Standalone.NotionData.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string APIKeyPrefix = "secret_";
-        private const int APIKeySuffixLength = 43;
+        private const string SecretAPIKeyPrefix = "secret_";
+        private const string NtnKeyPrefix = "ntn_";
+        private const int MaxKeyLenght = 50;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -48,8 +49,44 @@ namespace CarterGames.Standalone.NotionData.Editor
         {
             return 
                 !string.IsNullOrEmpty(key) &&
-                key.Contains(APIKeyPrefix) && 
-                key.Substring(0, key.Length - APIKeyPrefix.Length).Length.Equals(APIKeySuffixLength);
+                PrefixValid(key) && 
+                LenghtValid(key);
+        }
+
+
+        /// <summary>
+        /// Validates the prefix of the key used.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>If the prefix is valid.</returns>
+        private static bool PrefixValid(string key)
+        {
+            return key.Contains(SecretAPIKeyPrefix) || key.Contains(NtnKeyPrefix);
+        }
+        
+
+        /// <summary>
+        /// Validates the lenght of the key to max of 50 characters.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>If the lenght is valid.</returns>
+        private static bool LenghtValid(string key)
+        {
+            if (key.Length != MaxKeyLenght) return false;
+
+            if (key.Contains(SecretAPIKeyPrefix))
+            {
+                return key.Replace(SecretAPIKeyPrefix, string.Empty).Length ==
+                       (MaxKeyLenght - SecretAPIKeyPrefix.Length);
+            }
+
+            if (key.Contains(NtnKeyPrefix))
+            {
+                return key.Replace(NtnKeyPrefix, string.Empty).Length ==
+                       (MaxKeyLenght - NtnKeyPrefix.Length);
+            }
+
+            return false;
         }
     }
 }

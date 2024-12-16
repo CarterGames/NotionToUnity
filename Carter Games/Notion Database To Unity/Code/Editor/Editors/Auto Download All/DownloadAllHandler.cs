@@ -23,6 +23,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using CarterGames.Standalone.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
 
@@ -158,8 +160,12 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             NotionApiRequestHandler.ResetRequestData();
             
-            // var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), true);
-            // NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
+            var filters = (NotionFilterContainer) assetObject.GetType().BaseType!
+                .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
+                !.GetValue(assetObject.targetObject);
+            
+            var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), filters, true);
+            NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
         }
         
 

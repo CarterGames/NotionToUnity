@@ -156,15 +156,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
         private void OnErrorReceived(NotionRequestError error)
         {
-            if (error.Message.Contains("Could not find sort property"))
-            {
-                EditorUtility.DisplayDialog("Notion Data Download", $"Download failed ({error.Error}):\n{error.Message}", "Continue");
-            }
-            else
-            {
-                EditorUtility.DisplayDialog("Notion Data Download", "Download failed, please see console for errors and try again", "Continue");
-            }
-
+            EditorUtility.DisplayDialog("Notion Data Download", $"Download failed ({error.Error}):\n{error.Message}", "Continue");
             
             NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
             NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);

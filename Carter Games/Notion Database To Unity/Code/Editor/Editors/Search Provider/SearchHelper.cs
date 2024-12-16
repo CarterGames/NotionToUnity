@@ -21,25 +21,29 @@
  * THE SOFTWARE.
  */
 
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+
 namespace CarterGames.Standalone.NotionData.Editor
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
+    public static class SearchHelper
     {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
+        public static SearchTreeEntry CreateGroup(string title, int level)
+        {
+            return new SearchTreeGroupEntry(new GUIContent(title))
+            {
+                level = level,
+            };
+        }
         
         
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
+        public static SearchTreeEntry CreateEntry(string title, int level, object data)
+        {
+            return new SearchTreeEntry(new GUIContent(" " + title))
+            {
+                level = level,
+                userData = data
+            };
+        }
     }
 }

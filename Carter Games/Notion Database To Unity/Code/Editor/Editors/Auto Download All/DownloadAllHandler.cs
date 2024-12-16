@@ -65,7 +65,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             }
             else
             {
-                var window = CreateWindow<DownloadAllHandler>("Download Notion Data");
+                var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
                 window.maxSize = new Vector2(400, 400);
             }
         }
@@ -158,8 +158,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             NotionApiRequestHandler.ResetRequestData();
             
-            var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), true);
-            NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
+            // var requestData = new NotionRequestData(asset, databaseId, assetObject.Fp("databaseApiKey").stringValue, assetObject.Fp("sortProperties").ToSortPropertyArray(), true);
+            // NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
         }
         
 

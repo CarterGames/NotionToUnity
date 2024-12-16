@@ -21,25 +21,52 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+
 namespace CarterGames.Standalone.NotionData.Editor
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	public class SearchProviderFilterGroupType : SearchProvider<int>
+	{
+		private static SearchProviderFilterGroupType Instance;
+		private static int NestLevel;
+		public override string ProviderTitle => "Select Filter Type";
+		
+		
+		public override List<SearchGroup<int>> GetEntriesToDisplay()
+		{
+			var list = new List<SearchGroup<int>>();
+			var items = new List<SearchItem<int>>();
+			var itemNames = new List<string>()
+			{
+				"+ Add filter rule"
+			};
+
+			if (NestLevel < 2)
+			{
+				itemNames.Add("+ Add filter group");
+			}
+
+			for (var i = 0; i < itemNames.Count; i++)
+			{
+				items.Add(SearchItem<int>.Set(itemNames[i], i));
+			}
+
+			list.Add(new SearchGroup<int>("", items));
+			
+			return list;
+		}
+		
+		
+		public static SearchProviderFilterGroupType GetProvider(int currentNestLevel)
+		{
+			NestLevel = currentNestLevel;
+			
+			if (Instance == null)
+			{
+				Instance = CreateInstance<SearchProviderFilterGroupType>();
+			}
+
+			return Instance;
+		}
+	}
 }

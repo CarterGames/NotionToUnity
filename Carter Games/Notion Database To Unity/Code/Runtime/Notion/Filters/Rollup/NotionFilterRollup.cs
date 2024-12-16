@@ -21,25 +21,30 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+using System.Collections.Generic;
+using CarterGames.Standalone.NotionData.ThirdParty;
+
+namespace CarterGames.Standalone.NotionData.Filters
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	public static class NotionFilterRollup
+	{
+		private static readonly Dictionary<NotionFilterRollupComparison, string> FilterStringLookup =
+			new Dictionary<NotionFilterRollupComparison, string>()
+			{
+				{ NotionFilterRollupComparison.Any, "any" },
+				{ NotionFilterRollupComparison.Every, "every" },
+				{ NotionFilterRollupComparison.None, "none" },
+			};
+		
+		
+		public static JSONObject ToRollupJson(NotionFilterOption filterOptionDef)
+		{
+			var data = new JSONObject();
+
+			data["property"] = filterOptionDef.PropertyName;
+			data["rollup"][FilterStringLookup[(NotionFilterRollupComparison) filterOptionDef.RollupComparisonEnumIndex]] = filterOptionDef.ToJson();
+			
+			return data;
+		}
+	}
 }

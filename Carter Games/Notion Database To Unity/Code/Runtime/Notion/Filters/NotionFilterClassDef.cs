@@ -1,17 +1,17 @@
 ﻿/*
  * Copyright (c) 2024 Carter Games
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
- *
+ * 
+ *    
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,114 +21,102 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using System;
+using System.Linq;
+using CarterGames.Standalone.NotionData.Common;
+using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.Standalone.NotionData.Filters
 {
-	/// <summary>
-	/// A data class for the info of a request as it is being processed.
-	/// </summary>
-	public sealed class NotionRequestData
+	[Serializable]
+	public sealed class NotionFilterClassDef
 	{
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private readonly DataAsset requestingAsset;
-		private readonly string databaseId;
-		private readonly string apiKey;
-		private readonly NotionSortProperty[] sorts;
-		private readonly NotionFilterContainer filter;
-		private NotionRequestResult resultData;
-		private readonly bool silentCall;
+		[SerializeField] private string assembly;
+		[SerializeField] private string type;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
 		/// <summary>
-		/// The data asset the request is for.
+		/// Gets if the class is valid or not.
 		/// </summary>
-		public DataAsset RequestingAsset => requestingAsset;
+		public bool IsValid => !string.IsNullOrEmpty(assembly) && !string.IsNullOrEmpty(type);
+
+		
+		/// <summary>
+		/// The assembly string stored.
+		/// </summary>
+		public string Assembly => assembly;
 		
 		
 		/// <summary>
-		/// The url for the call.
+		/// The type string stored.
 		/// </summary>
-		public string Url => $"https://api.notion.com/{DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionApiVersion.ToString()}/databases/{databaseId}/query";
-		
-		
-		/// <summary>
-		/// The api key for the database to be accessed with.
-		/// </summary>
-		public string ApiKey => apiKey;
-		
-		
-		/// <summary>
-		/// The sorting to apply on requesting the data from the database.
-		/// </summary>
-		public NotionSortProperty[] Sorts => sorts;
-		
-		
-		/// <summary>
-		/// The filtering to apply on requesting the data from the database.
-		/// </summary>
-		public NotionFilterContainer Filter => filter;
-		
-		
-		/// <summary>
-		/// The result of the request.
-		/// </summary>
-		public NotionRequestResult ResultData => resultData;
-		
-		
-		/// <summary>
-		/// Should the dialogues show for this request?
-		/// </summary>
-		public bool ShowResponseDialogue => !silentCall;
-		
+		public string Type => type;
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Constructor
+		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
 		/// <summary>
-		/// Creates a new request data class instance when called.
+		/// Creates a new definition when called.
 		/// </summary>
-		/// <param name="requestingAsset">The asset to use.</param>
-		/// <param name="databaseId">The database id to get.</param>
-		/// <param name="apiKey">The api key to get.</param>
-		/// <param name="sorts">The sorting properties to apply.</param>
-		/// <param name="silentResponse">Should the response from the request be hidden from the user? DEF = false</param>
-		public NotionRequestData(DataAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, NotionFilterContainer filter, bool silentResponse = false)
+		/// <param name="assembly">The assembly to reference.</param>
+		/// <param name="type">The type to reference.</param>
+		public NotionFilterClassDef(string assembly, string type)
 		{
-			this.requestingAsset = requestingAsset;
-			this.databaseId = databaseId;
-			this.apiKey = apiKey;
-			this.sorts = sorts;
-			this.filter = filter;
-			silentCall = silentResponse;
+			this.assembly = assembly;
+			this.type = type;
+		}
+
+		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+		|   Fields
+		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+		
+		/// <summary>
+		/// Converts System.Type to a AssemblyClassDef instance.
+		/// </summary>
+		/// <param name="type">The type to convert.</param>
+		/// <returns>The created AssemblyClassDef from the type.</returns>
+		public static implicit operator NotionFilterClassDef(Type type)
+		{
+			return new NotionFilterClassDef(type.Assembly.FullName, type.FullName);
 		}
 		
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-		|   Methods
+		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+		
 		/// <summary>
-		/// Appends the data with more info when called (when over 100 entries etc).
+		/// Gets the type stored in this AssemblyClassDef.
 		/// </summary>
-		/// <param name="data">The data to add.</param>
-		public void AppendResultData(List<KeyValuePair<string, JSONNode>> data)
+		/// <typeparam name="T">The type to make.</typeparam>
+		/// <returns>The made type or the types default on failure.</returns>
+		public T GetDefinedType<T>()
 		{
-			if (resultData == null)
+			if (!IsValid)
 			{
-				resultData = new NotionRequestResult(data, silentCall);
+				Debug.LogError("[GetDefinedType]: Data not valid to generate the defined type");
+				return default;
 			}
-			else
+			
+			try
 			{
-				resultData.Data.AddRange(data);
+				return AssemblyHelper.GetClassesOfType<T>(false).FirstOrDefault(t =>
+					t.GetType().Assembly.FullName == Assembly && t.GetType().FullName == Type);
 			}
+#pragma warning disable
+			catch (Exception e)
+			{
+				Debug.LogError("[GetDefinedType]: Failed to generate type from stored data. If you have refactored the class selected, please reselect it to update the record.");
+				return default;
+			}
+#pragma warning restore
 		}
 	}
 }

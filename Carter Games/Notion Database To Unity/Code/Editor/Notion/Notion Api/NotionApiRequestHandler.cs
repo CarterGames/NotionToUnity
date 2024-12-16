@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using CarterGames.Standalone.NotionData.Common;
+using CarterGames.Standalone.NotionData.Filters;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEditor;
 using UnityEngine;
@@ -80,7 +81,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                 return;
             }
             
-            var request = PrepareRequest(requestData.Url, requestData.ApiKey, requestData.Sorts);
+            var request = PrepareRequest(requestData.Url, requestData.ApiKey, requestData.Sorts, requestData.Filter);
             
             AsyncOperation asyncOperation = request.SendWebRequest();
 
@@ -137,20 +138,30 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <param name="apiKey">The api key to use.</param>
         /// <param name="sorts">The sort properties to apply.</param>
         /// <returns>A prepared UnityWebRequest.</returns>
-        private static UnityWebRequest PrepareRequest(string url, string apiKey, NotionSortProperty[] sorts = null)
+        private static UnityWebRequest PrepareRequest(string url, string apiKey, NotionSortProperty[] sorts = null, NotionFilterContainer filters = null)
         {
             UnityWebRequest request;
 
-            if (sorts == null)
+            if (sorts == null && filters == null)
             {
                 request = UnityWebRequest.Post(url, string.Empty);
             }
             else
             {
-                var body = new JSONObject
+                var body = new JSONObject();
+
+                if (sorts != null)
                 {
-                    ["sorts"] = sorts.ToJsonArray()
-                };
+                    if (sorts.Length > 0)
+                    {
+                        body["sorts"] = sorts.ToJsonArray();
+                    }
+                }
+                
+                if (filters != null)
+                {
+                    body["filter"] = filters.ToFilterJson();
+                }
 
                 request = UnityWebRequest.Put(url, body.ToString());
                 request.method = "POST";

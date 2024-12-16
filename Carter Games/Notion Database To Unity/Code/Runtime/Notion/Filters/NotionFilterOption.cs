@@ -21,25 +21,34 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+using System;
+using CarterGames.Standalone.NotionData.ThirdParty;
+using UnityEngine;
+
+namespace CarterGames.Standalone.NotionData.Filters
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	[Serializable]
+	public class NotionFilterOption
+	{
+		[SerializeField] protected string propertyName;
+		[SerializeField] protected string value;
+		[SerializeField] protected int comparisonEnumIndex;
+		[SerializeField] protected bool isRollup;
+		[SerializeField] protected int rollupComparisonEnumIndex;
+
+
+		public string PropertyName => propertyName;
+		public string Value => value;
+		public int ComparisonEnumIndex => comparisonEnumIndex;
+		public bool IsRollup => isRollup;
+		public int RollupComparisonEnumIndex => rollupComparisonEnumIndex;
+		public virtual string EditorTypeName { get; }
+		
+		
+
+		public virtual JSONObject ToJson()
+		{
+			return null;
+		}
+	}
 }

@@ -21,25 +21,23 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.Standalone.NotionData.Filters
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	public enum NotionFilterDateComparison
+	{
+		After,
+		Before,
+		Equals,
+		IsEmpty,
+		IsNotEmpty,
+		NextMonth,
+		NextWeek,
+		NextYear,
+		OnOrAfter,
+		OnOrBefore,
+		PastMonth,
+		PastWeek,
+		PastYear,
+		ThisWeek,
+	}
 }

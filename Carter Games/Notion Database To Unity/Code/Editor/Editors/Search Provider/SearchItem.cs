@@ -21,25 +21,24 @@
  * THE SOFTWARE.
  */
 
+using System;
+
 namespace CarterGames.Standalone.NotionData.Editor
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
+    [Serializable]
+    public class SearchItem<T>
     {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
+        public string Key { get; private set; }
+        public T Value { get; private set; }
+
+
+        public static SearchItem<T> Set(string key, T item)
+        {
+            return new SearchItem<T>()
+            {
+                Key = key,
+                Value = item
+            };
+        }
     }
 }

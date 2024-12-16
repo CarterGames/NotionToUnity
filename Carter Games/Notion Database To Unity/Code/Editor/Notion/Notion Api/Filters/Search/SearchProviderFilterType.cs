@@ -21,25 +21,45 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+using System.Linq;
+using CarterGames.Standalone.NotionData.Common;
+using CarterGames.Standalone.NotionData.Filters;
+
 namespace CarterGames.Standalone.NotionData.Editor
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	public class SearchProviderFilterType : SearchProvider<NotionFilterOption>
+	{
+		private static SearchProviderFilterType Instance;
+		
+		public override string ProviderTitle => "Select Notion Filter Type";
+		
+		
+		public override List<SearchGroup<NotionFilterOption>> GetEntriesToDisplay()
+		{
+			var list = new List<SearchGroup<NotionFilterOption>>();
+			var options = AssemblyHelper.GetClassesOfType<NotionFilterOption>(false).Where(t => !ToExclude.Contains(t));
+			var items = new List<SearchItem<NotionFilterOption>>();
+			
+			foreach (var entry in options)
+			{
+				items.Add(SearchItem<NotionFilterOption>.Set(entry.EditorTypeName, entry));
+			}
+			
+			list.Add(new SearchGroup<NotionFilterOption>("", items));
+			
+			return list;
+		}
+		
+		
+		public static SearchProviderFilterType GetProvider()
+		{
+			if (Instance == null)
+			{
+				Instance = CreateInstance<SearchProviderFilterType>();
+			}
+
+			return Instance;
+		}
+	}
 }

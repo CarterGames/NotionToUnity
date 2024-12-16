@@ -21,25 +21,47 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+using System;
+using CarterGames.Standalone.NotionData.ThirdParty;
+
+namespace CarterGames.Standalone.NotionData.Filters
 {
-	/// <summary>
-	/// Holds the basic editor info about the asset that only changes per release.
-	/// </summary>
-    public static class AssetInfo
-    {
-        /// <summary>
-        /// The version number of the asset.
-        /// </summary>
-        public static string VersionNumber => "0.4.0";
-        
-        
-        /// <summary>
-        /// The date this release of the asset was submitted for release.
-        /// </summary>
-        /// <remarks>
-        /// Format is Y/M/D.
-        /// </remarks>
-        public static string ReleaseDate => "2024/12/16";
-    }
+	[Serializable]
+	public class NotionFilterCheckBox : NotionFilterOption
+	{
+		private const string EqualsString = "equals";
+		private const string NotEqualsString = "does_not_equal";
+
+
+		private string CheckString => comparisonEnumIndex.Equals(0) ? NotEqualsString : EqualsString;
+		
+		
+		public override string EditorTypeName => "CheckBox";
+		
+		
+		public NotionFilterCheckBox() {}
+
+		public NotionFilterCheckBox(NotionFilterOption filterOption)
+		{
+			propertyName = filterOption.PropertyName;
+			value = filterOption.Value;
+			comparisonEnumIndex = filterOption.ComparisonEnumIndex;
+			isRollup = filterOption.IsRollup;
+		}
+		
+		
+		public override JSONObject ToJson()
+		{
+			var data = new JSONObject();
+
+			if (!isRollup)
+			{
+				data["property"] = propertyName;
+			}
+			
+			data["checkbox"][CheckString] = value.ToLower();
+			
+			return data;
+		}
+	}
 }

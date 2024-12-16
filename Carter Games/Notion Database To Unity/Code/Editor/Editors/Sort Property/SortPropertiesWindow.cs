@@ -47,7 +47,11 @@ namespace CarterGames.Standalone.NotionData.Editor
 
         private void OnGUI()
         {
-            if (Target == null) return;
+            if (Target == null)
+            {
+                Target = new SerializedObject(Selection.activeObject);
+                if (Target == null) return;
+            }
 
             EditorGUILayout.HelpBox("Edit the sort properties for this Notion data asset below", MessageType.Info);
             

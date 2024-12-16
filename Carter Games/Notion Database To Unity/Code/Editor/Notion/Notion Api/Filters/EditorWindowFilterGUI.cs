@@ -54,7 +54,11 @@ namespace CarterGames.Standalone.NotionData.Editor
 
 		private void OnGUI()
 		{
-			if (EditorApplication.isCompiling || target == null) return;
+			if (EditorApplication.isCompiling || target == null)
+			{
+				target = new SerializedObject(Selection.activeObject).Fp("filters").Fpr("filterGroups");
+				if (target == null) return;
+			}
 			
 			EditorGUILayout.HelpBox("Edit the filters applied to the query when downloading here.", MessageType.Info);
 			EditorGUILayout.Space(5f);

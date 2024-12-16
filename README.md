@@ -35,6 +35,7 @@ A flexible system to import Notion databases into a Unity scriptable object for 
    * [Unity Setup](#-unity-setup)
 * [Downloading Data](#downloading-the-data)  
    * [Sorting Properties](#sorting-properties)
+   * [Filters](#filters)
    * [Wrapper Classes](#wrapper-classes)
    * [Post Download Logic](#post-download-logic)
    * [Updating all assets](#updating-all-assets)

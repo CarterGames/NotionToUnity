@@ -23,7 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using CarterGames.Standalone.NotionData.Filters;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData
@@ -38,12 +38,15 @@ namespace CarterGames.Standalone.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
+#if UNITY_EDITOR
 #pragma warning disable
-        [SerializeField, HideInInspector] private string linkToDatabase;     // Is used in editor space, so ignore the not used warning.
-        [SerializeField, HideInInspector] private string databaseApiKey;     // Is used in editor space, so ignore the not used warning.
+        [SerializeField, HideInInspector] private string linkToDatabase;
+        [SerializeField, HideInInspector] private string databaseApiKey;
+        [SerializeField] private NotionFilterContainer filters;
         [SerializeField] private List<NotionSortProperty> sortProperties;
 #pragma warning restore
+#endif
         
         [SerializeField] private List<T> data;
 

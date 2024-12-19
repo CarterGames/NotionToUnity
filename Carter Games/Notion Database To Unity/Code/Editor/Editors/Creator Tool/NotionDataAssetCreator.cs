@@ -50,7 +50,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         [MenuItem("Tools/Carter Games/Standalone/Notion Data/Asset Creator", priority = 20)]
         private static void ShowWindow()
         {
-            var window = GetWindow<NotionDataAssetCreator>();
+            var window = GetWindow<NotionDataAssetCreator>(true);
             window.titleContent = new GUIContent("Notion Data Asset Creator");
             window.Show();
         }

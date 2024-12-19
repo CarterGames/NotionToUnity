@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Standalone.NotionData.Filters;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
 namespace CarterGames.Standalone.NotionData.Editor
@@ -39,6 +40,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 		private readonly string databaseId;
 		private readonly string apiKey;
 		private readonly NotionSortProperty[] sorts;
+		private readonly NotionFilterContainer filter;
 		private NotionRequestResult resultData;
 		private readonly bool silentCall;
 
@@ -71,6 +73,12 @@ namespace CarterGames.Standalone.NotionData.Editor
 		
 		
 		/// <summary>
+		/// The filtering to apply on requesting the data from the database.
+		/// </summary>
+		public NotionFilterContainer Filter => filter;
+		
+		
+		/// <summary>
 		/// The result of the request.
 		/// </summary>
 		public NotionRequestResult ResultData => resultData;
@@ -93,12 +101,13 @@ namespace CarterGames.Standalone.NotionData.Editor
 		/// <param name="apiKey">The api key to get.</param>
 		/// <param name="sorts">The sorting properties to apply.</param>
 		/// <param name="silentResponse">Should the response from the request be hidden from the user? DEF = false</param>
-		public NotionRequestData(DataAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, bool silentResponse = false)
+		public NotionRequestData(DataAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, NotionFilterContainer filter, bool silentResponse = false)
 		{
 			this.requestingAsset = requestingAsset;
 			this.databaseId = databaseId;
 			this.apiKey = apiKey;
 			this.sorts = sorts;
+			this.filter = filter;
 			silentCall = silentResponse;
 		}
 		

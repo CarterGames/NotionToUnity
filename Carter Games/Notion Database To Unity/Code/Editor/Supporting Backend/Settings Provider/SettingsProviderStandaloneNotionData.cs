@@ -140,7 +140,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             if (GUILayout.Button("Support Dev", GUILayout.Height(30), GUILayout.MinWidth(100)))
             {
-                Application.OpenURL("https://buymeacoffee.com/cartergames");
+                Application.OpenURL("https://carter.games/supportdev");
             }
 
             EditorGUILayout.EndHorizontal();

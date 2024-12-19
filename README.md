@@ -35,6 +35,7 @@ A flexible system to import Notion databases into a Unity scriptable object for 
    * [Unity Setup](#-unity-setup)
 * [Downloading Data](#downloading-the-data)  
    * [Sorting Properties](#sorting-properties)
+   * [Filters](#filters)
    * [Wrapper Classes](#wrapper-classes)
    * [Post Download Logic](#post-download-logic)
    * [Updating all assets](#updating-all-assets)
@@ -47,7 +48,7 @@ A flexible system to import Notion databases into a Unity scriptable object for 
 
 # Features
 - Download databases of any size.
-- Apply sorting to data to order it just as it is in a Notion database view.
+- Apply sorting and filters to data to order it just as it is in a Notion database view.
 - Automatic parsing of data into their field types.
 - Support for most useful Notion data properties.
 - Automatic API key removal on build creation for security.
@@ -58,7 +59,7 @@ A flexible system to import Notion databases into a Unity scriptable object for 
 
 
 # Planned Features
-- Support for applying filters when downloading a Notion database.
+- None at the moment other than general support where needed.
 
 
 <br><br>
@@ -187,11 +188,26 @@ Then just fill the fields on the data asset (make one from the ```CreateAssetMen
 
 
 ## Sorting Properties
-You can apply sorting properties to your download requests by adding them to the sort properties list in the inspector. The text for each entry is the Notion property name you want to sort by, with the tick box set to if you want to sort ascending for that property. The order of the sort properties in the list defines the order they are used, just like in Notion. 
+You can apply sorting properties to your download requests by adding them to the sort properties list in the inspector. The text for each entry is the Notion property name you want to sort by, with the tick box set to if you want to sort ascending for that property. The order of the sort properties in the list defines the order they are used, just like in Notion.
 
-<i>The editor for this will be improved at some point.</i>
+![image](https://github.com/user-attachments/assets/a9768b81-77ea-41a5-be95-42e40b887e9f)
+<br>
+![image](https://github.com/user-attachments/assets/b69ce981-2375-4c3f-ac71-6fdb175479fc)
 
-![image](https://github.com/user-attachments/assets/e35eab63-6e8a-4a4e-b866-b3810697fbee)
+
+<br>
+
+
+## Filters
+As of 0.4.x you can also apply filters to the download requests by using the filters window. This window more or less mimic’s Notion’s filters GUI. This setup supports the property types the system currently supports reading. The only notable difference is with rollup support. It is supported, but you’ll have to use the type the rollup is displaying and then define it as a rollup of that type for it to work.
+
+![image](https://github.com/user-attachments/assets/78950c77-8f81-4aac-8036-7aadf9637a85)
+<br><br>
+<b>Notion Example</b><br>
+![image](https://github.com/user-attachments/assets/cdbaddf2-4446-4df8-a841-d40819ca4602)
+<br><br>
+<b>Unity Example</b><br>
+![image](https://github.com/user-attachments/assets/bba720f5-bb14-41c9-818e-ef776f77c303)
 
 
 <br>

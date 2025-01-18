@@ -47,6 +47,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 					foreach (var entry in group.Value.FilterOptions)
 					{
 						if (entry.TypeName == "Group") continue;
+						if (string.IsNullOrWhiteSpace(entry.TypeName)) continue;
 						total++;
 					}
 				}
@@ -54,7 +55,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 				return total;
 			}
 		}
-		
+
 
 		public JSONObject ToFilterJson()
 		{

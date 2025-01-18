@@ -65,7 +65,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 				data["property"] = propertyName;
 			}
 
-			if (Comparison != NotionFilerMultiSelectComparison.IsEmpty ||
+			if (Comparison != NotionFilerMultiSelectComparison.IsEmpty &&
 			    Comparison != NotionFilerMultiSelectComparison.IsNotEmpty)
 			{
 				data["multi_select"][FilterStringLookup[Comparison]] = JsonUtility.ToJson(value);

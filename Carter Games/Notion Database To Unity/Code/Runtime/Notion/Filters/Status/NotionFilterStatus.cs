@@ -63,7 +63,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 				data["property"] = propertyName;
 			}
 			
-			if (Comparison != NotionFilterStatusComparison.IsEmpty ||
+			if (Comparison != NotionFilterStatusComparison.IsEmpty &&
 			    Comparison != NotionFilterStatusComparison.IsNotEmpty)
 			{
 				data["status"][FilterStringLookup[Comparison]] = value.ToString();

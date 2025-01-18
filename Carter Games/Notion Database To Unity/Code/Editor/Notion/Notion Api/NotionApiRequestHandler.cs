@@ -161,7 +161,10 @@ namespace CarterGames.Standalone.NotionData.Editor
                 
                 if (filters != null)
                 {
-                    body["filter"] = filters.ToFilterJson();
+                    if (filters.TotalFilters > 0)
+                    {
+                        body["filter"] = filters.ToFilterJson();
+                    }
                 }
 
                 request = UnityWebRequest.Put(url, body.ToString());

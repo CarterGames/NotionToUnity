@@ -59,76 +59,92 @@ namespace CarterGames.Standalone.NotionData.Editor
 				EditorGUILayout.PropertyField(property.Fpr("option").Fpr("propertyName"));
 				GUILayout.Space(1f);
 
-				EditorGUILayout.BeginHorizontal();
-				property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
-					(int) (NotionFilerMultiSelectComparison) EditorGUILayout.EnumPopup(
-						(NotionFilerMultiSelectComparison) property.Fpr("option").Fpr("comparisonEnumIndex").intValue, GUILayout.Width(147.5f));
-				GUILayout.Space(1f);
-
-				list = JsonUtility.FromJson<NotionFilterMultiSelectList>(property.Fpr("option").Fpr("value").stringValue);
-
-				if (list != null)
-				{
-					EditorGUILayout.BeginVertical();
-
-					if (list.List.Count <= 0)
-					{
-						GUI.backgroundColor = Color.green;
-						if (GUILayout.Button("+ Add option"))
-						{
-							list.List.Add(string.Empty);
-							property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
-							property.serializedObject.ApplyModifiedProperties();
-							property.serializedObject.Update();
-						}
-						GUI.backgroundColor = Color.white;
-					}
-					else
-					{
-						for (var i = 0; i < list.List.Count; i++)
-						{
-							EditorGUI.BeginChangeCheck();
-
-							EditorGUILayout.BeginHorizontal();
-
-							list.List[i] = EditorGUILayout.TextField(GUIContent.none, list.List[i]);
-
-							GUI.backgroundColor = Color.red;
-							if (GUILayout.Button("-",GUILayout.Width(22.5f)))
-							{
-								list.List.RemoveAt(i);
-								property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
-								property.serializedObject.ApplyModifiedProperties();
-								property.serializedObject.Update();
-								break;
-							}
-							
-							GUI.backgroundColor = Color.white;
-
-							EditorGUILayout.EndHorizontal();
-
-							if (EditorGUI.EndChangeCheck())
-							{
-								property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
-								property.serializedObject.ApplyModifiedProperties();
-								property.serializedObject.Update();
-							}
-						}
-						
-						GUI.backgroundColor = Color.green;
-						if (GUILayout.Button("+ Add option"))
-						{
-							list.List.Add(string.Empty);
-							property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
-							property.serializedObject.ApplyModifiedProperties();
-							property.serializedObject.Update();
-						}
-						GUI.backgroundColor = Color.white;
-					}
-
-					EditorGUILayout.EndVertical();
-				}
 				
+				EditorGUILayout.BeginHorizontal();
+				
+				if (property.Fpr("option").Fpr("comparisonEnumIndex").intValue == 2 ||
+				    property.Fpr("option").Fpr("comparisonEnumIndex").intValue == 3)
+				{
+					property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
+						(int) (NotionFilerMultiSelectComparison) EditorGUILayout.EnumPopup(
+							(NotionFilerMultiSelectComparison) property.Fpr("option").Fpr("comparisonEnumIndex").intValue);
+				}
+				else
+				{
+					property.Fpr("option").Fpr("comparisonEnumIndex").intValue =
+						(int) (NotionFilerMultiSelectComparison) EditorGUILayout.EnumPopup(
+							(NotionFilerMultiSelectComparison) property.Fpr("option").Fpr("comparisonEnumIndex")
+								.intValue, GUILayout.Width(147.5f));
+					GUILayout.Space(1f);
+
+					list = JsonUtility.FromJson<NotionFilterMultiSelectList>(property.Fpr("option").Fpr("value")
+						.stringValue);
+
+					if (list != null)
+					{
+						EditorGUILayout.BeginVertical();
+
+						if (list.List.Count <= 0)
+						{
+							GUI.backgroundColor = Color.green;
+							if (GUILayout.Button("+ Add option"))
+							{
+								list.List.Add(string.Empty);
+								property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
+								property.serializedObject.ApplyModifiedProperties();
+								property.serializedObject.Update();
+							}
+
+							GUI.backgroundColor = Color.white;
+						}
+						else
+						{
+							for (var i = 0; i < list.List.Count; i++)
+							{
+								EditorGUI.BeginChangeCheck();
+
+								EditorGUILayout.BeginHorizontal();
+
+								list.List[i] = EditorGUILayout.TextField(GUIContent.none, list.List[i]);
+
+								GUI.backgroundColor = Color.red;
+								if (GUILayout.Button("-", GUILayout.Width(22.5f)))
+								{
+									list.List.RemoveAt(i);
+									property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
+									property.serializedObject.ApplyModifiedProperties();
+									property.serializedObject.Update();
+									break;
+								}
+
+								GUI.backgroundColor = Color.white;
+
+								EditorGUILayout.EndHorizontal();
+
+								if (EditorGUI.EndChangeCheck())
+								{
+									property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
+									property.serializedObject.ApplyModifiedProperties();
+									property.serializedObject.Update();
+								}
+							}
+
+							GUI.backgroundColor = Color.green;
+							if (GUILayout.Button("+ Add option"))
+							{
+								list.List.Add(string.Empty);
+								property.Fpr("option").Fpr("value").stringValue = JsonUtility.ToJson(list);
+								property.serializedObject.ApplyModifiedProperties();
+								property.serializedObject.Update();
+							}
+
+							GUI.backgroundColor = Color.white;
+						}
+
+						EditorGUILayout.EndVertical();
+					}
+				}
+
 				EditorGUILayout.EndHorizontal();
 			}
 			

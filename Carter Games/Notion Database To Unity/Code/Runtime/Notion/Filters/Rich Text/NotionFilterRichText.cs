@@ -68,7 +68,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 				data["property"] = propertyName;
 			}
 			
-			if (Comparison != NotionFilterRichTextComparison.IsEmpty ||
+			if (Comparison != NotionFilterRichTextComparison.IsEmpty &&
 			    Comparison != NotionFilterRichTextComparison.IsNotEmpty)
 			{
 				data["rich_text"][FilterStringLookup[Comparison]] = value.ToString();

@@ -45,6 +45,7 @@ namespace CarterGames.Standalone.NotionData
         [SerializeField, HideInInspector] private string databaseApiKey;
         [SerializeField] private NotionFilterContainer filters;
         [SerializeField] private List<NotionSortProperty> sortProperties;
+        [SerializeField] private NotionDatabaseProcessor processor;
 #pragma warning restore
 #endif
         
@@ -58,12 +59,12 @@ namespace CarterGames.Standalone.NotionData
         /// The data stored on the asset.
         /// </summary>
         public List<T> Data => data;
-        
-        
+
+
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual INotionDatabaseProcessor<T> DatabaseProcessor => new NotionDatabaseProcessorStandard<T>();
+        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -75,7 +76,7 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            data = DatabaseProcessor.Process(result);
+            data = DatabaseProcessor.Process<T>(result);
             PostDataDownloaded();
             
 #if UNITY_EDITOR

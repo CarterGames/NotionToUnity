@@ -36,7 +36,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
         public Type AssetType => typeof(DataAssetIndex);
         public string DataAssetFileName => "[Notion Data] Asset Index.asset";
-        public string DataAssetFilter => $"t:{typeof(DataAssetIndex).FullName}";
+        public string DataAssetFilter => $"t:{typeof(DataAssetIndex).FullName} name={DataAssetFileName}";
         public string DataAssetPath => $"{ScriptableRef.FullPathResources}{DataAssetFileName}";
 
         public DataAssetIndex AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);

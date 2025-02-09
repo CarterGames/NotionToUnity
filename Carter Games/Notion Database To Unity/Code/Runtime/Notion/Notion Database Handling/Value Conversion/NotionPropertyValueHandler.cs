@@ -1,128 +1,73 @@
-﻿/*
- * Copyright (c) 2024 Carter Games
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- *    
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using CarterGames.Standalone.NotionData.Common;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Value_Conversion
 {
-    /// <summary>
-    /// A class that contains a notion property from a notion database row.
-    /// </summary>
-    [Serializable]
-    public sealed class NotionDatabaseProperty
+    public static class NotionPropertyValueHandler
     {
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Fields
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        [SerializeField] private string propertyName;
-        [SerializeField] private string propertyType;
-        [SerializeField] private string propertyValue;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        public string JsonValue => propertyValue;
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Constructors
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Makes a new property with the entered details.
-        /// </summary>
-        /// <param name="propName">The nam of the property.</param>
-        /// <param name="propertyType">The type the property is in notion.</param>
-        /// <param name="propValue">The value of the property in notion.</param>
-        public NotionDatabaseProperty(string propName, string propertyType, string propValue)
-        {
-            propertyName = propName;
-            this.propertyType = propertyType;
-            propertyValue = propValue;
-        }
-        
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Methods
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
         /// <summary>
         /// Gets the value in this property its type if possible. 
         /// </summary>
         /// <param name="fieldType">The field type to match.</param>
         /// <returns>The resulting entry.</returns>
-        public object GetValueAs(Type fieldType)
+        public static bool TryGetValueAs(NotionProperty property, Type fieldType, out object value)
         {
-            object result;
-            
-            if (propertyValue == null)
-            {
-                return null;
-            }
-            
-            
             if (fieldType.IsArray)
             {
-                if (TryParseAsArray(fieldType, out result)) return result;
-                if (TryParseAsList(fieldType, out result)) return result;
+                if (TryParseAsArray(property, fieldType, out value)) return true;
+                if (TryParseAsList(property, fieldType, out value)) return true;
                 
                 if (fieldType.IsEnum)
                 {
-                    if (TryParseEnumOrEnumFlags(fieldType, out result)) return result;
+                    if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
                 }
             }
 
 
             if (fieldType.ToString().Contains("System.Collections.Generic.List"))
             {
-                if (TryParseAsList(fieldType, out result)) return result;
+                if (TryParseAsList(property, fieldType, out value)) return true;
                 
                 if (fieldType.IsEnum)
                 {
-                    if (TryParseEnumOrEnumFlags(fieldType, out result)) return result;
+                    if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
                 }
             }
             
             
-            if (TryParseAsPrimitive(fieldType, out result)) return result;
+            if (TryParseAsPrimitive(property, fieldType, out value)) return true;
             
             
             if (fieldType.IsEnum)
             {
-                if (TryParseEnumOrEnumFlags(fieldType, out result)) return result;
+                if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
             }
             
             
-            if (TryParseWrapper(fieldType, out result)) return result;
-            if (fieldType.IsClass) return JsonUtility.FromJson(propertyValue, fieldType);
+            if (TryParseWrapper(property, fieldType, out value)) return true;
             
+            if (fieldType.IsClass)
+            {
+                value = JsonUtility.FromJson(property.JsonValue, fieldType);
+                return value != null;
+            }
 
             Debug.LogError("Couldn't parse data");
-            return null;
+            return false;
+        }
+        
+        
+        public static bool TryGetValueAsWrapper(NotionProperty property, Type fieldType, out object value)
+        {
+            if (TryParseWrapper(property, fieldType, out value)) return true;
+            
+            Debug.LogError("Couldn't parse data");
+            return false;
         }
 
 
@@ -132,26 +77,26 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="fieldType">The field type to check.</param>
         /// <param name="result">The resulting parsed data.</param>
         /// <returns>If it was successful.</returns>
-        private bool TryParseAsPrimitive(Type fieldType, out object result)
+        private static bool TryParseAsPrimitive(NotionProperty property, Type fieldType, out object result)
         {
             result = null;
 
             switch (fieldType.Name)
             {
                 case { } x when x.Contains("Int"):
-                    result = int.Parse(propertyValue);
+                    result = (int) property.Number().Value;
                     break;
                 case { } x when x.Contains("Boolean"):
-                    result = bool.Parse(propertyValue);
+                    result = bool.Parse(property.JsonValue);
                     break;
                 case { } x when x.Contains("Single"):
-                    result = float.Parse(propertyValue);
+                    result = (float) property.Number().Value;
                     break;
                 case { } x when x.Contains("Double"):
-                    result = double.Parse(propertyValue);
+                    result = property.Number().Value;
                     break;
                 case { } x when x.Contains("String"):
-                    result = propertyValue;
+                    result = property.RichText().Value;
                     break;
             }
 
@@ -159,36 +104,38 @@ namespace CarterGames.Standalone.NotionData
         }
         
         
-        private bool TryParseWrapper(Type fieldType, out object result)
+        private static bool TryParseWrapper(NotionProperty property, Type fieldType, out object result)
         {
             result = null;
-            
-            if (fieldType == typeof(NotionDataWrapperSprite))
+
+            if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper).Namespace + ".NotionDataWrapper"))
             {
-                result = new NotionDataWrapperSprite(propertyValue);
-            }
-            else if (fieldType == typeof(NotionDataWrapperPrefab))
-            {
-                result = new NotionDataWrapperPrefab(propertyValue);
-            }
-            else if (fieldType == typeof(NotionDataWrapperAudioClip))
-            {
-                result = new NotionDataWrapperAudioClip(propertyValue);
+                var allWrapperTypes = AssemblyHelper.GetClassesNamesOfType<NotionDataWrapper>(false);
+
+                foreach (var wrapperType in allWrapperTypes)
+                {
+                    if (wrapperType != fieldType) continue;
+
+                    var constructor = wrapperType.GetConstructor(new[] {typeof(string)});
+                    result = constructor.Invoke(new object[] {property.RichText().Value});
+                }
             }
 
             return result != null;
         }
 
 
-        private JSONArray GetPropertyValueAsCollection()
+        private static JSONArray GetPropertyValueAsCollection(NotionProperty property)
         {
+            var value = property.MultiSelect().Value;
+            
             // If the value is an collection of more than 1 element.
-            if (propertyValue.Split(',').Length > 1)
+            if (value.Length > 1)
             {
                 try
                 {
                     // Tries to parse as an array normally.
-                    return JSON.Parse(propertyValue).AsArray;
+                    return JSON.Parse(property.JsonValue).AsArray;
                 }
 #pragma warning disable
                 catch (Exception e)
@@ -199,11 +146,11 @@ namespace CarterGames.Standalone.NotionData
                     builder.Append("[");
 
                     // Parse each entry correctly into the collection.
-                    for (var i = 0; i < propertyValue.Split(',').Length; i++)
+                    for (var i = 0; i < property.JsonValue.Split(',').Length; i++)
                     {
-                        builder.Append($"\"{propertyValue.Split(',')[i].Trim()}\"");
+                        builder.Append($"\"{property.JsonValue.Split(',')[i].Trim()}\"");
 
-                        if (i == propertyValue.Split(',').Length - 1) continue;
+                        if (i == property.JsonValue.Split(',').Length - 1) continue;
                         builder.Append(",");
                     }
 
@@ -217,9 +164,9 @@ namespace CarterGames.Standalone.NotionData
             {
                 // If the value is already bracketed when downloading, just use that.
                 //
-                if (propertyValue.Contains("[") && propertyValue.Contains("]"))
+                if (property.JsonValue.Contains("[") && property.JsonValue.Contains("]"))
                 {
-                    return JSON.Parse(propertyValue).AsArray;
+                    return JSON.Parse(property.JsonValue).AsArray;
                 }
                 //
                 // Bracket the data in the [] so it can be parsed correctly.
@@ -229,7 +176,7 @@ namespace CarterGames.Standalone.NotionData
                     var builder = new StringBuilder();
                     
                     builder.Append("[");
-                    builder.Append($"\"{propertyValue.Split(',')[0].Trim()}\"");
+                    builder.Append($"\"{property.JsonValue.Split(',')[0].Trim()}\"");
                     builder.Append("]");
 
                     return JSON.Parse(builder.ToString()).AsArray;
@@ -238,9 +185,9 @@ namespace CarterGames.Standalone.NotionData
         }
         
 
-        private bool TryParseAsArray(Type fieldType, out object result)
+        private static bool TryParseAsArray(NotionProperty property, Type fieldType, out object result)
         {
-            var data = GetPropertyValueAsCollection();
+            var data = GetPropertyValueAsCollection(property);
             result = null;
             
             switch (fieldType.Name)
@@ -308,9 +255,9 @@ namespace CarterGames.Standalone.NotionData
         }
         
         
-        private bool TryParseAsList(Type fieldType, out object result)
+        private static bool TryParseAsList(NotionProperty property, Type fieldType, out object result)
         {
-            var data = GetPropertyValueAsCollection();
+            var data = GetPropertyValueAsCollection(property);
             var typeName = fieldType.GenericTypeArguments.Length > 0 ? fieldType.GenericTypeArguments[0] : fieldType;
             result = null;
             
@@ -379,12 +326,12 @@ namespace CarterGames.Standalone.NotionData
         }
 
 
-        private bool TryParseEnumOrEnumFlags(Type fieldType, out object result)
+        private static bool TryParseEnumOrEnumFlags(NotionProperty property, Type fieldType, out object result)
         {
-            if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(propertyValue).IsArray)
+            if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(property.JsonValue).IsArray)
             {
                 var combined = string.Empty;
-                var elements = JSON.Parse(propertyValue).AsArray;
+                var elements = JSON.Parse(property.JsonValue).AsArray;
 
                 if (elements.Count <= 1)
                 {
@@ -407,7 +354,7 @@ namespace CarterGames.Standalone.NotionData
             {
                 try
                 {
-                    result = Enum.Parse(fieldType, propertyValue.Replace(" ", ""));
+                    result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
                     return result != null;
                 }
 #pragma warning disable

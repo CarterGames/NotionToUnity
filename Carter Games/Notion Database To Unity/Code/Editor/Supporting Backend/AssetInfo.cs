@@ -31,7 +31,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.4.1";
+        public static string VersionNumber => "0.5.0";
         
         
         /// <summary>
@@ -40,6 +40,6 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <remarks>
         /// Format is Y/M/D.
         /// </remarks>
-        public static string ReleaseDate => "2025/01/18";
+        public static string ReleaseDate => "2025/02/09";
     }
 }

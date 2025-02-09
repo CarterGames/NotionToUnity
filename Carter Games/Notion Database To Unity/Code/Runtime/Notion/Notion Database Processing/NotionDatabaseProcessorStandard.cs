@@ -29,10 +29,9 @@ namespace CarterGames.Standalone.NotionData
     /// <summary>
     /// The standard data parser from Notion to a NotionDataAsset. Matches the property name for parses the data to each entry.
     /// </summary>
-    /// <typeparam name="T">The type to parse to.</typeparam>
-    public sealed class NotionDatabaseProcessorStandard<T> : INotionDatabaseProcessor<T> where T : new()
+    public class NotionDatabaseProcessorStandard : NotionDatabaseProcessor
     {
-        public List<T> Process(NotionDatabaseQueryResult result)
+        public override List<T> Process<T>(NotionDatabaseQueryResult result)
         {
             var list = new List<T>();
 
@@ -43,24 +42,14 @@ namespace CarterGames.Standalone.NotionData
 
                 foreach (var field in newEntryFields)
                 {
-                    if (row.DataLookup.ContainsKey(field.Name.Trim().ToLower()))
-                    {
-                        var valueData = row.DataLookup[field.Name.Trim().ToLower()];
-                        var fieldType = field.FieldType;
-                        
-                        if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
-                        {
-                            var instance = valueData.GetValueAs(fieldType);
-                            field.SetValue(newEntry, instance);
-                            
-                            instance.GetType().BaseType.GetMethod("Assign", BindingFlags.NonPublic | BindingFlags.Instance)
-                                ?.Invoke(instance, null);
-                        }
-                        else
-                        {
-                            field.SetValue(newEntry, valueData.GetValueAs(fieldType));
-                        }
-                    }
+                    // Tries to find the id matching the field name...
+                    if (!row.DataLookup.ContainsKey(field.Name.Trim().ToLower())) continue;
+                    
+                    // Gets the property info assigned to that key...
+                    var rowProperty = row.DataLookup[field.Name.Trim().ToLower()];
+                    
+                    // Tries to parse the data into the field type if possible...
+                    rowProperty.TryConvertValueToFieldType(field, newEntry);
                 }
                 
                 list.Add(newEntry);

@@ -30,8 +30,49 @@ namespace CarterGames.Standalone.NotionData
 	/// A wrapper base class for converting a notion database property into an gameObject (prefab'd) by its name.
 	/// </summary>
     [Serializable]
-    public class NotionDataWrapperPrefab : NotionDataWrapper<GameObject>
+    public class NotionDataWrapperPrefab : NotionDataWrapper
     {
-        public NotionDataWrapperPrefab(string id) : base(id) { }
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
+	    /// The value stored in the wrapper.
+	    /// </summary>
+	    public GameObject Value => (GameObject) value;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Constructors
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    public NotionDataWrapperPrefab(string id) : base(id)
+	    {
+		    Assign<GameObject>();
+	    }
+        
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Operator
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
+	    /// Converts the wrapper to its implementation type.
+	    /// </summary>
+	    /// <param name="dataWrapper">The wrapper to convert.</param>
+	    /// <returns>The value of the wrapper.</returns>
+	    public static implicit operator GameObject(NotionDataWrapperPrefab dataWrapper)
+	    {
+		    return dataWrapper.Value;
+	    }
+
+
+	    /// <summary>
+	    /// Converts the type to thr wrapper.
+	    /// </summary>
+	    /// <param name="reference">The value to convert.</param>
+	    /// <returns>The wrapper with the value.</returns>
+	    public static implicit operator NotionDataWrapperPrefab(GameObject reference)
+	    {
+		    return new NotionDataWrapperPrefab(reference.name);
+	    }
     }
 }

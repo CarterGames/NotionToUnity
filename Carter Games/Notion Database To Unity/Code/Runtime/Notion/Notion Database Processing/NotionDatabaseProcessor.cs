@@ -29,8 +29,8 @@ namespace CarterGames.Standalone.NotionData
 	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
 	/// </summary>
 	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
-	public interface INotionDatabaseProcessor<T>
+	public abstract class NotionDatabaseProcessor : DataAsset
 	{
-		List<T> Process(NotionDatabaseQueryResult result);
+		public abstract List<T> Process<T>(NotionDatabaseQueryResult result) where T : new();
 	}
 }

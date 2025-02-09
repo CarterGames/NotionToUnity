@@ -80,7 +80,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         private static NotionDatabaseRow GetRowData(JSONNode element)
         {
             var keys = new List<string>();
-            var lookup = new SerializableDictionary<string, NotionDatabaseProperty>();
+            var lookup = new SerializableDictionary<string, NotionProperty>();
 
 
             foreach (var k in element.Keys)
@@ -98,20 +98,34 @@ namespace CarterGames.Standalone.NotionData.Editor
 
                 // Debug.Log(element.AsObject[i].ToString());
                 
+                var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
+                var valueJson = element.AsObject[i].ToString();
                 
                 switch (element.AsObject[i]["type"].Value)
                 {
                     case "title":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson));
+                        break;
                     case "rich_text":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson));
+                        break;
                     case "number":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson));
+                        break;
                     case "checkbox":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson));
+                        break;
                     case "select":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson));
+                        break;
                     case "date":
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson));
+                        break;
                     case "multi_select":
-                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, element.AsObject[i]["type"].Value, GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i])));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson));                        
                         break;
                     case "rollup":
-                        lookup.Add(adjustedKey, new NotionDatabaseProperty(propName, element.AsObject[i]["rollup"]["array"][0]["type"].Value, GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0])));
+                        // lookup.Add(adjustedKey, new NotionDatabasePropertyVallue(propName, element.AsObject[i]["rollup"]["array"][0]["type"].Value, GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0])));
                         break;
                     default:
                         Debug.LogWarning($"Unable to assign value: {keys[i]} as the Notion data type {element.AsObject[i]["type"].Value} is not supported.");

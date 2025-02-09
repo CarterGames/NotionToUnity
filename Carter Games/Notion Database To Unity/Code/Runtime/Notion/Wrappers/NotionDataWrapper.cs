@@ -30,25 +30,15 @@ namespace CarterGames.Standalone.NotionData
     /// <summary>
     /// A wrapper base class for converting a notion database property into something else.
     /// </summary>
-    /// <typeparam name="T">The type to wrap as.</typeparam>
     [Serializable]
-    public class NotionDataWrapper<T> where T : Object
+    public class NotionDataWrapper
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         [SerializeField] private string id;
-        [SerializeField] private T value;
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// The value stored in the wrapper.
-        /// </summary>
-        public T Value => value;
+        [SerializeField] protected Object value;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
@@ -67,13 +57,18 @@ namespace CarterGames.Standalone.NotionData
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
+        public T GetValue<T>() where T : Object
+        {
+            return (T) value;
+        }
+        
+        
         /// <summary>
         /// Assigns the reference when called.
         /// </summary>
-        private void Assign()
+        protected void Assign<T>() where T : Object
         {
 #if UNITY_EDITOR
-            
             if (!string.IsNullOrEmpty(id))
             {
                 var asset = UnityEditor.AssetDatabase.FindAssets(id);
@@ -93,31 +88,6 @@ namespace CarterGames.Standalone.NotionData
                 Debug.LogWarning("Unable to assign a reference, the id was empty.");
             }
 #endif
-        }
-
-        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Operator
-        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        /// <summary>
-        /// Converts the wrapper to its implementation type.
-        /// </summary>
-        /// <param name="dataWrapper">The wrapper to convert.</param>
-        /// <returns>The value of the wrapper.</returns>
-        public static implicit operator T(NotionDataWrapper<T> dataWrapper)
-        {
-            return dataWrapper.Value;
-        }
-
-
-        /// <summary>
-        /// Converts the type to thr wrapper.
-        /// </summary>
-        /// <param name="reference">The value to convert.</param>
-        /// <returns>The wrapper with the value.</returns>
-        public static implicit operator NotionDataWrapper<T>(T reference)
-        {
-            return new NotionDataWrapper<T>(reference.name);
         }
     }
 }

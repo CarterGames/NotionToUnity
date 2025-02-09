@@ -22,6 +22,7 @@
  */
 
 using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData
@@ -30,8 +31,49 @@ namespace CarterGames.Standalone.NotionData
 	/// A wrapper base class for converting a notion database property into a sprite by its name.
 	/// </summary>
     [Serializable]
-    public class NotionDataWrapperSprite : NotionDataWrapper<Sprite>
+    public class NotionDataWrapperSprite : NotionDataWrapper
     {
-        public NotionDataWrapperSprite(string id) : base(id) { }
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Properties
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
+	    /// The value stored in the wrapper.
+	    /// </summary>
+	    public Sprite Value => (Sprite) value;
+
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Constructors
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    public NotionDataWrapperSprite(string id) : base(id)
+	    {
+		    Assign<Sprite>();
+	    }
+        
+	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+	    |   Operator
+	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+	    /// <summary>
+	    /// Converts the wrapper to its implementation type.
+	    /// </summary>
+	    /// <param name="dataWrapper">The wrapper to convert.</param>
+	    /// <returns>The value of the wrapper.</returns>
+	    public static implicit operator Sprite(NotionDataWrapperSprite dataWrapper)
+	    {
+		    return dataWrapper.Value;
+	    }
+
+
+	    /// <summary>
+	    /// Converts the type to thr wrapper.
+	    /// </summary>
+	    /// <param name="reference">The value to convert.</param>
+	    /// <returns>The wrapper with the value.</returns>
+	    public static implicit operator NotionDataWrapperSprite(Sprite reference)
+	    {
+		    return new NotionDataWrapperSprite(reference.name);
+	    }
     }
 }

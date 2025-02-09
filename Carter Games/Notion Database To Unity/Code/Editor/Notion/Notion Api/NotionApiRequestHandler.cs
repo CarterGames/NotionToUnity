@@ -174,7 +174,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-
+            request.timeout = 5;
+            
             return request;
         }
         

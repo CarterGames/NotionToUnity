@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData.Editor
 {
-    [CustomPropertyDrawer(typeof(NotionDataWrapper<>), true)]
+    [CustomPropertyDrawer(typeof(NotionDataWrapper), true)]
     public class NotionWrapperEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

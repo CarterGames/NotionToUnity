@@ -30,8 +30,49 @@ namespace CarterGames.Standalone.NotionData
 	/// A wrapper base class for converting a notion database property into an audio clip by its name.
 	/// </summary>
     [Serializable]
-    public class NotionDataWrapperAudioClip : NotionDataWrapper<AudioClip>
+    public class NotionDataWrapperAudioClip : NotionDataWrapper
     {
-        public NotionDataWrapperAudioClip(string id) : base(id) { }
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The value stored in the wrapper.
+        /// </summary>
+        public AudioClip Value => (AudioClip) value;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        public NotionDataWrapperAudioClip(string id) : base(id)
+        {
+	        Assign<AudioClip>();
+        }
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Operator
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Converts the wrapper to its implementation type.
+        /// </summary>
+        /// <param name="dataWrapper">The wrapper to convert.</param>
+        /// <returns>The value of the wrapper.</returns>
+        public static implicit operator AudioClip(NotionDataWrapperAudioClip dataWrapper)
+        {
+	        return dataWrapper.Value;
+        }
+
+
+        /// <summary>
+        /// Converts the type to thr wrapper.
+        /// </summary>
+        /// <param name="reference">The value to convert.</param>
+        /// <returns>The wrapper with the value.</returns>
+        public static implicit operator NotionDataWrapperAudioClip(AudioClip reference)
+        {
+	        return new NotionDataWrapperAudioClip(reference.name);
+        }
     }
 }

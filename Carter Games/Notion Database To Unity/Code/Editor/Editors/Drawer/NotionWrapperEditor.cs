@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData.Editor
 {
-    [CustomPropertyDrawer(typeof(NotionDataWrapper), true)]
+    [CustomPropertyDrawer(typeof(NotionDataWrapper<>), true)]
     public class NotionWrapperEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

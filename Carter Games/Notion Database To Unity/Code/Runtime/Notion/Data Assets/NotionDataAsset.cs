@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Standalone.NotionData.Filters;
 using UnityEngine;
 
@@ -76,7 +77,7 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
-            data = DatabaseProcessor.Process<T>(result);
+            data = DatabaseProcessor.Process<T>(result).Cast<T>().ToList();
             PostDataDownloaded();
             
 #if UNITY_EDITOR

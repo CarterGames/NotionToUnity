@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ namespace CarterGames.Standalone.NotionData
 	/// A wrapper base class for converting a notion database property into an gameObject (prefab'd) by its name.
 	/// </summary>
     [Serializable]
-    public class NotionDataWrapperPrefab : NotionDataWrapper
+    public class NotionDataWrapperPrefab : NotionDataWrapper<GameObject>
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Properties
@@ -45,10 +45,7 @@ namespace CarterGames.Standalone.NotionData
 	    |   Constructors
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-	    public NotionDataWrapperPrefab(string id) : base(id)
-	    {
-		    Assign<GameObject>();
-	    }
+	    public NotionDataWrapperPrefab(string id) : base(id) {}
         
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Operator
@@ -73,6 +70,34 @@ namespace CarterGames.Standalone.NotionData
 	    public static implicit operator NotionDataWrapperPrefab(GameObject reference)
 	    {
 		    return new NotionDataWrapperPrefab(reference.name);
+	    }
+	    
+	    
+	    /// <summary>
+	    /// Assigns the reference when called.
+	    /// </summary>
+	    protected override void Assign()
+	    {
+#if UNITY_EDITOR
+		    if (!string.IsNullOrEmpty(id))
+		    {
+			    var asset = UnityEditor.AssetDatabase.FindAssets(id);
+                
+			    if (asset.Length > 0)
+			    {
+				    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
+				    value = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(path);
+			    }
+			    else
+			    {
+				    Debug.LogWarning($"Unable to find a reference with the name {id}");
+			    }
+		    }
+		    else
+		    {
+			    Debug.LogWarning("Unable to assign a reference, the id was empty.");
+		    }
+#endif
 	    }
     }
 }

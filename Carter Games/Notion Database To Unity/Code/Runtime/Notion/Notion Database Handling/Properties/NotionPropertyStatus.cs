@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,32 +21,51 @@
  * THE SOFTWARE.
  */
 
-using System;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData
 {
     /// <summary>
-    /// Inherit from to define a data asset that the data system will detect and allow access at runtime.
+    /// A status type Notion property container.
     /// </summary>
-    public abstract class DataAsset : ScriptableObject
+    public sealed class NotionPropertyStatus : NotionProperty
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
+
         /// <summary>
-        /// Defines a id for this data asset.
+        /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
-        [SerializeField] private string variantId = Guid.NewGuid().ToString();
+        protected override object InternalValue { get; set; }
+
+
+        /// <summary>
+        /// The JSON value of the value this property holds.
+        /// </summary>
+        public override string JsonValue { get; protected set; }
+
+
+        /// <summary>
+        /// The raw download Json in-case it is needed.
+        /// </summary>
+        public override string DownloadText { get; protected set; }
+
+
+        /// <summary>
+        /// The value cast to the type the property is in C#
+        /// </summary>
+        public string Value => (string) InternalValue;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        |   Properties
+        |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-        
-        /// <summary>
-        /// Override to define a custom variant id for the data asset.
-        /// </summary>
-        public virtual string VariantId => variantId;
+
+        public NotionPropertyStatus(string value, string jsonValue, string downloadedText)
+        {
+            InternalValue = value;
+            JsonValue = jsonValue;
+            DownloadText = downloadedText;
+        }
     }
 }

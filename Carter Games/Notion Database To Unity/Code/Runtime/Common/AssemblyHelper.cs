@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData.Common
 {
@@ -40,10 +41,9 @@ namespace CarterGames.Standalone.NotionData.Common
         /// <summary>
         /// Gets the number of classes of the requested type in the project.
         /// </summary>
-        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>The total in the project.</returns>
-        public static int CountClassesOfType<T>(bool internalCheckOnly = true)
+        public static int CountClassesOfType<T>()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
                 
@@ -68,10 +68,9 @@ namespace CarterGames.Standalone.NotionData.Common
         /// <summary>
         /// Gets all the classes of the entered type in the project.
         /// </summary>
-        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
+        public static IEnumerable<T> GetClassesOfType<T>()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             
@@ -84,15 +83,26 @@ namespace CarterGames.Standalone.NotionData.Common
         /// <summary>
         /// Gets all the classes of the entered type in the project.
         /// </summary>
-        /// <param name="internalCheckOnly">Check internally to the asset only.</param>
         /// <typeparam name="T">The type to find.</typeparam>
         /// <returns>All the implementations of the entered class.</returns>
-        public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = true)
+        public static IEnumerable<Type> GetClassesNamesOfType<T>()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName);
+        }
+        
+        
+        public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            Debug.Log(baseType.FullName);
+            
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)
+                .Where(t => baseType == t.BaseType.GetGenericTypeDefinition());
         }
         
         

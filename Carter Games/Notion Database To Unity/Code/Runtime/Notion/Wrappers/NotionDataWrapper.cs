@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CarterGames.Standalone.NotionData
 {
@@ -31,15 +30,24 @@ namespace CarterGames.Standalone.NotionData
     /// A wrapper base class for converting a notion database property into something else.
     /// </summary>
     [Serializable]
-    public class NotionDataWrapper
+    public class NotionDataWrapper<T>
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [SerializeField] private string id;
-        [SerializeField] protected Object value;
+        [SerializeField] protected string id;
+        [SerializeField] protected T value;
 
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The value stored in the wrapper.
+        /// </summary>
+        public T Value => value;
+        
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -51,43 +59,19 @@ namespace CarterGames.Standalone.NotionData
         public NotionDataWrapper(string id)
         {
             this.id = id;
+            Assign();
         }
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-        public T GetValue<T>() where T : Object
-        {
-            return (T) value;
-        }
-        
         
         /// <summary>
         /// Assigns the reference when called.
         /// </summary>
-        protected void Assign<T>() where T : Object
+        protected virtual void Assign()
         {
-#if UNITY_EDITOR
-            if (!string.IsNullOrEmpty(id))
-            {
-                var asset = UnityEditor.AssetDatabase.FindAssets(id);
-                
-                if (asset.Length > 0)
-                {
-                    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
-                    value = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-                }
-                else
-                {
-                    Debug.LogWarning($"Unable to find a reference with the name {id}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Unable to assign a reference, the id was empty.");
-            }
-#endif
+            return;
         }
     }
 }

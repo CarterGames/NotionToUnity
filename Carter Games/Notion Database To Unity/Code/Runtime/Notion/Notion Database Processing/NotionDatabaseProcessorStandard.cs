@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -29,26 +30,31 @@ namespace CarterGames.Standalone.NotionData
     /// <summary>
     /// The standard data parser from Notion to a NotionDataAsset. Matches the property name for parses the data to each entry.
     /// </summary>
-    public class NotionDatabaseProcessorStandard : NotionDatabaseProcessor
+    [Serializable]
+    public sealed class NotionDatabaseProcessorStandard : NotionDatabaseProcessor
     {
-        public override List<T> Process<T>(NotionDatabaseQueryResult result)
+        public override List<object> Process<T>(NotionDatabaseQueryResult result)
         {
-            var list = new List<T>();
+            var list = new List<object>();
 
             foreach (var row in result.Rows)
             {
+                // Make a new instance of the generic type.
                 var newEntry = new T();
+                
+                // Gets the fields on the type to convert & write to.
                 var newEntryFields = newEntry.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
                 foreach (var field in newEntryFields)
                 {
-                    // Tries to find the id matching the field name...
+                    // Tries to find the id matching the field name.
+                    // If none found, it just skips it.
                     if (!row.DataLookup.ContainsKey(field.Name.Trim().ToLower())) continue;
                     
-                    // Gets the property info assigned to that key...
+                    // Gets the property info assigned to that key.
                     var rowProperty = row.DataLookup[field.Name.Trim().ToLower()];
                     
-                    // Tries to parse the data into the field type if possible...
+                    // Tries to parse the data into the field type if possible.
                     rowProperty.TryConvertValueToFieldType(field, newEntry);
                 }
                 

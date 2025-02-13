@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -81,7 +81,18 @@ namespace CarterGames.Standalone.NotionData.Editor
         public NotionRequestError(DataAsset asset, JSONNode errorJson)
         {
             this.asset = asset;
-            errorCode = errorJson["errorCode"].AsInt;
+
+            try
+            {
+                errorCode = errorJson["errorCode"].AsInt;
+            }
+#pragma warning disable 0168
+            catch (Exception e)
+#pragma warning restore
+            {
+                errorCode = 0;
+            }
+
             code = errorJson["code"];
             message = errorJson["message"];
         }

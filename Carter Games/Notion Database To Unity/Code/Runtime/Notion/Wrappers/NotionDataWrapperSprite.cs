@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
  */
 
 using System;
-using System.Reflection;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData
@@ -31,7 +30,7 @@ namespace CarterGames.Standalone.NotionData
 	/// A wrapper base class for converting a notion database property into a sprite by its name.
 	/// </summary>
     [Serializable]
-    public class NotionDataWrapperSprite : NotionDataWrapper
+    public class NotionDataWrapperSprite : NotionDataWrapper<Sprite>
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Properties
@@ -46,10 +45,7 @@ namespace CarterGames.Standalone.NotionData
 	    |   Constructors
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-	    public NotionDataWrapperSprite(string id) : base(id)
-	    {
-		    Assign<Sprite>();
-	    }
+	    public NotionDataWrapperSprite(string id) : base(id) {}
         
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Operator
@@ -74,6 +70,34 @@ namespace CarterGames.Standalone.NotionData
 	    public static implicit operator NotionDataWrapperSprite(Sprite reference)
 	    {
 		    return new NotionDataWrapperSprite(reference.name);
+	    }
+	    
+	    
+	    /// <summary>
+	    /// Assigns the reference when called.
+	    /// </summary>
+	    protected override void Assign()
+	    {
+#if UNITY_EDITOR
+		    if (!string.IsNullOrEmpty(id))
+		    {
+			    var asset = UnityEditor.AssetDatabase.FindAssets(id);
+                
+			    if (asset.Length > 0)
+			    {
+				    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
+				    value = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path);
+			    }
+			    else
+			    {
+				    Debug.LogWarning($"Unable to find a reference with the name {id}");
+			    }
+		    }
+		    else
+		    {
+			    Debug.LogWarning("Unable to assign a reference, the id was empty.");
+		    }
+#endif
 	    }
     }
 }

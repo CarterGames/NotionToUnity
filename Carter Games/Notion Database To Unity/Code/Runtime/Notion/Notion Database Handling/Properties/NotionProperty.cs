@@ -84,6 +84,13 @@ namespace CarterGames.Standalone.NotionData
         
         
         /// <summary>
+        /// Converts this data to a select property.
+        /// </summary>
+        /// <returns>NotionPropertyStatus</returns>
+        public NotionPropertyStatus Status() => NotionPropertyFactory.Status(InternalValue, JsonValue, DownloadText);
+        
+        
+        /// <summary>
         /// Converts this data to a number property.
         /// </summary>
         /// <returns>NotionPropertyNumber</returns>

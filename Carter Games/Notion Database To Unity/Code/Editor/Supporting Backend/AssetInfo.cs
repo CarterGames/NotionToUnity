@@ -40,6 +40,6 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <remarks>
         /// Format is Y/M/D.
         /// </remarks>
-        public static string ReleaseDate => "2025/02/13";
+        public static string ReleaseDate => "2025/02/14";
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -117,6 +117,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
             EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("apiVersion"), NotionMetaData.ApiVersion);
             EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("apiReleaseVersion"), NotionMetaData.ApiReleaseVersion);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("downloadTimeout"), NotionMetaData.DownloadTimeout);
 
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();

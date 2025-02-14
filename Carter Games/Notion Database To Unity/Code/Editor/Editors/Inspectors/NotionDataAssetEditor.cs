@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             EditorGUILayout.PropertyField(serializedObject.Fp("m_Script"));
             EditorGUI.EndDisabledGroup();
 
-            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters", "m_Script");
+            DrawPropertiesExcluding(serializedObject, "sortProperties", "filters", "m_Script", "processor");
             
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
@@ -70,6 +70,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), NotionMetaData.DatabaseLink);
             EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), NotionMetaData.ApiKey);
+            EditorGUILayout.PropertyField(serializedObject.Fp("processor"));
 
             EditorGUILayout.BeginHorizontal();
 
@@ -92,7 +93,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUI.BeginDisabledGroup(
                 !NotionSecretKeyValidator.IsKeyValid(serializedObject.Fp("databaseApiKey").stringValue) ||
-                string.IsNullOrEmpty(serializedObject.Fp("linkToDatabase").stringValue));
+                string.IsNullOrEmpty(serializedObject.Fp("linkToDatabase").stringValue) ||
+                serializedObject.Fp("processor").objectReferenceValue == null);
 
 
             GUILayout.Space(1.5f);

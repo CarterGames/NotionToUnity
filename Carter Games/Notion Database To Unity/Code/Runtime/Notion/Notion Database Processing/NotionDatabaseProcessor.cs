@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,17 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData.Filters;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace CarterGames.Standalone.NotionData
 {
+	/// <summary>
+	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
+	/// </summary>
+	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
 	[Serializable]
-	public class NotionFilterOptionDef
+	public abstract class NotionDatabaseProcessor : DataAsset
 	{
-		[SerializeField] private string typeName;
-		[SerializeField] private NotionFilterOption option;
-
-		public string TypeName => typeName;
-		public NotionFilterOption Option => option;
+		public abstract List<object> Process<T>(NotionDatabaseQueryResult result) where T : new();
 	}
 }

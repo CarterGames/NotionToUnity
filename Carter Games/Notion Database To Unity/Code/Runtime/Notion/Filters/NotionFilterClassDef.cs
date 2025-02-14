@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -107,7 +107,7 @@ namespace CarterGames.Standalone.NotionData.Filters
 			
 			try
 			{
-				return AssemblyHelper.GetClassesOfType<T>(false).FirstOrDefault(t =>
+				return AssemblyHelper.GetClassesOfType<T>().FirstOrDefault(t =>
 					t.GetType().Assembly.FullName == Assembly && t.GetType().FullName == Type);
 			}
 #pragma warning disable

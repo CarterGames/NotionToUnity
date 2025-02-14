@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,18 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
+using CarterGames.Standalone.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.Standalone.NotionData.Editor
 {
-    [Serializable]
-    public class NotionArrayWrapper<T>
+    public class NotionDatabasePropertyParserStatus : INotionDatabasePropertyParser
     {
-        public List<T> list;
+        public string PropertyIdentifier => "status";
+        
+        
+        public string GetJsonValue(JSONNode json)
+        {
+            return json["status"]["name"] == null ? null : json["status"]["name"].Value;
+        }
     }
 }

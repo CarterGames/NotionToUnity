@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ namespace CarterGames.Standalone.NotionData
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] private SerializableDictionary<string, NotionDatabaseProperty> data;
+        [SerializeField] private SerializableDictionary<string, NotionProperty> data;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -46,7 +46,7 @@ namespace CarterGames.Standalone.NotionData
         /// <summary>
         /// A lookup of all the entries stored in the row that were valid.
         /// </summary>
-        public SerializableDictionary<string, NotionDatabaseProperty> DataLookup => data;
+        public SerializableDictionary<string, NotionProperty> DataLookup => data;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Constructors
@@ -56,7 +56,7 @@ namespace CarterGames.Standalone.NotionData
         /// Makes a new instance of the class with the entered lookup.
         /// </summary>
         /// <param name="data">The lookup to apply.</param>
-        public NotionDatabaseRow(SerializableDictionary<string, NotionDatabaseProperty> data)
+        public NotionDatabaseRow(SerializableDictionary<string, NotionProperty> data)
         {
             this.data = data;
         }

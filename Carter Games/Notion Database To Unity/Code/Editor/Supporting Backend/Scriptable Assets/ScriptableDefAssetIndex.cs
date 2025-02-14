@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
         public Type AssetType => typeof(DataAssetIndex);
         public string DataAssetFileName => "[Notion Data] Asset Index.asset";
-        public string DataAssetFilter => $"t:{typeof(DataAssetIndex).FullName}";
+        public string DataAssetFilter => $"t:{typeof(DataAssetIndex).FullName} name={DataAssetFileName}";
         public string DataAssetPath => $"{ScriptableRef.FullPathResources}{DataAssetFileName}";
 
         public DataAssetIndex AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);

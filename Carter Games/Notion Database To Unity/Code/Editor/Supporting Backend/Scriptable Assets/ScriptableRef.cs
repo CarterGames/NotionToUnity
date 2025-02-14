@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData.Editor
 {
@@ -57,7 +58,8 @@ namespace CarterGames.Standalone.NotionData.Editor
                 if (cacheLookup != null && cacheLookup.Count > 0) return cacheLookup;
                 cacheLookup = new Dictionary<Type, IScriptableAssetDef<DataAsset>>();
                 
-                var instances = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+                var instances = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(x => x.GetTypes())
                     .Where(x => x.IsClass && typeof(IScriptableAssetDef<DataAsset>).IsAssignableFrom(x) && x.FullName != typeof(IScriptableAssetDef<DataAsset>).FullName)
                     .Select(type => (IScriptableAssetDef<DataAsset>)Activator.CreateInstance(type));
 

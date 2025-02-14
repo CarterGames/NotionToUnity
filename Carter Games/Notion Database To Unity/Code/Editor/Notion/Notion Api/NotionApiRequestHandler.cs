@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -174,7 +174,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-
+            request.timeout = DataAccess.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            
             return request;
         }
         
@@ -209,7 +210,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-
+            request.timeout = DataAccess.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            
             return request;
         }
 

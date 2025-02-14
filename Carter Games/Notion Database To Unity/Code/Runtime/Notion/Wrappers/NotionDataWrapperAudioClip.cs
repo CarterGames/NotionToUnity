@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,72 @@ namespace CarterGames.Standalone.NotionData
     [Serializable]
     public class NotionDataWrapperAudioClip : NotionDataWrapper<AudioClip>
     {
-        public NotionDataWrapperAudioClip(string id) : base(id) { }
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Properties
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The value stored in the wrapper.
+        /// </summary>
+        public AudioClip Value => (AudioClip) value;
+
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Constructors
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        public NotionDataWrapperAudioClip(string id) : base(id) {}
+        
+        /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        |   Operator
+        ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// Converts the wrapper to its implementation type.
+        /// </summary>
+        /// <param name="dataWrapper">The wrapper to convert.</param>
+        /// <returns>The value of the wrapper.</returns>
+        public static implicit operator AudioClip(NotionDataWrapperAudioClip dataWrapper)
+        {
+	        return dataWrapper.Value;
+        }
+
+
+        /// <summary>
+        /// Converts the type to thr wrapper.
+        /// </summary>
+        /// <param name="reference">The value to convert.</param>
+        /// <returns>The wrapper with the value.</returns>
+        public static implicit operator NotionDataWrapperAudioClip(AudioClip reference)
+        {
+	        return new NotionDataWrapperAudioClip(reference.name);
+        }
+        
+        
+        /// <summary>
+        /// Assigns the reference when called.
+        /// </summary>
+        protected override void Assign()
+        {
+#if UNITY_EDITOR
+	        if (!string.IsNullOrEmpty(id))
+	        {
+		        var asset = UnityEditor.AssetDatabase.FindAssets(id);
+                
+		        if (asset.Length > 0)
+		        {
+			        var path = UnityEditor.AssetDatabase.GUIDToAssetPath(asset[0]);
+			        value = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+		        }
+		        else
+		        {
+			        Debug.LogWarning($"Unable to find a reference with the name {id}");
+		        }
+	        }
+	        else
+	        {
+		        Debug.LogWarning("Unable to assign a reference, the id was empty.");
+	        }
+#endif
+        }
     }
 }

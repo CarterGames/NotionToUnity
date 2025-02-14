@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 Carter Games
+ * Copyright (c) 2025 Carter Games
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,5 +61,11 @@ namespace CarterGames.Standalone.NotionData.Editor
             new GUIContent(
                 "Link to database:",
                 "The link to the page with the database on that you want to download.");
+
+        
+        public static readonly GUIContent DownloadTimeout =             
+            new GUIContent(
+            "Download Timeout:",
+            "The duration until a download attempt will auto-fail.");
     }
 }

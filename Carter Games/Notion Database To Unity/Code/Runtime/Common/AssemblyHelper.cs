@@ -97,8 +97,6 @@ namespace CarterGames.Standalone.NotionData.Common
         public static IEnumerable<Type> GetClassesNamesOfBaseType(Type baseType)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            Debug.Log(baseType.FullName);
             
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && x.BaseType is {IsConstructedGenericType: true} && x.FullName != baseType.FullName)

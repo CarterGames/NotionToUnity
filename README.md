@@ -40,6 +40,7 @@ A flexible system to import Notion databases into a Unity scriptable object for 
    * [Post Download Logic](#post-download-logic)
    * [Updating all assets](#updating-all-assets)
 * [API Access](#scripting-api-info)
+ 	* [Custom Notion Database Processors](#custom-notion-database-processors)
 	* [Accessing Notion Data Assets](#accessing-notion-data-assets)
 * [Usage Example](#usage-example)
 
@@ -177,7 +178,11 @@ To download your data you will need the link to the database page and the secret
 
 ![image](https://github.com/CarterGames/NotionToUnity/assets/33253710/875ea852-c437-45c0-94cf-9b1940a88a1e)
 
-Then just fill the fields on the data asset (make one from the ```CreateAssetMenu``` if you haven't already) and then press the download button. If all goes well you'll see a dialogue stating so. If it fails you should see the error in the console.
+Then just fill the fields on the data asset (make one from the ```CreateAssetMenu``` if you haven't already). You will need to assign a processor to parse the data. You can write custom ones to fit your use-cases or use the standard one. it will need to be assigned to download data. Read more on custom processors [here](#custom-notion-database-processors)
+
+![Notion-processor-assign](https://github.com/user-attachments/assets/85da13e1-808c-4da4-a734-f3b5556e0ffa)
+
+Then press the download button. If all goes well you'll see a dialogue stating so. If it fails you should see the error in the console.
 
 ![313002443-a78e3d35-e37d-4e12-ba3d-1a9d18109d04](https://github.com/user-attachments/assets/ef095cb6-befa-4287-bfcd-18dbed225df9)
 
@@ -265,6 +270,84 @@ If you are using custom assembly definitions you will need to reference the runt
 
 <br>
 
+# Custom Notion Database Processors
+Processors are what handle converting the data received from Notion into something we can use in Unity. The standard processor is always available for use and will attempt to process each column of the database that was downloaded into fields that match those column names 1-2-1. For simple use-cases, this will be enough. If you need extra functionality or the ability to merge properties into collections etc you’ll need to make your own processor. 
+
+API explanation
+
+```
+// Contains the result of the download from Notion
+NotionDatabaseQueryResult result
+
+// Is a collection of all the rows on the database that was downloaded.
+result.Rows
+
+// In each row there is a data lookup which can be used to search for specific
+// columns by their string name as shown in Notion.
+result.Rows[0].DataLookup
+
+// From here you'll have a NotionProperty type to use.
+// This can be converted to a specific type like Date, Number, Select etc.
+// Which formats the json value into a c# equivalent.
+// You will need to do extra work to parse them fully though.
+// For enums you'll need to parse them into their specific types to read them as an example.
+
+// Converts the property to a rich text type property and surfaces the value as a string for use.
+result.Rows[0].DataLookup["myproperty"].RichText().Value
+
+// Other types as an example.
+result.Rows[0].DataLookup["myproperty"].Date().Value
+result.Rows[0].DataLookup["myproperty"].Number().Value
+
+// Attempts to convert to the entered type (used in the standard processor, can be used in any custom ones as well).
+result.Rows[0].DataLookup["myproperty"].TryConvertValueToType<T>(out var result)
+```
+
+An example of a custom processor:
+```
+// Converts data into a list of localization entries
+// which are a key string value string class.
+[Serializable]
+public sealed class NotionDatabaseProcessorLocalization : NotionDatabaseProcessor
+{
+	/// <summary>
+	/// Parses the data when called.
+	/// </summary>
+	/// <param name="result">The result of the download to use.</param>
+	/// <returns>The parsed data to set on the asset.</returns>
+	public override List<object> Process<T>(NotionDatabaseQueryResult result)
+	{
+		//The resulting process has to be a generic object.
+		// Data will be cast to the type T when processed on the data asset for use.
+		var list = new List<object>();
+
+		foreach (var row in result.Rows)
+		{
+			var entries = new List<LocalizationEntry>();
+
+			// Gets all values that are not the id and iterates through them.
+			foreach (var k in row.DataLookup.Keys.Where(t => t != "id"))
+			{
+				// For each value it makes a new LocalizationEntry with the column string as the key and the value as the richtext value.
+				var valueData = row.DataLookup[k];
+				entries.Add(new LocalizationEntry(k, valueData.RichText().Value));
+			}
+                
+			// Adds a LocalizationData class which contains a string and a list of LocalizationEntry  as the value.
+			// With the column id that was ignored earlier used as the string for the key.
+			list.Add(new LocalizationData(row.DataLookup["id"].RichText().Value, entries));
+		}
+
+		return list;
+	}
+}
+```
+
+The database it reads from:
+<br>
+![fdfdfdfdfimage](https://github.com/user-attachments/assets/66a41c6c-ffc0-46fa-94b3-ee0d7b2b08a2)
+
+<br>
 
 # Accessing Notion Data Assets
 You can reference the assets as you would a normal scriptable object in the inspector. Or you can use the ```DataAccess``` class in the project to get them via code. Each Notion Data Asset has a variant id in the inspector. By default the variant id is a new GUID on creation. You can change this to help you identify a single instance of assets of the same type as another. Some example usage below:

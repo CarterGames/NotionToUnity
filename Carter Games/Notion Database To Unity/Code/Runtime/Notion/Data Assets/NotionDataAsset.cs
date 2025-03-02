@@ -61,11 +61,12 @@ namespace CarterGames.Standalone.NotionData
         /// </summary>
         public List<T> Data => data;
 
-
+#if UNITY_EDITOR
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
         protected virtual NotionDatabaseProcessor DatabaseProcessor => processor;
+#endif
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
@@ -77,10 +78,11 @@ namespace CarterGames.Standalone.NotionData
         /// <param name="result">The resulting data downloaded to try and apply.</param>
         private void Apply(NotionDatabaseQueryResult result)
         {
+#if UNITY_EDITOR
             data = DatabaseProcessor.Process<T>(result).Cast<T>().ToList();
             PostDataDownloaded();
             
-#if UNITY_EDITOR
+
             UnityEditor.EditorUtility.SetDirty(this);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();

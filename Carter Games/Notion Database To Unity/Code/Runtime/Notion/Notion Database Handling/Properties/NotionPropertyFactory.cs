@@ -31,7 +31,7 @@ namespace CarterGames.Standalone.NotionData
     {
         public static NotionPropertyCheckbox Checkbox(object value, string jsonValue, string rawDownloadText)
         {
-            return new NotionPropertyCheckbox((bool) value, jsonValue, rawDownloadText);
+            return new NotionPropertyCheckbox(bool.Parse(jsonValue), jsonValue, rawDownloadText);
         }
         
         
@@ -73,7 +73,7 @@ namespace CarterGames.Standalone.NotionData
         
         public static NotionPropertyNumber Number(object value, string jsonValue, string rawDownloadText)
         {
-            return new NotionPropertyNumber((double) value, jsonValue, rawDownloadText);
+            return new NotionPropertyNumber(double.Parse(jsonValue), jsonValue, rawDownloadText);
         }
     }
 }

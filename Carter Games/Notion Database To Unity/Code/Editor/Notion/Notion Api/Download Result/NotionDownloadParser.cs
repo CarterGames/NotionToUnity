@@ -93,67 +93,71 @@ namespace CarterGames.Standalone.NotionData.Editor
             for (var i = 0; i < keys.Count; i++)
             {
                 var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
+                var actualKey = keys[i];
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
                 var valueJson = valueForType;
                 var downloadText = element.AsObject[i].ToString();
                 
+                var propertyData = new NotionPropertyData(actualKey, valueForType, valueJson, downloadText);
+                
                 switch (element.AsObject[i]["type"].Value)
                 {
                     case "title":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Title(propertyData));
                         break;
                     case "rich_text":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.RichText(propertyData));
                         break;
                     case "number":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Number(propertyData));
                         break;
                     case "checkbox":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(propertyData));
                         break;
                     case "select":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Select(propertyData));
                         break;
                     case "status":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Status(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Status(propertyData));
                         break;
                     case "date":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson, downloadText));
+                        lookup.Add(adjustedKey, NotionPropertyFactory.Date(propertyData));
                         break;
                     case "multi_select":
-                        lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson, downloadText));                        
+                        lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(propertyData));                           
                         break;
                     case "rollup":
 
                         downloadText = element.AsObject[i]["rollup"]["array"][0].ToString();
                         valueJson = GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0]);
                         valueForType = valueJson;
+                        propertyData = new NotionPropertyData(actualKey, valueForType, valueJson, downloadText);
                         
                         switch (element.AsObject[i]["rollup"]["array"][0]["type"].Value)
                         {
                             case "title":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Title(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Title(propertyData));
                                 break;
                             case "rich_text":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.RichText(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.RichText(propertyData));
                                 break;
                             case "number":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Number(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Number(propertyData));
                                 break;
                             case "checkbox":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Checkbox(propertyData));
                                 break;
                             case "select":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Select(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Select(propertyData));
                                 break;
                             case "status":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Status(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Status(propertyData));
                                 break;
                             case "date":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.Date(valueForType, valueJson, downloadText));
+                                lookup.Add(adjustedKey, NotionPropertyFactory.Date(propertyData));
                                 break;
                             case "multi_select":
-                                lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(valueForType, valueJson, downloadText));                        
+                                lookup.Add(adjustedKey, NotionPropertyFactory.MultiSelect(propertyData));                 
                                 break;
                         }
                         

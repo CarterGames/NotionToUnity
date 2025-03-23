@@ -59,11 +59,12 @@ namespace CarterGames.Standalone.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyCheckbox(bool value, string jsonValue, string downloadedText)
+        public NotionPropertyCheckbox(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = bool.Parse(data.jsonValue);
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }

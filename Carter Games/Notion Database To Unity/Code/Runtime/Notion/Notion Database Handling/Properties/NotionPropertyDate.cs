@@ -59,11 +59,12 @@ namespace CarterGames.Standalone.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        public NotionPropertyDate(SerializableDateTime value, string jsonValue, string downloadedText)
+        public NotionPropertyDate(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = (SerializableDateTime) data.valueForType;
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }

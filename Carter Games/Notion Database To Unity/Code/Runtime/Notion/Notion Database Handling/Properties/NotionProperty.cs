@@ -35,6 +35,12 @@ namespace CarterGames.Standalone.NotionData
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         /// <summary>
+        /// The name of the property in Notion without being forced to a lower string.
+        /// </summary>
+        public string PropertyName { get; protected set; }
+        
+        
+        /// <summary>
         /// The typed-value, stored in an object so it can be generic without a type required.
         /// </summary>
         protected abstract object InternalValue { get; set; }
@@ -59,56 +65,56 @@ namespace CarterGames.Standalone.NotionData
         /// Converts this data to a checkbox property.
         /// </summary>
         /// <returns>NotionPropertyCheckbox</returns>
-        public NotionPropertyCheckbox CheckBox() => NotionPropertyFactory.Checkbox(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyCheckbox CheckBox() => NotionPropertyFactory.Checkbox(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a date property.
         /// </summary>
         /// <returns>NotionPropertyDate</returns>
-        public NotionPropertyDate Date() => NotionPropertyFactory.Date(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyDate Date() => NotionPropertyFactory.Date(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a multi-select property.
         /// </summary>
         /// <returns>NotionPropertyMultiSelect</returns>
-        public NotionPropertyMultiSelect MultiSelect() => NotionPropertyFactory.MultiSelect(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyMultiSelect MultiSelect() => NotionPropertyFactory.MultiSelect(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a select property.
         /// </summary>
         /// <returns>NotionPropertySelect</returns>
-        public NotionPropertySelect Select() => NotionPropertyFactory.Select(InternalValue, JsonValue, DownloadText);
+        public NotionPropertySelect Select() => NotionPropertyFactory.Select(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a select property.
         /// </summary>
         /// <returns>NotionPropertyStatus</returns>
-        public NotionPropertyStatus Status() => NotionPropertyFactory.Status(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyStatus Status() => NotionPropertyFactory.Status(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a number property.
         /// </summary>
         /// <returns>NotionPropertyNumber</returns>
-        public NotionPropertyNumber Number() => NotionPropertyFactory.Number(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyNumber Number() => NotionPropertyFactory.Number(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a richtext property.
         /// </summary>
         /// <returns>NotionPropertyRichText</returns>
-        public NotionPropertyRichText RichText() => NotionPropertyFactory.RichText(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyRichText RichText() => NotionPropertyFactory.RichText(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
         
         
         /// <summary>
         /// Converts this data to a title property.
         /// </summary>
         /// <returns>NotionPropertyTitle</returns>
-        public NotionPropertyTitle Title() => NotionPropertyFactory.Title(InternalValue, JsonValue, DownloadText);
+        public NotionPropertyTitle Title() => NotionPropertyFactory.Title(new NotionPropertyData(PropertyName, InternalValue, JsonValue, DownloadText));
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Helper Methods

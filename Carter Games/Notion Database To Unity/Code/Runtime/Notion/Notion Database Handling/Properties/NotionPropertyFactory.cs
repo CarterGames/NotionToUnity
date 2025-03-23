@@ -29,51 +29,51 @@ namespace CarterGames.Standalone.NotionData
     /// <remarks>Use NotionProperty.cs class to use these methods as intended.</remarks>
     public static class NotionPropertyFactory
     {
-        public static NotionPropertyCheckbox Checkbox(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyCheckbox Checkbox(NotionPropertyData data)
         {
-            return new NotionPropertyCheckbox(bool.Parse(jsonValue), jsonValue, rawDownloadText);
+            return new NotionPropertyCheckbox(data);
         }
         
         
-        public static NotionPropertyDate Date(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyDate Date(NotionPropertyData data)
         {
-            return new NotionPropertyDate((SerializableDateTime) value, jsonValue, rawDownloadText);
+            return new NotionPropertyDate(data);
         }
         
         
-        public static NotionPropertyMultiSelect MultiSelect(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyMultiSelect MultiSelect(NotionPropertyData data)
         {
-            return new NotionPropertyMultiSelect((string[]) value, jsonValue, rawDownloadText);
+            return new NotionPropertyMultiSelect(data);
         }
         
         
-        public static NotionPropertySelect Select(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertySelect Select(NotionPropertyData data)
         {
-            return new NotionPropertySelect((string) value, jsonValue, rawDownloadText);
+            return new NotionPropertySelect(data);
         }
         
         
-        public static NotionPropertyRichText RichText(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyRichText RichText(NotionPropertyData data)
         {
-            return new NotionPropertyRichText((string) value, jsonValue, rawDownloadText);
+            return new NotionPropertyRichText(data);
         }
         
         
-        public static NotionPropertyTitle Title(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyTitle Title(NotionPropertyData data)
         {
-            return new NotionPropertyTitle((string) value, jsonValue, rawDownloadText);
+            return new NotionPropertyTitle(data);
         }
         
         
-        public static NotionPropertyStatus Status(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyStatus Status(NotionPropertyData data)
         {
-            return new NotionPropertyStatus((string) value, jsonValue, rawDownloadText);
+            return new NotionPropertyStatus(data);
         }
         
         
-        public static NotionPropertyNumber Number(object value, string jsonValue, string rawDownloadText)
+        public static NotionPropertyNumber Number(NotionPropertyData data)
         {
-            return new NotionPropertyNumber(double.Parse(jsonValue), jsonValue, rawDownloadText);
+            return new NotionPropertyNumber(data);
         }
     }
 }

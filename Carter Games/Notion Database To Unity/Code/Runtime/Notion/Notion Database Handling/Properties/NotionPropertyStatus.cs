@@ -61,11 +61,12 @@ namespace CarterGames.Standalone.NotionData
         |   Constructors
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        public NotionPropertyStatus(string value, string jsonValue, string downloadedText)
+        public NotionPropertyStatus(NotionPropertyData data)
         {
-            InternalValue = value;
-            JsonValue = jsonValue;
-            DownloadText = downloadedText;
+            PropertyName = data.propertyName;
+            InternalValue = data.valueForType.ToString();
+            JsonValue = data.jsonValue;
+            DownloadText = data.downloadText;
         }
     }
 }

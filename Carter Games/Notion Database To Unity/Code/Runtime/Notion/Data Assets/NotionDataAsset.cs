@@ -39,8 +39,7 @@ namespace CarterGames.Standalone.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
-#if UNITY_EDITOR
+        
 #pragma warning disable
         [SerializeField, HideInInspector] private string linkToDatabase;
         [SerializeField, HideInInspector] private string databaseApiKey;
@@ -48,7 +47,6 @@ namespace CarterGames.Standalone.NotionData
         [SerializeField] private List<NotionSortProperty> sortProperties;
         [SerializeField] private NotionDatabaseProcessor processor;
 #pragma warning restore
-#endif
         
         [SerializeField] private List<T> data;
 
@@ -71,7 +69,7 @@ namespace CarterGames.Standalone.NotionData
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Methods
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-
+        
         /// <summary>
         /// Applies the data found to the asset.
         /// </summary>

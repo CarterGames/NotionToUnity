@@ -92,13 +92,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
             for (var i = 0; i < keys.Count; i++)
             {
-                var propName = keys[i];
-                var propType = element.AsObject[i]["type"].Value;
                 var adjustedKey = keys[i].Trim().ToLower().Replace(" ", string.Empty);
-
-
-                // Debug.Log(element.AsObject[i].ToString());
-                
                 var valueForType = GetValueForType(element.AsObject[i]["type"].Value, element.AsObject[i]);
                 var valueJson = valueForType;
                 var downloadText = element.AsObject[i].ToString();
@@ -131,8 +125,8 @@ namespace CarterGames.Standalone.NotionData.Editor
                         break;
                     case "rollup":
 
-                        downloadText = element.AsObject[i]["rollup"]["array"][0];
-                        valueJson = GetValueForType(element.AsObject[i]["type"].Value, downloadText);
+                        downloadText = element.AsObject[i]["rollup"]["array"][0].ToString();
+                        valueJson = GetValueForType(element.AsObject[i]["rollup"]["array"][0]["type"].Value, element.AsObject[i]["rollup"]["array"][0]);
                         valueForType = valueJson;
                         
                         switch (element.AsObject[i]["rollup"]["array"][0]["type"].Value)

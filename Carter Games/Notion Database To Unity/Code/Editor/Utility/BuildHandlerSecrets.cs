@@ -28,9 +28,9 @@ using UnityEditor.Build.Reporting;
 namespace CarterGames.Standalone.NotionData.Editor
 {
     /// <summary>
-    /// Handles hiding secret keys in builds by removing them pre-build and re-applying them post build.
+    /// Handles hiding secret keys/database url's in builds by removing them pre-build and re-applying them post build.
     /// </summary>
-    public sealed class BuildHandlerSecretKeys : IPreprocessBuildWithReport, IPostprocessBuildWithReport
+    public sealed class BuildHandlerSecrets : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         public int callbackOrder { get; }
         
@@ -42,9 +42,11 @@ namespace CarterGames.Standalone.NotionData.Editor
                 var assetObject = new SerializedObject(asset);
             
                 if (assetObject.Fp("databaseApiKey") == null) continue;
-                if (EditorPrefs.HasKey(assetObject.targetObject.GetInstanceID().ToString())) continue;
                 
-                EditorPrefs.SetString(assetObject.targetObject.GetInstanceID().ToString(), assetObject.Fp("databaseApiKey").stringValue);
+                EditorPrefs.SetString(assetObject.targetObject.GetInstanceID().ToString() + "database_url", assetObject.Fp("linkToDatabase").stringValue);
+                EditorPrefs.SetString(assetObject.targetObject.GetInstanceID().ToString() + "secret_key", assetObject.Fp("databaseApiKey").stringValue);
+                
+                assetObject.Fp("linkToDatabase").stringValue = string.Empty;
                 assetObject.Fp("databaseApiKey").stringValue = string.Empty;
                 assetObject.ApplyModifiedProperties();
             }
@@ -58,12 +60,21 @@ namespace CarterGames.Standalone.NotionData.Editor
                 var assetObject = new SerializedObject(asset);
             
                 if (assetObject.Fp("databaseApiKey") == null) continue;
-                if (!EditorPrefs.HasKey(assetObject.targetObject.GetInstanceID().ToString())) continue;
                 
-                assetObject.Fp("databaseApiKey").stringValue = EditorPrefs.GetString(assetObject.targetObject.GetInstanceID().ToString());
+                if (EditorPrefs.HasKey(assetObject.targetObject.GetInstanceID().ToString() + "database_url"))
+                {
+                    assetObject.Fp("linkToDatabase").stringValue = EditorPrefs.GetString(assetObject.targetObject.GetInstanceID().ToString() + "database_url");
+                }
+                
+                if (EditorPrefs.HasKey(assetObject.targetObject.GetInstanceID().ToString() + "secret_key"))
+                {
+                    assetObject.Fp("databaseApiKey").stringValue = EditorPrefs.GetString(assetObject.targetObject.GetInstanceID().ToString() + "secret_key");
+                }
+                
                 assetObject.ApplyModifiedProperties();
                 
-                EditorPrefs.DeleteKey(assetObject.targetObject.GetInstanceID().ToString());
+                EditorPrefs.DeleteKey(assetObject.targetObject.GetInstanceID().ToString() + "database_url");
+                EditorPrefs.DeleteKey(assetObject.targetObject.GetInstanceID().ToString() + "secret_key");
             }
         }
     }

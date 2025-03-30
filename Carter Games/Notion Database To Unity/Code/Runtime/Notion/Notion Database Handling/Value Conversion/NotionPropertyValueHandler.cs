@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CarterGames.Standalone.NotionData.Common;
 using CarterGames.Standalone.NotionData.ThirdParty;
@@ -47,7 +48,6 @@ namespace CarterGames.Standalone.NotionData
             if (fieldType.IsArray)
             {
                 if (TryParseAsArray(property, fieldType, out value)) return true;
-                if (TryParseAsList(property, fieldType, out value)) return true;
                 
                 if (fieldType.IsEnum)
                 {
@@ -55,8 +55,7 @@ namespace CarterGames.Standalone.NotionData
                 }
             }
 
-
-            if (fieldType.ToString().Contains("System.Collections.Generic.List"))
+            if (fieldType.IsGenericList())
             {
                 if (TryParseAsList(property, fieldType, out value)) return true;
                 
@@ -266,67 +265,81 @@ namespace CarterGames.Standalone.NotionData
             try
             {
                 var data = GetPropertyValueAsCollection(property);
-
-
-                switch (fieldType.Name)
+                
+                if (fieldType.GetElementType().IsEnum)
                 {
-                    case { } x when x.Contains("Int"):
+                    var parsedStringArray = new string[data.Count];
 
-                        var parsedIntArray = new int[data.Count];
+                    for (var i = 0; i < data.Count; i++)
+                    {
+                        parsedStringArray[i] = data[i].Value;
+                    }
 
-                        for (var i = 0; i < data.Count; i++)
-                        {
-                            parsedIntArray[i] = int.Parse(data[i].Value);
-                        }
+                    result = parsedStringArray.Select(t => (int) Enum.Parse(fieldType.GetElementType(), t)).ToArray();
+                    return true;
+                }
+                else
+                {
+                    switch (fieldType.GetElementType()?.Name)
+                    {
+                        case { } x when x.Equals("Int"):
 
-                        result = parsedIntArray;
-                        break;
-                    case { } x when x.Contains("Boolean"):
+                            var parsedIntArray = new int[data.Count];
 
-                        var parsedBoolArray = new bool[data.Count];
+                            for (var i = 0; i < data.Count; i++)
+                            {
+                                parsedIntArray[i] = int.Parse(data[i].Value);
+                            }
 
-                        for (var i = 0; i < data.Count; i++)
-                        {
-                            parsedBoolArray[i] = bool.Parse(data[i].Value);
-                        }
+                            result = parsedIntArray;
+                            break;
+                        case { } x when x.Equals("Boolean"):
 
-                        result = parsedBoolArray;
-                        break;
-                    case { } x when x.Contains("Single"):
+                            var parsedBoolArray = new bool[data.Count];
 
-                        var parsedFloatArray = new float[data.Count];
+                            for (var i = 0; i < data.Count; i++)
+                            {
+                                parsedBoolArray[i] = bool.Parse(data[i].Value);
+                            }
 
-                        for (var i = 0; i < data.Count; i++)
-                        {
-                            parsedFloatArray[i] = float.Parse(data[i].Value);
-                        }
+                            result = parsedBoolArray;
+                            break;
+                        case { } x when x.Equals("Single"):
 
-                        result = parsedFloatArray;
-                        break;
-                    case { } x when x.Contains("Double"):
+                            var parsedFloatArray = new float[data.Count];
 
-                        var parsedDoubleArray = new double[data.Count];
+                            for (var i = 0; i < data.Count; i++)
+                            {
+                                parsedFloatArray[i] = float.Parse(data[i].Value);
+                            }
 
-                        for (var i = 0; i < data.Count; i++)
-                        {
-                            parsedDoubleArray[i] = double.Parse(data[i].Value);
-                        }
+                            result = parsedFloatArray;
+                            break;
+                        case { } x when x.Equals("Double"):
 
-                        result = parsedDoubleArray;
-                        break;
-                    case { } x when x.Contains("String"):
+                            var parsedDoubleArray = new double[data.Count];
 
-                        var parsedStringArray = new string[data.Count];
+                            for (var i = 0; i < data.Count; i++)
+                            {
+                                parsedDoubleArray[i] = double.Parse(data[i].Value);
+                            }
 
-                        for (var i = 0; i < data.Count; i++)
-                        {
-                            parsedStringArray[i] = data[i].Value;
-                        }
+                            result = parsedDoubleArray;
+                            break;
+                        case { } x when x.Equals("String"):
 
-                        result = parsedStringArray;
-                        break;
-                    default:
-                        break;
+                            var parsedStringArray = new string[data.Count];
+
+                            for (var i = 0; i < data.Count; i++)
+                            {
+                                parsedStringArray[i] = data[i].Value;
+                            }
+
+                            result = parsedStringArray;
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 return result != null;
@@ -474,6 +487,12 @@ namespace CarterGames.Standalone.NotionData
             {
                 return false;
             }
+        }
+        
+        
+        private static bool IsGenericList(this Type o)
+        {
+            return (o.IsGenericType && (o.GetGenericTypeDefinition() == typeof(List<>)));
         }
     }
 }

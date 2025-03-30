@@ -62,7 +62,7 @@ namespace CarterGames.Standalone.NotionData
         public NotionPropertyMultiSelect(NotionPropertyData data)
         {
             PropertyName = data.propertyName;
-            InternalValue = (string[]) data.valueForType;
+            InternalValue = data.valueForType;
             JsonValue = data.jsonValue;
             DownloadText = data.downloadText;
         }

@@ -1,6 +1,6 @@
 {
   "name": "games.carter.standalone.notiondata",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "displayName": "Notion Data (Standalone)",
   "description": "A system to import Notion databases into a Unity scriptable object for use in Unity projects. This is a standalone version of the system in the Cart library of the same name.",
   "unity": "2020.3",

@@ -47,20 +47,28 @@ namespace CarterGames.Standalone.NotionData
         [SerializeField, HideInInspector] private string databaseApiKey;
         [SerializeField] private NotionFilterContainer filters;
         [SerializeField] private List<NotionSortProperty> sortProperties;
-        [SerializeField] private AssemblyClassDef processor = typeof(NotionDatabaseProcessorStandard);
+        [SerializeField] protected AssemblyClassDef processor = typeof(NotionDatabaseProcessorStandard);
 #pragma warning restore
         
+        [SerializeField] private string variantId;
         [SerializeField] private List<T> data;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The id to define this asset.
+        /// </summary>
+        public string VariantId => string.IsNullOrEmpty(variantId) ? name : variantId;
+        
         
         /// <summary>
         /// The data stored on the asset.
         /// </summary>
         public List<T> Data => data;
 
+        
 #if UNITY_EDITOR
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.

@@ -2,9 +2,10 @@
     "name": "CarterGames.Standalone.NotionData.Editor",
     "rootNamespace": "CarterGames.Standalone.NotionData.Editor",
     "references": [
-        "GUID:89ac633aa8ff64040b25f61518186ddd",
         "GUID:aa312903d0d2e3541bf075ab426e5d8d",
-        "GUID:f091c6eaefcd9154fbffa0b3a07f41fe"
+        "GUID:f091c6eaefcd9154fbffa0b3a07f41fe",
+        "GUID:0155480bba35b7543be9a60e9310afb0",
+        "GUID:a184079ce5111d7429ec494dc3af3d92"
     ],
     "includePlatforms": [
         "Editor"

@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CarterGames.Standalone.NotionData.Common;
+using CarterGames.Assets.Shared.Common;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEngine;
 
@@ -148,7 +148,7 @@ namespace CarterGames.Standalone.NotionData
             {
                 if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
                 {
-                    var allWrapperTypes = AssemblyHelper.GetClassesNamesOfBaseType(typeof(NotionDataWrapper<>));
+                    var allWrapperTypes = AssemblyHelper.GetClassesNamesOfType(typeof(NotionDataWrapper<>));
 
                     foreach (var wrapperType in allWrapperTypes)
                     {

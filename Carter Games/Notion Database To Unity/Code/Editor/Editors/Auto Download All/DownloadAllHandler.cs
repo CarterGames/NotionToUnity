@@ -24,6 +24,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CarterGames.Assets.Shared.Common;
+using CarterGames.Assets.Shared.Common.Editor;
+using CarterGames.Assets.Shared.PerProject;
 using CarterGames.Standalone.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
@@ -40,7 +43,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static bool haltOnDownload = true;
-        private static List<DataAsset> toProcess;
+        private static List<CoreDataAsset> toProcess;
         private static int TotalToProcessed = 0;
         private static int TotalProcessed = 0;
         private static bool hasErrorOnDownload;
@@ -59,7 +62,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             hasErrorOnDownload = false;
             silencedErrors = new List<NotionRequestError>();
             
-            DataAssetIndexHandler.UpdateIndex();
+            AssetIndexHandler.UpdateIndex();
             
             if (HasOpenInstances<DownloadAllHandler>())
             {
@@ -110,7 +113,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                     return;
                 }
                 
-                toProcess = DataAccess.GetAllAssets();
+                toProcess = NotionDataAccessor.GetAllAssets();
                 TotalToProcessed = toProcess.Count;
                 TotalProcessed = 0;
                 hasErrorOnDownload = false;

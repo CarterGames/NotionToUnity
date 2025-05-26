@@ -22,6 +22,7 @@
  */
 
 using System;
+using CarterGames.Assets.Shared.Common.Editor;
 using UnityEditor;
 
 namespace CarterGames.Standalone.NotionData.Editor
@@ -46,5 +47,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         {
             ScriptableRef.GetOrCreateAsset(this, ref cache);
         }
+
+        public void OnCreated() { }
     }
 }

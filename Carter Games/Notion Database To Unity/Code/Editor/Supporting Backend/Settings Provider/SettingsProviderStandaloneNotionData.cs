@@ -22,6 +22,8 @@
  */
 
 using System.Collections.Generic;
+using CarterGames.Assets.Shared.Common.Editor;
+using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -92,13 +94,13 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.BeginHorizontal();
             
-            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.VersionNumber), new GUIContent(AssetInfo.VersionNumber));
+            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.VersionNumber), new GUIContent(AssetVersionData.VersionNumber));
             GUILayout.FlexibleSpace();
             VersionEditorGUI.DrawCheckForUpdatesButton();
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.ReleaseDate), new GUIContent(AssetInfo.ReleaseDate));
+            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.ReleaseDate), new GUIContent(AssetVersionData.ReleaseDate));
 
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();

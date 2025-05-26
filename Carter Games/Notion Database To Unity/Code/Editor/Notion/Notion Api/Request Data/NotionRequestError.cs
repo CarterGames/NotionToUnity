@@ -22,6 +22,7 @@
  */
 
 using System;
+using CarterGames.Assets.Shared.PerProject;
 using UnityEngine;
 using CarterGames.Standalone.NotionData.ThirdParty;
 
@@ -37,7 +38,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] private DataAsset asset;
+        [SerializeField] private CoreDataAsset asset;
         [SerializeField] private int errorCode;
         [SerializeField] private string code;
         [SerializeField] private string message;
@@ -49,7 +50,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <summary>
         /// The asset related to the error.
         /// </summary>
-        public DataAsset Asset => asset;
+        public CoreDataAsset Asset => asset;
         
         
         /// <summary>
@@ -78,7 +79,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// </summary>
         /// <param name="asset">The related asset.</param>
         /// <param name="errorJson">The json to read for the error message.</param>
-        public NotionRequestError(DataAsset asset, JSONNode errorJson)
+        public NotionRequestError(CoreDataAsset asset, JSONNode errorJson)
         {
             this.asset = asset;
 

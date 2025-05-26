@@ -22,7 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.Common;
+using CarterGames.Assets.Shared.Common;
 using CarterGames.Standalone.NotionData.Filters;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEditor;
@@ -173,8 +173,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = DataAccess.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
             
             return request;
         }
@@ -189,7 +189,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <param name="sorts">The sort properties to apply.</param>
         /// <param name="filter">The filter to apply.</param>
         /// <returns>A prepared UnityWebRequest.</returns>
-        private static UnityWebRequest PrepareRequest(string url, string apiKey, JSONObject body, NotionSortProperty[] sorts = null, NotionFilterContainer filter = null)
+        private static UnityWebRequest PrepareRequest(string url, string apiKey, JSONObject body, NotionSortProperty[] sorts = null, NotionFilterContainer filters = null)
         {
             if (sorts != null)
             {
@@ -199,9 +199,12 @@ namespace CarterGames.Standalone.NotionData.Editor
                 }
             }
                 
-            if (filter != null)
+            if (filters != null)
             {
-                body["filter"] = filter.ToFilterJson();
+                if (filters.TotalFilters > 0)
+                {
+                    body["filter"] = filters.ToFilterJson();
+                }
             }
             
             var request = UnityWebRequest.Put(url, body.ToString());
@@ -209,8 +212,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             request.method = "POST";
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = DataAccess.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
             
             return request;
         }

@@ -2,8 +2,8 @@
     "name": "CarterGames.Standalone.NotionData.Runtime",
     "rootNamespace": "CarterGames.Standalone.NotionData",
     "references": [
-        "GUID:89ac633aa8ff64040b25f61518186ddd",
-        "GUID:f091c6eaefcd9154fbffa0b3a07f41fe"
+        "GUID:f091c6eaefcd9154fbffa0b3a07f41fe",
+        "GUID:a184079ce5111d7429ec494dc3af3d92"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

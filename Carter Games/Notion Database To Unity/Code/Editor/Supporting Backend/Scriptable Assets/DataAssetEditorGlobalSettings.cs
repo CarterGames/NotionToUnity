@@ -21,11 +21,12 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Assets.Shared.PerProject;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData.Editor
 {
-    public class DataAssetEditorGlobalSettings : DataAsset
+    public class DataAssetEditorGlobalSettings : CoreDataAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields

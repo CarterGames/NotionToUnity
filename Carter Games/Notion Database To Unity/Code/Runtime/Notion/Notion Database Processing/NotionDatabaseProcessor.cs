@@ -31,7 +31,7 @@ namespace CarterGames.Standalone.NotionData
 	/// </summary>
 	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
 	[Serializable]
-	public abstract class NotionDatabaseProcessor : DataAsset
+	public abstract class NotionDatabaseProcessor
 	{
 		public abstract List<object> Process<T>(NotionDatabaseQueryResult result) where T : new();
 	}

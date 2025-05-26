@@ -24,6 +24,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CarterGames.Assets.Shared.Common;
+using CarterGames.Assets.Shared.PerProject;
 using CarterGames.Standalone.NotionData.Filters;
 using UnityEngine;
 
@@ -34,7 +36,7 @@ namespace CarterGames.Standalone.NotionData
     /// </summary>
     /// <typeparam name="T">The type the data is storing.</typeparam>
     [Serializable]
-    public abstract class NotionDataAsset<T> : DataAsset where T : new()
+    public abstract class NotionDataAsset<T> : CoreDataAsset where T : new()
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -45,7 +47,7 @@ namespace CarterGames.Standalone.NotionData
         [SerializeField, HideInInspector] private string databaseApiKey;
         [SerializeField] private NotionFilterContainer filters;
         [SerializeField] private List<NotionSortProperty> sortProperties;
-        [SerializeField] private NotionDatabaseProcessor processor;
+        [SerializeField] private AssemblyClassDef processor = typeof(NotionDatabaseProcessorStandard);
 #pragma warning restore
         
         [SerializeField] private List<T> data;
@@ -63,7 +65,7 @@ namespace CarterGames.Standalone.NotionData
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor;
+        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor.GetDefinedType<NotionDatabaseProcessor>();
 #endif
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

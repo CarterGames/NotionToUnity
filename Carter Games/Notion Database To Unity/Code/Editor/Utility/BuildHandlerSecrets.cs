@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+using CarterGames.Assets.Shared.Common;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -37,7 +38,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         
         public void OnPreprocessBuild(BuildReport report)
         {
-            foreach (var asset in DataAccess.GetAllAssets())
+            foreach (var asset in NotionDataAccessor.GetAllAssets())
             {
                 var assetObject = new SerializedObject(asset);
             
@@ -55,7 +56,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         
         public void OnPostprocessBuild(BuildReport report)
         {
-            foreach (var asset in DataAccess.GetAllAssets())
+            foreach (var asset in NotionDataAccessor.GetAllAssets())
             {
                 var assetObject = new SerializedObject(asset);
             

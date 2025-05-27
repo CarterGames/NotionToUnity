@@ -148,7 +148,7 @@ namespace CarterGames.Standalone.NotionData
             {
                 if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))
                 {
-                    var allWrapperTypes = AssemblyHelper.GetClassesNamesOfType(typeof(NotionDataWrapper<>));
+                    var allWrapperTypes = AssemblyHelper.GetClassesNamesOfType(typeof(NotionDataWrapper<>), false);
 
                     foreach (var wrapperType in allWrapperTypes)
                     {

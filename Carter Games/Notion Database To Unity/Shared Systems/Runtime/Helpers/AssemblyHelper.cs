@@ -47,7 +47,7 @@ namespace CarterGames.Assets.Shared.Common
         /// <summary>
         /// Gets all the cart assemblies to use when checking in internally only.
         /// </summary>
-        private static IEnumerable<Assembly> AudioManagerAssemblies
+        private static IEnumerable<Assembly> Assemblies
         {
             get
             {
@@ -83,7 +83,7 @@ namespace CarterGames.Assets.Shared.Common
         /// <returns>The total in the project.</returns>
         public static int CountClassesOfType<T>(bool internalCheckOnly = true)
         {
-            var assemblies = internalCheckOnly ? AudioManagerAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = internalCheckOnly ? Assemblies : AppDomain.CurrentDomain.GetAssemblies();
                 
             return assemblies.SelectMany(x => x.GetTypes())
                 .Count(x => x.IsClass && typeof(T).IsAssignableFrom(x));
@@ -111,7 +111,7 @@ namespace CarterGames.Assets.Shared.Common
         /// <returns>All the implementations of the entered class.</returns>
         public static IEnumerable<T> GetClassesOfType<T>(bool internalCheckOnly = true)
         {
-            var assemblies = internalCheckOnly ? AudioManagerAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = internalCheckOnly ? Assemblies : AppDomain.CurrentDomain.GetAssemblies();
 
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && !x.IsAbstract && x.FullName != typeof(T).FullName)
@@ -127,7 +127,7 @@ namespace CarterGames.Assets.Shared.Common
         /// <returns>All the implementations of the entered class.</returns>
         public static IEnumerable<Type> GetClassesNamesOfType<T>(bool internalCheckOnly = true)
         {
-            var assemblies = internalCheckOnly ? AudioManagerAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = internalCheckOnly ? Assemblies : AppDomain.CurrentDomain.GetAssemblies();
 
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => x.IsClass && typeof(T).IsAssignableFrom(x) && x.FullName != typeof(T).FullName);
@@ -142,10 +142,11 @@ namespace CarterGames.Assets.Shared.Common
         /// <returns>All the implementations of the entered class.</returns>
         public static IEnumerable<Type> GetClassesNamesOfType(Type type, bool internalCheckOnly = true)
         {
-            var assemblies = internalCheckOnly ? AudioManagerAssemblies : AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = internalCheckOnly ? Assemblies : AppDomain.CurrentDomain.GetAssemblies();
 
             return assemblies.SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && type.IsAssignableFrom(x) && x.FullName != type.FullName);
+                .Where(x => x.IsClass && x.BaseType is { IsConstructedGenericType: true } &&
+                            x.FullName != type.FullName);
         }
         
         

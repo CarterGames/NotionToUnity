@@ -1,6 +1,6 @@
 {
     "name": "CarterGames.Shared.NotionData",
-    "rootNamespace": "CarterGames.Assets.Shared",
+    "rootNamespace": "CarterGames.Shared.NotionData",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

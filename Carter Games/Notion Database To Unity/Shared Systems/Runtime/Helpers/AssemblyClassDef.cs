@@ -25,7 +25,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace CarterGames.Assets.Shared.Common
+namespace CarterGames.Shared.NotionData
 {
 	/// <summary>
 	/// A class for storing info about a class so it can be referenced from its assembly & type names.

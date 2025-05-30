@@ -23,10 +23,8 @@
 
 using System.Linq;
 using System.Reflection;
-using CarterGames.Assets.Shared.Common;
-using CarterGames.Assets.Shared.PerProject;
+using CarterGames.Shared.NotionData;
 using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -175,7 +173,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                     .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
                     !.GetValue(serializedObject.targetObject);
                 
-                var requestData = new NotionRequestData((CoreDataAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
+                var requestData = new NotionRequestData((NdAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
                 
                 NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
             }

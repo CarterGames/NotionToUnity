@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 
 namespace CarterGames.Standalone.NotionData.Editor
 {

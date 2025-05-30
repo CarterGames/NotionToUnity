@@ -1,6 +1,6 @@
 {
-    "name": "CarterGames.Shared.Editor.NotionData",
-    "rootNamespace": "CarterGames.Assets.Shared.Editor",
+    "name": "CarterGames.Shared.NotionData.Editor",
+    "rootNamespace": "CarterGames.Shared.NotionData.Editor",
     "references": [
         "GUID:a184079ce5111d7429ec494dc3af3d92"
     ],

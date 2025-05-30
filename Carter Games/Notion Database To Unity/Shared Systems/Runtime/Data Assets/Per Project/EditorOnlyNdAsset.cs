@@ -21,12 +21,13 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Shared.NotionData.Editor
+using System;
+
+namespace CarterGames.Shared.NotionData
 {
-    public enum PerUserSettingType
-    {
-        EditorPref,
-        PlayerPref,
-        SessionState,
-    }
+	/// <summary>
+	/// Used to define a scriptable object as a part of this asset, but should only be accessible in the editor.
+	/// </summary>
+	[Serializable]
+	public abstract class EditorOnlyNdAsset : NdAsset {}
 }

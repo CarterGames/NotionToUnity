@@ -22,15 +22,14 @@
  */
 
 using System;
-using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
 	/// <summary>
 	/// Handles the creation and referencing of the asset index file.
 	/// </summary>
-	public sealed class ScriptableAssetDefAssetIndex : IScriptableAssetDef<NotionDataAssetIndex>
+	public sealed class ScriptableAssetDefNdAssetIndex : IScriptableAssetDef<NotionDataAssetIndex>
 	{
 		// IScriptableAssetDef Implementation
 		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -39,7 +38,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
 		private static SerializedObject objCache;
 
 		public Type AssetType => typeof(NotionDataAssetIndex);
-		public string DataAssetFileName => $"[{AssetVersionData.AssetName}] Asset Index.asset";
+		public string DataAssetFileName => $"[{NdAssetVersionData.AssetName}] ND Asset Index.asset";
 		public string DataAssetFilter => $"t:{typeof(NotionDataAssetIndex).FullName} name={DataAssetFileName}";
 		public string DataAssetPath => $"{ScriptableRef.FullPathResources}{DataAssetFileName}";
 
@@ -52,29 +51,5 @@ namespace CarterGames.Assets.Shared.Common.Editor
 		}
 
 		public void OnCreated() { }
-
-		// ILegacyAssetPort Implementation
-		/* ────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-		
-		public bool CanPort => AssetDatabaseHelper.TypeExistsElsewhere<NotionDataAssetIndex>(DataAssetPath);
-		
-
-		public void PortAsset()
-		{
-			TryCreate();
-
-			var assets = AssetDatabaseHelper.GetAssetPathNotAtPath<NotionDataAssetIndex>(DataAssetPath);
-
-			if (assets != null)
-			{
-				foreach (var entry in assets)
-				{
-					AssetDatabase.DeleteAsset(entry);
-				}
-			}
-			
-			AssetDatabase.SaveAssets();
-			AssetIndexHandler.UpdateIndex();
-		}
 	}
 }

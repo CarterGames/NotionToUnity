@@ -22,8 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.Common.Editor;
-using CarterGames.Assets.Shared.PerProject.Editor;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -94,13 +93,13 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.BeginHorizontal();
             
-            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.VersionNumber), new GUIContent(AssetVersionData.VersionNumber));
+            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.VersionNumber), new GUIContent(NdAssetVersionData.VersionNumber));
             GUILayout.FlexibleSpace();
             VersionEditorGUI.DrawCheckForUpdatesButton();
             
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.ReleaseDate), new GUIContent(AssetVersionData.ReleaseDate));
+            EditorGUILayout.LabelField(new GUIContent(NotionMetaData.ReleaseDate), new GUIContent(NdAssetVersionData.ReleaseDate));
 
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
@@ -117,9 +116,9 @@ namespace CarterGames.Standalone.NotionData.Editor
             EditorGUILayout.LabelField("Settings", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("apiVersion"), NotionMetaData.ApiVersion);
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("apiReleaseVersion"), NotionMetaData.ApiReleaseVersion);
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<DataAssetEditorGlobalSettings>().ObjectRef.Fp("downloadTimeout"), NotionMetaData.DownloadTimeout);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("apiVersion"), NotionMetaData.ApiVersion);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("apiReleaseVersion"), NotionMetaData.ApiReleaseVersion);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("downloadTimeout"), NotionMetaData.DownloadTimeout);
 
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();

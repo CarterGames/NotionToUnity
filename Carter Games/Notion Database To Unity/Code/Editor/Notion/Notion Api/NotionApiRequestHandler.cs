@@ -22,7 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 using CarterGames.Standalone.NotionData.Filters;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEditor;
@@ -173,8 +173,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().DownloadTimeout;
             
             return request;
         }
@@ -212,8 +212,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             request.method = "POST";
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = NotionDataAccessor.GetAsset<DataAssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().DownloadTimeout;
             
             return request;
         }
@@ -246,6 +246,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             }
             
             EditorUtility.ClearProgressBar();
+            Debug.Log("Completed Download Successfully.");
             DataReceived.Raise(requestData.ResultData);
         }
         

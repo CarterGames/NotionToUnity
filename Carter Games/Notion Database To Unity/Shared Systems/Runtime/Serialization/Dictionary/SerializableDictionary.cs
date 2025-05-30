@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CarterGames.Assets.Shared.Common.Serializiation
+namespace CarterGames.Shared.NotionData.Serializiation
 {
     /// <summary>
     /// A custom dictionary class to store a serializable version of a dictionaries data.

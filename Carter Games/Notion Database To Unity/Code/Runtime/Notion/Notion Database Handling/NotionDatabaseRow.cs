@@ -22,7 +22,7 @@
  */
 
 using System;
-using CarterGames.Assets.Shared.Common.Serializiation;
+using CarterGames.Shared.NotionData.Serializiation;
 using UnityEngine;
 
 namespace CarterGames.Standalone.NotionData

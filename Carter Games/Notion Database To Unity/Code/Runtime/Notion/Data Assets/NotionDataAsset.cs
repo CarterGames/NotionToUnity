@@ -24,8 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Assets.Shared.Common;
-using CarterGames.Assets.Shared.PerProject;
+using CarterGames.Shared.NotionData;
 using CarterGames.Standalone.NotionData.Filters;
 using UnityEngine;
 
@@ -36,7 +35,7 @@ namespace CarterGames.Standalone.NotionData
     /// </summary>
     /// <typeparam name="T">The type the data is storing.</typeparam>
     [Serializable]
-    public abstract class NotionDataAsset<T> : CoreDataAsset where T : new()
+    public abstract class NotionDataAsset<T> : NdAsset where T : new()
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields

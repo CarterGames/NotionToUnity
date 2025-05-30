@@ -23,10 +23,9 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// Handles any initial listeners in the project for the asset.
@@ -38,7 +37,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         // The key for if the asset has been initialized.
-        private static readonly string AssetInitializeKey = $"{AssetVersionData.AssetName}_Session_EditorInitialize";
+        private static readonly string AssetInitializeKey = $"{NdAssetVersionData.AssetName}_Session_EditorInitialize";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties

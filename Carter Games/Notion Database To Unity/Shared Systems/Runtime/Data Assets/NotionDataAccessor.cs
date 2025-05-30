@@ -23,10 +23,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Assets.Shared.PerProject;
 using UnityEngine;
 
-namespace CarterGames.Assets.Shared.Common
+namespace CarterGames.Shared.NotionData
 {
     /// <summary>
     /// Handles accessing the scriptable object data assets for this asset.
@@ -47,7 +46,7 @@ namespace CarterGames.Assets.Shared.Common
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
-        /// Gets all the assets from the build versions asset...
+        /// Gets all the assets from the asset.
         /// </summary>
         private static NotionDataAssetIndex Index
         {
@@ -64,11 +63,11 @@ namespace CarterGames.Assets.Shared.Common
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// Gets the asset requested.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <typeparam name="T">The asset to get.</typeparam>
         /// <returns>The asset if it exists.</returns>
-        public static T GetAsset<T>() where T : CoreDataAsset
+        public static T GetAsset<T>() where T : NdAsset
         {
             if (Index.Lookup.ContainsKey(typeof(T).ToString()))
             {
@@ -80,11 +79,11 @@ namespace CarterGames.Assets.Shared.Common
         
         
         /// <summary>
-        /// Gets the Save Manager Asset requested.
+        /// Gets the asset requested.
         /// </summary>
-        /// <typeparam name="T">The save manager asset to get.</typeparam>
+        /// <typeparam name="T">The asset to get.</typeparam>
         /// <returns>The asset if it exists.</returns>
-        public static List<T> GetAssets<T>() where T : CoreDataAsset
+        public static List<T> GetAssets<T>() where T : NdAsset
         {
             if (Index.Lookup.ContainsKey(typeof(T).ToString()))
             {
@@ -99,9 +98,9 @@ namespace CarterGames.Assets.Shared.Common
         /// Gets all the data assets stored in the index.
         /// </summary>
         /// <returns>All the assets stored.</returns>
-        public static List<CoreDataAsset> GetAllAssets()
+        public static List<NdAsset> GetAllAssets()
         {
-            var list = new List<CoreDataAsset>();
+            var list = new List<NdAsset>();
             
             foreach (var entry in Index.Lookup.Values)
             {

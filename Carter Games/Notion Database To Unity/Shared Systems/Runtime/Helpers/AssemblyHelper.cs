@@ -25,9 +25,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CarterGames.Assets.Shared.PerProject;
 
-namespace CarterGames.Assets.Shared.Common
+namespace CarterGames.Shared.NotionData
 {
     /// <summary>
     /// A helper class for assembly related logic.
@@ -38,7 +37,7 @@ namespace CarterGames.Assets.Shared.Common
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private static Assembly[] audioManagerAssemblies;
+        private static Assembly[] assembiles;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -51,9 +50,9 @@ namespace CarterGames.Assets.Shared.Common
         {
             get
             {
-                if (audioManagerAssemblies != null) return audioManagerAssemblies;
-                audioManagerAssemblies = GetAssemblies();
-                return audioManagerAssemblies;
+                if (assembiles != null) return assembiles;
+                assembiles = GetAssemblies();
+                return assembiles;
             }
         }
 

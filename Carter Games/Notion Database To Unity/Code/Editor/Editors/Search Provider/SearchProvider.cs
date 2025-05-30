@@ -22,7 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 

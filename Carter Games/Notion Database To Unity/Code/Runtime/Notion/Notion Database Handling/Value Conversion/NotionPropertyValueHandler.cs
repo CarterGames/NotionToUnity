@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEngine;
 
@@ -45,6 +45,10 @@ namespace CarterGames.Standalone.NotionData
         /// <returns>If the parsing was successful.</returns>
         public static bool TryGetValueAs(NotionProperty property, Type fieldType, out object value)
         {
+            Debug.Log(fieldType);
+            Debug.Log(fieldType.IsArray);
+ 
+            
             if (fieldType.IsArray)
             {
                 if (TryParseAsArray(property, fieldType, out value)) return true;
@@ -76,6 +80,8 @@ namespace CarterGames.Standalone.NotionData
             
             
             if (TryParseWrapper(property, fieldType, out value)) return true;
+            
+            Debug.Log(property.PropertyName);
             
             if (fieldType.IsClass)
             {

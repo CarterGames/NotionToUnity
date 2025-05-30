@@ -22,23 +22,22 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.PerProject;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// Handles the setup of the asset index for runtime references to scriptable objects used for the asset.
     /// </summary>
-    public sealed class AssetIndexHandler : IPreprocessBuildWithReport, IAssetEditorInitialize
+    public sealed class NdAssetIndexHandler : IPreprocessBuildWithReport, IAssetEditorInitialize
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static readonly string AssetFilter = $"t:{nameof(CoreDataAsset)}";
+        private static readonly string AssetFilter = $"t:{nameof(NdAsset)}";
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   IAssetEditorInitialize Implementation
@@ -107,12 +106,12 @@ namespace CarterGames.Assets.Shared.Common.Editor
 
 
         /// <summary>
-        /// Updates the index with all the save manager asset scriptable objects in the project.
+        /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/Audio Manager/Update Asset Index", priority = 17)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Asset Index", priority = 17)]
         public static void UpdateIndex()
         {
-            var foundAssets = new List<CoreDataAsset>();
+            var foundAssets = new List<NdAsset>();
             var asset = AssetDatabase.FindAssets(AssetFilter, null);
             
             if (asset == null || asset.Length <= 0) return;
@@ -120,13 +119,13 @@ namespace CarterGames.Assets.Shared.Common.Editor
             foreach (var assetInstance in asset)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetInstance);
-                var assetObj = (CoreDataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(CoreDataAsset));
+                var assetObj = (NdAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(NdAsset));
                 
                 // Doesn't include editor only or the index itself.
                 if (assetObj == null) continue;
                 if (assetObj is NotionDataAssetIndex) continue;
-                if (assetObj is CoreEditorOnlyDataAsset) continue;
-                foundAssets.Add((CoreDataAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(CoreDataAsset)));
+                if (assetObj is EditorOnlyNdAsset) continue;
+                foundAssets.Add((NdAsset) AssetDatabase.LoadAssetAtPath(assetPath, typeof(NdAsset)));
             }
 
             var indexProp = ScriptableRef.GetAssetDef<NotionDataAssetIndex>().ObjectRef;
@@ -156,7 +155,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         }
 
 
-        private static void UpdateIndexReferences(IReadOnlyList<CoreDataAsset> foundAssets, SerializedObject indexProp)
+        private static void UpdateIndexReferences(IReadOnlyList<NdAsset> foundAssets, SerializedObject indexProp)
         {
             indexProp.Fp("assets").Fpr("list").ClearArray();
             

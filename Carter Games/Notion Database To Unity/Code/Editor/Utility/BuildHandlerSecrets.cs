@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Assets.Shared.Common;
+using CarterGames.Shared.NotionData;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;

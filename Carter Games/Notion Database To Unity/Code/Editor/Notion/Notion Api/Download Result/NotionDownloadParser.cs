@@ -23,7 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.Common.Serializiation;
+using CarterGames.Shared.NotionData.Serializiation;
 using CarterGames.Standalone.NotionData.ThirdParty;
 using UnityEngine;
 

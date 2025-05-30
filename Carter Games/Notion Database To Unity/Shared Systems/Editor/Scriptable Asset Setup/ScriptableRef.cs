@@ -24,11 +24,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Assets.Shared.PerProject;
-using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// Handles references to scriptable objects in the asset that need generating without user input etc.
@@ -40,14 +38,14 @@ namespace CarterGames.Assets.Shared.Common.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static readonly string Root = $"Assets/Plugins/Carter Games/";
-        private static readonly string PathResources = $"{AssetVersionData.AssetName}/Resources/";
-        private static readonly string PathData = $"{AssetVersionData.AssetName}/Data/";
+        private static readonly string PathResources = $"{NdAssetVersionData.AssetName}/Resources/";
+        private static readonly string PathData = $"{NdAssetVersionData.AssetName}/Data/";
 
         public static readonly string FullPathResources = $"{Root}{PathResources}";
         public static readonly string FullPathData = $"{Root}{PathData}";
         
         
-        private static Dictionary<Type, IScriptableAssetDef<CoreDataAsset>> cacheLookup;
+        private static Dictionary<Type, IScriptableAssetDef<NdAsset>> cacheLookup;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -56,7 +54,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <summary>
         /// Handles a lookup of all the assets in the project.
         /// </summary>
-        private static Dictionary<Type, IScriptableAssetDef<CoreDataAsset>> AssetLookup
+        private static Dictionary<Type, IScriptableAssetDef<NdAsset>> AssetLookup
         {
             get
             {
@@ -65,9 +63,9 @@ namespace CarterGames.Assets.Shared.Common.Editor
                     if (cacheLookup.Count > 0) return cacheLookup;
                 }
                 
-                cacheLookup = new Dictionary<Type, IScriptableAssetDef<CoreDataAsset>>();
+                cacheLookup = new Dictionary<Type, IScriptableAssetDef<NdAsset>>();
 
-                foreach (var elly in AssemblyHelper.GetClassesOfType<IScriptableAssetDef<CoreDataAsset>>())
+                foreach (var elly in AssemblyHelper.GetClassesOfType<IScriptableAssetDef<NdAsset>>())
                 {
                     cacheLookup.Add(elly.AssetType, elly);
                 }
@@ -97,7 +95,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// </summary>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
         /// <returns>The asset definition found.</returns>
-        public static IScriptableAssetDef<T> GetAssetDef<T>() where T : CoreDataAsset
+        public static IScriptableAssetDef<T> GetAssetDef<T>() where T : NdAsset
         {
             if (AssetLookup.ContainsKey(typeof(T)))
             {
@@ -114,7 +112,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="asset">The asset found.</param>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
         /// <returns>If it was successful or not.</returns>
-        public static bool TryGetAssetDef<T>(out IScriptableAssetDef<T> asset) where T : CoreDataAsset
+        public static bool TryGetAssetDef<T>(out IScriptableAssetDef<T> asset) where T : NdAsset
         {
             asset = GetAssetDef<T>();
             return asset != null;
@@ -127,7 +125,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="def">The definition to check</param>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
         /// <returns>If the asset exists.</returns>
-        private static bool HasAsset<T>(IScriptableAssetDef<T> def) where T : CoreDataAsset
+        private static bool HasAsset<T>(IScriptableAssetDef<T> def) where T : NdAsset
         {
             return AssetDatabaseHelper.FileIsInProject<T>(def.DataAssetPath);
         }
@@ -139,7 +137,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="def">The definition to use.</param>
         /// <param name="cache">The cache for the definition.</param>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
-        public static void TryCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : CoreDataAsset
+        public static void TryCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : NdAsset
         {
             if (cache != null) return;
             GetOrCreateAsset(def, ref cache);
@@ -153,13 +151,13 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="cache">The cache for the definition.</param>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
         /// <returns>The asset reference.</returns>
-        public static T GetOrCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : CoreDataAsset
+        public static T GetOrCreateAsset<T>(IScriptableAssetDef<T> def, ref T cache) where T : NdAsset
         {
             return FileEditorUtil.CreateSoGetOrAssignAssetCache(
                 ref cache, 
                 def.DataAssetFilter, 
                 def.DataAssetPath, 
-                AssetVersionData.AssetName, $"{PathData}{def.DataAssetFileName}");
+                NdAssetVersionData.AssetName, $"{PathData}{def.DataAssetFileName}");
         }
 
         
@@ -170,7 +168,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="objCache">The cache for the definition.</param>
         /// <typeparam name="T">The type of the scriptable asset.</typeparam>
         /// <returns>The object reference</returns>
-        public static SerializedObject GetOrCreateAssetObject<T>(IScriptableAssetDef<T> def, ref SerializedObject objCache) where T : CoreDataAsset
+        public static SerializedObject GetOrCreateAssetObject<T>(IScriptableAssetDef<T> def, ref SerializedObject objCache) where T : NdAsset
         {
             return FileEditorUtil.CreateGetOrAssignSerializedObjectCache(ref objCache, def.AssetRef);
         }

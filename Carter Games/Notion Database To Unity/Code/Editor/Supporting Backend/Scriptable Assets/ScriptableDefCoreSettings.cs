@@ -22,7 +22,7 @@
  */
 
 using System;
-using CarterGames.Assets.Shared.Common.Editor;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 
 namespace CarterGames.Standalone.NotionData.Editor
@@ -30,17 +30,17 @@ namespace CarterGames.Standalone.NotionData.Editor
     /// <summary>
     /// Handles asset generation & referencing for the editor settings.
     /// </summary>
-    public class ScriptableDefCoreSettings : IScriptableAssetDef<DataAssetEditorGlobalSettings>
+    public class ScriptableDefCoreSettings : IScriptableAssetDef<AssetEditorGlobalSettings>
     {
-        private static DataAssetEditorGlobalSettings cache;
+        private static AssetEditorGlobalSettings cache;
         private static SerializedObject objCache;
 
-        public Type AssetType => typeof(DataAssetEditorGlobalSettings);
+        public Type AssetType => typeof(AssetEditorGlobalSettings);
         public string DataAssetFileName => "[Notion Data] Core Settings.asset";
-        public string DataAssetFilter => $"t:{typeof(DataAssetEditorGlobalSettings).FullName} name={DataAssetFileName}";
+        public string DataAssetFilter => $"t:{typeof(AssetEditorGlobalSettings).FullName} name={DataAssetFileName}";
         public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
 
-        public DataAssetEditorGlobalSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+        public AssetEditorGlobalSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
         public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 
         public void TryCreate()

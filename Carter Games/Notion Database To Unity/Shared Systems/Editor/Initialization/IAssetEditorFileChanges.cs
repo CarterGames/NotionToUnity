@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     public interface IAssetEditorFileChanges
     {

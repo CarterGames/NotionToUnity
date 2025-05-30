@@ -23,23 +23,22 @@
 
 using System;
 using System.Collections.Generic;
-using CarterGames.Assets.Shared.Common.Serializiation;
-using CarterGames.Assets.Shared.PerProject;
+using CarterGames.Shared.NotionData.Serializiation;
 using UnityEngine;
 
-namespace CarterGames.Assets.Shared.Common
+namespace CarterGames.Shared.NotionData
 {
     /// <summary>
     /// Handles a data store of all the scriptable objects for the asset that are used at runtime.
     /// </summary>
     [Serializable]
-    public sealed class NotionDataAssetIndex : CoreDataAsset
+    public sealed class NotionDataAssetIndex : NdAsset
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [SerializeField] private SerializableDictionary<string, List<CoreDataAsset>> assets;
+        [SerializeField] private SerializableDictionary<string, List<NdAsset>> assets;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
@@ -48,6 +47,6 @@ namespace CarterGames.Assets.Shared.Common
         /// <summary>
         /// A lookup of all the assets in the project that can be used at runtime.
         /// </summary>
-        public SerializableDictionary<string, List<CoreDataAsset>> Lookup => assets;
+        public SerializableDictionary<string, List<NdAsset>> Lookup => assets;
     }
 }

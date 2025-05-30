@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Assets.Shared.PerProject.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// The info used in the version validation system.
@@ -53,6 +53,6 @@ namespace CarterGames.Assets.Shared.PerProject.Editor
         /// <summary>
         /// The version string for the package.
         /// </summary>
-        public static string ProjectVersionNumber => AssetVersionData.VersionNumber;
+        public static string ProjectVersionNumber => NdAssetVersionData.VersionNumber;
     }
 }

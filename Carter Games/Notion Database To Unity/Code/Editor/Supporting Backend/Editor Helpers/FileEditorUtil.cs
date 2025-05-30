@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CarterGames.Assets.Shared.Common.Editor;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -168,7 +168,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                 cache = CreateScriptableObject<T>(path);
             }
             
-            AssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
 
             return cache;
         }

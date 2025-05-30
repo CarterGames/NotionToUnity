@@ -22,11 +22,10 @@
  */
 
 using System.Threading.Tasks;
-using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// Handles any reload listeners in the project for the asset.
@@ -37,7 +36,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        private static readonly string AssetReloadKey = $"{AssetVersionData.AssetName}_Session_EditorReload";
+        private static readonly string AssetReloadKey = $"{NdAssetVersionData.AssetName}_Session_EditorReload";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties

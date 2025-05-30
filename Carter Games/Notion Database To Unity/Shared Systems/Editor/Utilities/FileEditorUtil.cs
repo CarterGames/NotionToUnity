@@ -25,13 +25,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CarterGames.Assets.Shared.PerProject;
-using CarterGames.Assets.Shared.PerProject.Editor;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace CarterGames.Assets.Shared.Common.Editor
+namespace CarterGames.Shared.NotionData.Editor
 {
     /// <summary>
     /// Handles finding assets in the project in editor space and creating/referencing/caching them for use.
@@ -58,7 +56,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         public static string GetBaseAssetPath(string targetScriptName)
         {
             string path = string.Empty;
-            var containsChecks = new List<string> { AssetVersionData.AssetName, $"/{string.Format(BasePathScriptPath, AssetVersionData.AssetName, targetScriptName)}.cs" };
+            var containsChecks = new List<string> { NdAssetVersionData.AssetName, $"/{string.Format(BasePathScriptPath, NdAssetVersionData.AssetName, targetScriptName)}.cs" };
             
             foreach (var scriptFound in AssetDatabase.FindAssets($"t:Script {targetScriptName}"))
             {
@@ -70,7 +68,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
                 }
                 
                 path = AssetDatabase.GUIDToAssetPath(scriptFound);
-                path = path.Replace(string.Format(BasePathScriptPath, AssetVersionData.AssetName, targetScriptName), "");
+                path = path.Replace(string.Format(BasePathScriptPath, NdAssetVersionData.AssetName, targetScriptName), "");
                 
                 return path;
                 
@@ -211,7 +209,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
                 cache = CreateScriptableObject<T>(path);
             }
             
-            AssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
 
             return cache;
         }
@@ -225,7 +223,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
         /// <param name="pathContains">Any string that should be in the path to make sure its the right asset.</param>
         /// <typeparam name="T">The type to check for.</typeparam>
         /// <returns>The found or created asset.</returns>
-        public static T CreateSoGetOrAssignAssetCache<T>(ref T cache, IScriptableAssetDef<T> definition, params string[] pathContains) where T : CoreDataAsset
+        public static T CreateSoGetOrAssignAssetCache<T>(ref T cache, IScriptableAssetDef<T> definition, params string[] pathContains) where T : NdAsset
         {
             if (cache != null) return cache;
 
@@ -237,7 +235,7 @@ namespace CarterGames.Assets.Shared.Common.Editor
                 definition.OnCreated();
             }
             
-            AssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
 
             return cache;
         }

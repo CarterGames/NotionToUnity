@@ -24,9 +24,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CarterGames.Assets.Shared.Common;
-using CarterGames.Assets.Shared.Common.Editor;
-using CarterGames.Assets.Shared.PerProject;
+using CarterGames.Shared.NotionData;
+using CarterGames.Shared.NotionData.Editor;
 using CarterGames.Standalone.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static bool haltOnDownload = true;
-        private static List<CoreDataAsset> toProcess;
+        private static List<NdAsset> toProcess;
         private static int TotalToProcessed = 0;
         private static int TotalProcessed = 0;
         private static bool hasErrorOnDownload;
@@ -53,7 +52,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Data", priority = 21)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update All Data", priority = 51)]
         private static void DownloadAll()
         {
             haltOnDownload = true;
@@ -62,7 +61,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             hasErrorOnDownload = false;
             silencedErrors = new List<NotionRequestError>();
             
-            AssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
             
             if (HasOpenInstances<DownloadAllHandler>())
             {

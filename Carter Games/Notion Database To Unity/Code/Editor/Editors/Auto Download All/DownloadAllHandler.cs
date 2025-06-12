@@ -52,7 +52,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update All Data", priority = 51)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update All Notion Data", priority = 21)]
         private static void DownloadAll()
         {
             haltOnDownload = true;
@@ -70,7 +70,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             else
             {
                 var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
-                window.maxSize = new Vector2(400, 400);
+                window.minSize = new Vector2(400, 150);
+                window.maxSize = new Vector2(400, 150);
             }
         }
 
@@ -84,9 +85,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.HelpBox("Using this tool will auto download all Notion data assets found in the project with their current settings.", MessageType.Info);
             
-            
             GUILayout.Space(5f);
-            
             
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
@@ -103,7 +102,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
             GUI.backgroundColor = Color.green;
             
-            if (GUILayout.Button("Update All Notion Data Assets"))
+            if (GUILayout.Button("Update All Notion Data Assets", GUILayout.Height(25f)))
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {

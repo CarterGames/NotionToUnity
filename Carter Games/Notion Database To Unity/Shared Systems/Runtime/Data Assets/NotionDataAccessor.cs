@@ -36,7 +36,7 @@ namespace CarterGames.Shared.NotionData
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
      
-        private const string IndexPath = "[Notion Data] Asset Index";
+        private const string IndexPath = "[Notion Data] ND Asset Index";
         
         // A cache of all the assets found...
         private static NotionDataAssetIndex indexCache;

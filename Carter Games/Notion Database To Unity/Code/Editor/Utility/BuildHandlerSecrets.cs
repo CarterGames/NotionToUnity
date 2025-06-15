@@ -26,7 +26,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles hiding secret keys/database url's in builds by removing them pre-build and re-applying them post build.

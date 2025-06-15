@@ -25,10 +25,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarterGames.Shared.NotionData;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {   
     /// <summary>
     /// A base class for any Notion database data assets.

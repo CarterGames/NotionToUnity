@@ -23,7 +23,7 @@
 
 using System.Collections.Generic;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public class SearchProviderFilterGroupType : SearchProvider<int>
 	{

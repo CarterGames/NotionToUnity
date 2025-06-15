@@ -21,9 +21,9 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public class NotionDatabasePropertyParserTitle : INotionDatabasePropertyParser
 	{

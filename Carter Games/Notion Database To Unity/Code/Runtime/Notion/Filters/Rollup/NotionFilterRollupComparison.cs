@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	public enum NotionFilterRollupComparison
 	{

@@ -23,9 +23,9 @@
 
 using System;
 using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Filters
+namespace CarterGames.NotionData.Filters
 {
 	[Serializable]
 	public class NotionFilterRichText : NotionFilterOption

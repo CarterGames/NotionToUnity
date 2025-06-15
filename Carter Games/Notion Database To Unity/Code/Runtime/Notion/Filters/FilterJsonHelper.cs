@@ -21,10 +21,10 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.Filters;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	public static class FilterJsonHelper
 	{

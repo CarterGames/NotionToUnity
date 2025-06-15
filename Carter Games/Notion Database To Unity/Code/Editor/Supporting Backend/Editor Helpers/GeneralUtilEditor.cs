@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     public static class GeneralUtilEditor
     {

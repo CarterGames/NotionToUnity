@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// A helper class to create different Notion property types. Not intended for direct access.

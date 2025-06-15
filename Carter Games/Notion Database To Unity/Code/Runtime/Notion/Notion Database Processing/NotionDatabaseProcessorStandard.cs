@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// The standard data parser from Notion to a NotionDataAsset. Matches the property name for parses the data to each entry.

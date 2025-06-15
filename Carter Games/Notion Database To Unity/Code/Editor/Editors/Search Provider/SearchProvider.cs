@@ -26,7 +26,7 @@ using CarterGames.Shared.NotionData;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     // Implement to make a search provider for something....
     // You still have to have a way to open it, but it will show the values entered.

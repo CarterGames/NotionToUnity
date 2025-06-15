@@ -53,8 +53,9 @@ namespace CarterGames.Shared.NotionData
                 
                 cacheProjectEditorAssemblies =  new Assembly[]
                 {
-                    Assembly.Load("CarterGames.Standalone.NotionData.Editor"),
-                    Assembly.Load("CarterGames.Standalone.NotionData.Runtime"),
+                    Assembly.Load("CarterGames.NotionData.Editor"),
+                    Assembly.Load("CarterGames.NotionData.Runtime"),
+                    Assembly.Load("CarterGames.NotionData.ThirdParty"),
                     Assembly.Load("CarterGames.Shared.NotionData.Editor"),
                     Assembly.Load("CarterGames.Shared.NotionData")
                 };
@@ -75,9 +76,9 @@ namespace CarterGames.Shared.NotionData
 
                 cacheProjectRuntimeAssemblies = new Assembly[]
                 {
-                    Assembly.Load("CarterGames.Standalone.NotionData.Runtime"),
+                    Assembly.Load("CarterGames.NotionData.Runtime"),
                     Assembly.Load("CarterGames.Shared.NotionData"),
-                    Assembly.Load("CarterGames.Standalone.NotionData.ThirdParty"),
+                    Assembly.Load("CarterGames.NotionData.ThirdParty"),
                 };
 
                 return cacheProjectRuntimeAssemblies;

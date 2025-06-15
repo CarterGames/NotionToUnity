@@ -22,9 +22,9 @@
  */
 
 using UnityEditor;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	/// <summary>
 	/// A helper class to handle notion sort properties in the editor.

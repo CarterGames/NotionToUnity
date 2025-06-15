@@ -22,9 +22,9 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	/// <summary>
 	/// A data class that holds the result of a request to the Notion API.

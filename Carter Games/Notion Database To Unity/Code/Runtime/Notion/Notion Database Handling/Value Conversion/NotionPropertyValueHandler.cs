@@ -26,10 +26,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CarterGames.Shared.NotionData;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// Handles converting Json to a usable type.

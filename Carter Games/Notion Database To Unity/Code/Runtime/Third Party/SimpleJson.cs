@@ -67,7 +67,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace CarterGames.Standalone.NotionData.ThirdParty
+namespace CarterGames.NotionData.ThirdParty
 {
     public enum JSONNodeType
     {

@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	/// <summary>
 	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.

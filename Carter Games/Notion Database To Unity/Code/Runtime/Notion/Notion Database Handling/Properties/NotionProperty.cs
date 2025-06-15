@@ -24,7 +24,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// An abstract class to handle data as if it were a notion property when downloaded.

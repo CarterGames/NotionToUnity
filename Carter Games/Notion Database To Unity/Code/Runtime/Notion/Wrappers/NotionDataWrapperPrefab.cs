@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	/// <summary>
 	/// A wrapper base class for converting a notion database property into an gameObject (prefab'd) by its name.

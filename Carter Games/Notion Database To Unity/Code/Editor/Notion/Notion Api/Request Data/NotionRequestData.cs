@@ -23,10 +23,10 @@
 
 using System.Collections.Generic;
 using CarterGames.Shared.NotionData;
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.Filters;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	/// <summary>
 	/// A data class for the info of a request as it is being processed.

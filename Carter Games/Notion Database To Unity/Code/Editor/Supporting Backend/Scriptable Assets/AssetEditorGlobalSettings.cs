@@ -25,7 +25,7 @@ using System;
 using CarterGames.Shared.NotionData;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	[Serializable]
     public class AssetEditorGlobalSettings : EditorOnlyNdAsset

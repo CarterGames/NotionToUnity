@@ -23,7 +23,7 @@
 
 using System;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     [Serializable]
     public class SearchItem<T>

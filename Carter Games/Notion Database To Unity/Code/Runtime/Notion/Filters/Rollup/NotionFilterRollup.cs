@@ -22,9 +22,9 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Filters
+namespace CarterGames.NotionData.Filters
 {
 	public static class NotionFilterRollup
 	{

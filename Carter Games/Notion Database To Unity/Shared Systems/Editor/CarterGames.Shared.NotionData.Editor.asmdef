@@ -2,7 +2,7 @@
     "name": "CarterGames.Shared.NotionData.Editor",
     "rootNamespace": "CarterGames.Shared.NotionData.Editor",
     "references": [
-        "GUID:c2d9c268d323c974eaebc9b620fc2592"
+        "GUID:b7ef0f805fe70004c8b0b07af22ee394"
     ],
     "includePlatforms": [
         "Editor"

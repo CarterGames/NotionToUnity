@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// A helper class to convert the notion release api versions to usable strings.

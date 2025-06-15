@@ -23,7 +23,7 @@
 
 using UnityEditor;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// A helper class to aid with editor scripting where the API is really wordy...

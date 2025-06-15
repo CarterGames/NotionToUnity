@@ -24,9 +24,9 @@
 using System;
 using CarterGames.Shared.NotionData;
 using UnityEngine;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles a wrapper class for notion errors with the asset the error's on.

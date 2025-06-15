@@ -21,14 +21,13 @@
  * THE SOFTWARE.
  */
 
-using System;
-using CarterGames.Standalone.NotionData.Editor.Helpers;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Editor.Helpers;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public static class FilterEditorGroup
 	{

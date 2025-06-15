@@ -26,11 +26,11 @@ using System.Linq;
 using System.Reflection;
 using CarterGames.Shared.NotionData;
 using CarterGames.Shared.NotionData.Editor;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles an editor window for downloading all data assets at once.

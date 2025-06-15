@@ -22,10 +22,10 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public class NotionDatabasePropertyParserDate : INotionDatabasePropertyParser
 	{

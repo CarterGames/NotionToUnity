@@ -23,13 +23,13 @@
 
 using System.Collections.Generic;
 using CarterGames.Shared.NotionData;
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.Filters;
+using CarterGames.NotionData.ThirdParty;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles accessing the Notion API for use in the data system for Notion.

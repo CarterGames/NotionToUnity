@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor.Helpers
+namespace CarterGames.NotionData.Editor.Helpers
 {
     public static class FilterGUIHelper
     {

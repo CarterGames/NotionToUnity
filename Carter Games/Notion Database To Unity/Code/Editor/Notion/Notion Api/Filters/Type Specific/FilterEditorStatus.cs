@@ -21,11 +21,11 @@
  * THE SOFTWARE.
  */
 
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public static class FilterEditorStatus
 	{

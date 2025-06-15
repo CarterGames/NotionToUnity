@@ -24,10 +24,10 @@
 using System;
 using System.Collections.Generic;
 using CarterGames.Shared.NotionData.Serializiation;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.NotionData.ThirdParty;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles the downloaded data from Notion for an asset to read and use.

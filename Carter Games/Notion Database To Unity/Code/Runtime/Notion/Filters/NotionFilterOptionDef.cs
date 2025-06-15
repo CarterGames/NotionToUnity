@@ -22,10 +22,10 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	[Serializable]
 	public class NotionFilterOptionDef

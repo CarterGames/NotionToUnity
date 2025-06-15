@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// A title type Notion property container.

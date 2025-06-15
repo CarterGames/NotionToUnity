@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Filters
+namespace CarterGames.NotionData.Filters
 {
 	[Serializable]
 	public class NotionFilterMultiSelectList

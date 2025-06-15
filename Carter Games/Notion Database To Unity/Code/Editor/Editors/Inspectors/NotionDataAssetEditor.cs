@@ -24,12 +24,12 @@
 using System.Linq;
 using System.Reflection;
 using CarterGames.Shared.NotionData;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     [CustomEditor(typeof(NotionDataAsset<>), true)]
     public sealed class NotionDataAssetEditor : UnityEditor.Editor

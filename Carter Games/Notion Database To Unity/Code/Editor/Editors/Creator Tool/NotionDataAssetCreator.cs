@@ -25,7 +25,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Creates notion data assets for the user.

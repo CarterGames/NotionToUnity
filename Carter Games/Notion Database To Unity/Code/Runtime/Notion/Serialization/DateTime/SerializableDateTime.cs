@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	/// <summary>
 	/// A helper class to reference date time in a serialized fashion for use in notion data assets.

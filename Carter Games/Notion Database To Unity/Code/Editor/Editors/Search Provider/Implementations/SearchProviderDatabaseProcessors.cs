@@ -2,7 +2,7 @@
 using System.Linq;
 using CarterGames.Shared.NotionData;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     public class SearchProviderDatabaseProcessors : SearchProvider<AssemblyClassDef>
     {

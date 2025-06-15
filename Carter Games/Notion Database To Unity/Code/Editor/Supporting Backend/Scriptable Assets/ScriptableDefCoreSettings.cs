@@ -25,7 +25,7 @@ using System;
 using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles asset generation & referencing for the editor settings.

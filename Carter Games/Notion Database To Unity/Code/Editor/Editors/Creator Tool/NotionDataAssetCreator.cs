@@ -47,7 +47,7 @@ namespace CarterGames.NotionData.Editor
         /// <summary>
         /// Makes a menu item for the creator to open.
         /// </summary>
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Notion Data Asset Creator", priority = 20)]
+        [MenuItem("Tools/Carter Games/Notion Data/Notion Data Asset Creator", priority = 20)]
         private static void ShowWindow()
         {
             var window = GetWindow<NotionDataAssetCreator>(true);

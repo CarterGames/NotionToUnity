@@ -40,7 +40,7 @@ namespace CarterGames.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Settings", priority = 0)]
+        [MenuItem("Tools/Carter Games/Notion Data/Settings", priority = 0)]
         public static void OpenSettings()
         {
             SettingsService.OpenProjectSettings(Path);

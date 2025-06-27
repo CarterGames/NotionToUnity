@@ -52,7 +52,7 @@ namespace CarterGames.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update All Notion Data", priority = 21)]
+        [MenuItem("Tools/Carter Games/Notion Data/Update All Notion Data", priority = 21)]
         private static void DownloadAll()
         {
             haltOnDownload = true;

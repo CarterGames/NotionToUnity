@@ -108,7 +108,7 @@ namespace CarterGames.Shared.NotionData.Editor
         /// <summary>
         /// Updates the index with all the asset scriptable objects in the project.
         /// </summary>
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Asset Index", priority = 101)]
+        [MenuItem("Tools/Carter Games/Notion Data/Update Asset Index", priority = 101)]
         public static void UpdateIndex()
         {
             var foundAssets = new List<NdAsset>();

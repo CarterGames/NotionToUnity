@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// An enum of any major supported APi versions.

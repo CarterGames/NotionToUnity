@@ -23,7 +23,7 @@
 
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// A status type Notion property container.

@@ -23,7 +23,7 @@
 
 using UnityEditor;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     public static class AssetDatabaseHelper
     {

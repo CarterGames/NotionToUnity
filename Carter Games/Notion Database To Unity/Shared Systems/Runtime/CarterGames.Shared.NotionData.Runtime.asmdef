@@ -1,0 +1,14 @@
+{
+    "name": "CarterGames.Shared.NotionData",
+    "rootNamespace": "CarterGames.Shared.NotionData",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

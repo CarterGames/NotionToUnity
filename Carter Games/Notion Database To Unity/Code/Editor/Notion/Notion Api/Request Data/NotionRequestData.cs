@@ -22,10 +22,11 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.Shared.NotionData;
+using CarterGames.NotionData.Filters;
+using CarterGames.NotionData.ThirdParty;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	/// <summary>
 	/// A data class for the info of a request as it is being processed.
@@ -36,7 +37,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private readonly DataAsset requestingAsset;
+		private readonly NdAsset requestingAsset;
 		private readonly string databaseId;
 		private readonly string apiKey;
 		private readonly NotionSortProperty[] sorts;
@@ -51,13 +52,13 @@ namespace CarterGames.Standalone.NotionData.Editor
 		/// <summary>
 		/// The data asset the request is for.
 		/// </summary>
-		public DataAsset RequestingAsset => requestingAsset;
+		public NdAsset RequestingAsset => requestingAsset;
 		
 		
 		/// <summary>
 		/// The url for the call.
 		/// </summary>
-		public string Url => $"https://api.notion.com/{DataAccess.GetAsset<DataAssetEditorGlobalSettings>().NotionApiVersion.ToString()}/databases/{databaseId}/query";
+		public string Url => $"https://api.notion.com/{NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionApiVersion.ToString()}/databases/{databaseId}/query";
 		
 		
 		/// <summary>
@@ -101,7 +102,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 		/// <param name="apiKey">The api key to get.</param>
 		/// <param name="sorts">The sorting properties to apply.</param>
 		/// <param name="silentResponse">Should the response from the request be hidden from the user? DEF = false</param>
-		public NotionRequestData(DataAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, NotionFilterContainer filter, bool silentResponse = false)
+		public NotionRequestData(NdAsset requestingAsset, string databaseId, string apiKey, NotionSortProperty[] sorts, NotionFilterContainer filter, bool silentResponse = false)
 		{
 			this.requestingAsset = requestingAsset;
 			this.databaseId = databaseId;

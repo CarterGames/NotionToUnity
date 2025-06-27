@@ -21,13 +21,13 @@
  * THE SOFTWARE.
  */
 
-using System;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Editor.Helpers;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public static class FilterEditorGroup
 	{
@@ -64,6 +64,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 			else
 			{
 				GUI.backgroundColor = Color.red;
+				
 				if (GUILayout.Button("Delete filter group"))
 				{
 					for (var i = 0; i < EditorWindowFilterGUI.target.Fpr("list").arraySize; i++)
@@ -92,78 +93,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 				GUI.backgroundColor = Color.white;
 			}
 
-			if (GUILayout.Button("+ Add filter rule", GUILayout.Width(125f),
-				    GUILayout.Height(22.5f)))
-			{
-				var entry = baseProp;
-				
-				SearchProviderFilterGroupType.GetProvider(EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-						.Fpr("value")
-						.Fpr("nestLevel").intValue).SelectionMade
-					.Add(OnSearchSelectionMade);
-				SearchProviderFilterGroupType.GetProvider(EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-					.Fpr("value")
-					.Fpr("nestLevel").intValue).Open();
-
-				return;
-
-				void OnSearchSelectionMade(SearchTreeEntry searchTreeEntry)
-				{
-					SearchProviderFilterGroupType.GetProvider(EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-							.Fpr("value")
-							.Fpr("nestLevel").intValue).SelectionMade
-						.Remove(OnSearchSelectionMade);
-
-					if (int.Parse(searchTreeEntry.userData.ToString()) == 0)
-					{
-						// New rule to group
-						entry.Fpr("value").Fpr("filterOptions").InsertIndex(entry.Fpr("value").Fpr("filterOptions").arraySize);
-						var newFilter = entry.Fpr("value").Fpr("filterOptions")
-							.GetIndex(entry.Fpr("value").Fpr("filterOptions").arraySize - 1);
-						newFilter.Fpr("typeName").stringValue = string.Empty;
-						newFilter.Fpr("option").Fpr("propertyName").stringValue = string.Empty;
-						newFilter.Fpr("option").Fpr("comparisonEnumIndex").intValue = 0;
-						newFilter.Fpr("option").Fpr("value").stringValue = string.Empty;
-					}
-					else
-					{
-						// New group
-						EditorWindowFilterGUI.target.Fpr("list").InsertIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize);
-						EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1).Fpr("key")
-							.stringValue = Guid.NewGuid().ToString();
-						EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-							.Fpr("value")
-							.Fpr("nestedId").stringValue = entry.Fpr("key").stringValue;
-						
-						EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-							.Fpr("value")
-							.Fpr("nestLevel").intValue++;
-						
-						EditorWindowFilterGUI.target.Fpr("list").GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1)
-							.Fpr("value")
-							.Fpr("filterOptions").ClearArray();
-
-						entry.Fpr("value").Fpr("filterOptions")
-							.InsertIndex(entry.Fpr("value").Fpr("filterOptions").arraySize);
-						
-						var newFilter = entry.Fpr("value").Fpr("filterOptions")
-							.GetIndex(entry.Fpr("value").Fpr("filterOptions").arraySize - 1);
-						newFilter.Fpr("typeName").stringValue = "Group";
-						newFilter.Fpr("option").Fpr("propertyName").stringValue = string.Empty;
-						newFilter.Fpr("option").Fpr("comparisonEnumIndex").intValue = 0;
-						newFilter.Fpr("option").Fpr("value").stringValue = EditorWindowFilterGUI.target.Fpr("list")
-							.GetIndex(EditorWindowFilterGUI.target.Fpr("list").arraySize - 1).Fpr("key").stringValue;
-
-						EditorWindowFilterGUI.target.serializedObject.ApplyModifiedProperties();
-						EditorWindowFilterGUI.target.serializedObject.Update();
-					}
-
-					
-					EditorWindowFilterGUI.target.serializedObject.ApplyModifiedProperties();
-					EditorWindowFilterGUI.target.serializedObject.Update();
-				}
-			}
-
+			FilterGUIHelper.DrawAddFilterRuleButton(baseProp);
 
 			EditorGUILayout.EndVertical();
 		}

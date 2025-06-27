@@ -22,8 +22,9 @@
  */
 
 using System.Reflection;
+using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// An abstract class to handle data as if it were a notion property when downloaded.
@@ -159,6 +160,8 @@ namespace CarterGames.Standalone.NotionData
         /// <returns>If the conversion was successful.</returns>
         public bool TryConvertValueToFieldType(FieldInfo field, object target)
         {
+            Debug.Log(field.Name);
+            
             var fieldType = field.FieldType;
                         
             if (fieldType.BaseType.FullName.Contains(typeof(NotionDataWrapper<>).Namespace + ".NotionDataWrapper"))

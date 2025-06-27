@@ -24,17 +24,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.Shared.NotionData;
+using CarterGames.NotionData.Filters;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {   
     /// <summary>
     /// A base class for any Notion database data assets.
     /// </summary>
     /// <typeparam name="T">The type the data is storing.</typeparam>
     [Serializable]
-    public abstract class NotionDataAsset<T> : DataAsset where T : new()
+    public abstract class NotionDataAsset<T> : NdAsset where T : new()
     {
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Fields
@@ -45,25 +46,33 @@ namespace CarterGames.Standalone.NotionData
         [SerializeField, HideInInspector] private string databaseApiKey;
         [SerializeField] private NotionFilterContainer filters;
         [SerializeField] private List<NotionSortProperty> sortProperties;
-        [SerializeField] private NotionDatabaseProcessor processor;
+        [SerializeField] protected AssemblyClassDef processor = typeof(NotionDatabaseProcessorStandard);
 #pragma warning restore
         
+        [SerializeField] private string variantId;
         [SerializeField] private List<T> data;
 
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+        /// <summary>
+        /// The id to define this asset.
+        /// </summary>
+        public string VariantId => string.IsNullOrEmpty(variantId) ? name : variantId;
+        
         
         /// <summary>
         /// The data stored on the asset.
         /// </summary>
         public List<T> Data => data;
 
+        
 #if UNITY_EDITOR
         /// <summary>
         /// Defines the parser used to apply the data to the asset from Notion.
         /// </summary>
-        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor;
+        protected virtual NotionDatabaseProcessor DatabaseProcessor => processor.GetDefinedType<NotionDatabaseProcessor>();
 #endif
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────

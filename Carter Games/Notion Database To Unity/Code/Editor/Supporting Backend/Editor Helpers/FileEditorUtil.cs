@@ -24,10 +24,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles finding assets in the project in editor space and creating/referencing/caching them for use.
@@ -167,7 +168,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                 cache = CreateScriptableObject<T>(path);
             }
             
-            DataAssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
 
             return cache;
         }

@@ -23,10 +23,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CarterGames.Standalone.NotionData.Common;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.Shared.NotionData;
+using CarterGames.NotionData.Filters;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public class SearchProviderFilterType : SearchProvider<NotionFilterOption>
 	{

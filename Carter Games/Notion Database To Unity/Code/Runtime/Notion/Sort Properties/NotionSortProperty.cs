@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	/// <summary>
 	/// A class to define a sort property.

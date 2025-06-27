@@ -22,10 +22,10 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData.Common;
+using CarterGames.Shared.NotionData.Serializiation;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
     /// <summary>
     /// A class that contains a row of data from a notion database.

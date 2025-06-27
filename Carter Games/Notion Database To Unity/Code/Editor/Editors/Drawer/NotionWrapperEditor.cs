@@ -24,7 +24,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     [CustomPropertyDrawer(typeof(NotionDataWrapper<>), true)]
     public class NotionWrapperEditor : PropertyDrawer

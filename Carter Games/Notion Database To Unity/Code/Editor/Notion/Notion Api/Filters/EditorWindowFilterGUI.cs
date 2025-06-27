@@ -22,12 +22,12 @@
  */
 
 using System;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
 	public class EditorWindowFilterGUI : EditorWindow
 	{
@@ -85,6 +85,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 					{
 						if (GUILayout.Button("Add Filter Option"))
 						{
+							SearchProviderFilterType.GetProvider().SelectionMade.Clear();
 							SearchProviderFilterType.GetProvider().SelectionMade.Add(OnSearchSelectionMade);
 							SearchProviderFilterType.GetProvider().Open();
 
@@ -118,9 +119,10 @@ namespace CarterGames.Standalone.NotionData.Editor
 						FilterGroupEditor.DrawGroup(entry);
 						
 						EditorGUILayout.Space(5f);
-			
+						
 						if (GUILayout.Button("+ Add filter rule", GUILayout.Width(125f), GUILayout.Height(22.5f)))
 						{
+							SearchProviderFilterGroupType.GetProvider(target.Fpr("list").GetIndex(i).Fpr("value").Fpr("nestLevel").intValue).SelectionMade.Clear();
 							SearchProviderFilterGroupType.GetProvider(target.Fpr("list").GetIndex(i).Fpr("value").Fpr("nestLevel").intValue).SelectionMade.Add(OnSearchSelectionMade);
 							SearchProviderFilterGroupType.GetProvider(target.Fpr("list").GetIndex(i).Fpr("value").Fpr("nestLevel").intValue).Open();
 							

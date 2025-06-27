@@ -24,7 +24,7 @@
 using System;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Filters
+namespace CarterGames.NotionData.Filters
 {
 	[Serializable]
 	public class NotionFilterGroup : NotionFilterOption

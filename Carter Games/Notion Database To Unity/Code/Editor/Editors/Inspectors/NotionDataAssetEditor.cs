@@ -23,12 +23,13 @@
 
 using System.Linq;
 using System.Reflection;
-using CarterGames.Standalone.NotionData.Filters;
-using CarterGames.Standalone.NotionData.ThirdParty;
+using CarterGames.Shared.NotionData;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     [CustomEditor(typeof(NotionDataAsset<>), true)]
     public sealed class NotionDataAssetEditor : UnityEditor.Editor
@@ -70,7 +71,53 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), NotionMetaData.DatabaseLink);
             EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), NotionMetaData.ApiKey);
-            EditorGUILayout.PropertyField(serializedObject.Fp("processor"));
+
+            if (string.IsNullOrEmpty(serializedObject.Fp("processor").Fpr("type").stringValue))
+            {
+                GUI.backgroundColor = Color.green;
+                
+                if (GUILayout.Button("Select Processor"))
+                {
+                    SearchProviderDatabaseProcessors.GetProvider().SelectionMade.Remove(OnSelectionMade);
+                    SearchProviderDatabaseProcessors.GetProvider().SelectionMade.Add(OnSelectionMade);
+                    
+                    SearchProviderDatabaseProcessors.GetProvider().Open();
+                }
+                
+                GUI.backgroundColor = Color.white;
+            }
+            else
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField("Processor:", serializedObject.Fp("processor").Fpr("type").stringValue.Split('.').Last().Replace("NotionDatabaseProcessor", string.Empty));
+                EditorGUI.EndDisabledGroup();
+                
+                GUI.backgroundColor = Color.yellow;
+                
+                if (GUILayout.Button("Edit", GUILayout.Width(45)))
+                {
+                    SearchProviderDatabaseProcessors.GetProvider().SelectionMade.Remove(OnSelectionMade);
+                    SearchProviderDatabaseProcessors.GetProvider().SelectionMade.Add(OnSelectionMade);
+                    
+                    SearchProviderDatabaseProcessors.GetProvider().Open();
+                }
+                
+                GUI.backgroundColor = Color.red;
+
+                if (GUILayout.Button("X", GUILayout.Width(25)))
+                {
+                    serializedObject.Fp("processor").Fpr("assembly").stringValue = string.Empty;
+                    serializedObject.Fp("processor").Fpr("type").stringValue = string.Empty;
+
+                    serializedObject.ApplyModifiedProperties();
+                    serializedObject.Update();
+                }
+                                
+                GUI.backgroundColor = Color.white;
+                
+                EditorGUILayout.EndHorizontal();
+            }
 
             EditorGUILayout.BeginHorizontal();
 
@@ -94,7 +141,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             EditorGUI.BeginDisabledGroup(
                 !NotionSecretKeyValidator.IsKeyValid(serializedObject.Fp("databaseApiKey").stringValue) ||
                 string.IsNullOrEmpty(serializedObject.Fp("linkToDatabase").stringValue) ||
-                serializedObject.Fp("processor").objectReferenceValue == null);
+                string.IsNullOrEmpty(serializedObject.Fp("processor").Fpr("type").stringValue));
 
 
             GUILayout.Space(1.5f);
@@ -126,7 +173,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                     .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
                     !.GetValue(serializedObject.targetObject);
                 
-                var requestData = new NotionRequestData((DataAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
+                var requestData = new NotionRequestData((NdAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
                 
                 NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
             }
@@ -137,6 +184,17 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
+            
+            return;
+
+            void OnSelectionMade(SearchTreeEntry entry)
+            {
+                serializedObject.Fp("processor").Fpr("assembly").stringValue = ((AssemblyClassDef)entry.userData).Assembly;
+                serializedObject.Fp("processor").Fpr("type").stringValue = ((AssemblyClassDef)entry.userData).Type;
+
+                serializedObject.ApplyModifiedProperties();
+                serializedObject.Update();
+            }
         }
 
 

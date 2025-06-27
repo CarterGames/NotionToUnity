@@ -24,14 +24,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace CarterGames.Standalone.NotionData
+namespace CarterGames.NotionData
 {
 	/// <summary>
 	/// Implement to alter the method at which data is parser to an asset from the data downloaded from Notion.
 	/// </summary>
 	/// <typeparam name="T">The type to parse to, normally the NotionDataAsset genetic passed argument type.</typeparam>
 	[Serializable]
-	public abstract class NotionDatabaseProcessor : DataAsset
+	public abstract class NotionDatabaseProcessor
 	{
 		public abstract List<object> Process<T>(NotionDatabaseQueryResult result) where T : new();
 	}

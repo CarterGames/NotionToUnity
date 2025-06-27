@@ -24,11 +24,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CarterGames.Standalone.NotionData.Filters;
+using CarterGames.Shared.NotionData;
+using CarterGames.Shared.NotionData.Editor;
+using CarterGames.NotionData.Filters;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Handles an editor window for downloading all data assets at once.
@@ -40,7 +42,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
         private static bool haltOnDownload = true;
-        private static List<DataAsset> toProcess;
+        private static List<NdAsset> toProcess;
         private static int TotalToProcessed = 0;
         private static int TotalProcessed = 0;
         private static bool hasErrorOnDownload;
@@ -50,7 +52,7 @@ namespace CarterGames.Standalone.NotionData.Editor
         |   Menu Item
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update Data", priority = 21)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Update All Notion Data", priority = 21)]
         private static void DownloadAll()
         {
             haltOnDownload = true;
@@ -59,7 +61,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             hasErrorOnDownload = false;
             silencedErrors = new List<NotionRequestError>();
             
-            DataAssetIndexHandler.UpdateIndex();
+            NdAssetIndexHandler.UpdateIndex();
             
             if (HasOpenInstances<DownloadAllHandler>())
             {
@@ -68,7 +70,8 @@ namespace CarterGames.Standalone.NotionData.Editor
             else
             {
                 var window = GetWindow<DownloadAllHandler>(true, "Download Notion Data");
-                window.maxSize = new Vector2(400, 400);
+                window.minSize = new Vector2(400, 150);
+                window.maxSize = new Vector2(400, 150);
             }
         }
 
@@ -82,9 +85,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             
             EditorGUILayout.HelpBox("Using this tool will auto download all Notion data assets found in the project with their current settings.", MessageType.Info);
             
-            
             GUILayout.Space(5f);
-            
             
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
@@ -101,7 +102,7 @@ namespace CarterGames.Standalone.NotionData.Editor
 
             GUI.backgroundColor = Color.green;
             
-            if (GUILayout.Button("Update All Notion Data Assets"))
+            if (GUILayout.Button("Update All Notion Data Assets", GUILayout.Height(25f)))
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
@@ -110,7 +111,7 @@ namespace CarterGames.Standalone.NotionData.Editor
                     return;
                 }
                 
-                toProcess = DataAccess.GetAllAssets();
+                toProcess = NotionDataAccessor.GetAllAssets();
                 TotalToProcessed = toProcess.Count;
                 TotalProcessed = 0;
                 hasErrorOnDownload = false;

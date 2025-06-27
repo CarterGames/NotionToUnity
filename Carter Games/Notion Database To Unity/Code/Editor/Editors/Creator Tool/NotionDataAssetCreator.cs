@@ -25,7 +25,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     /// <summary>
     /// Creates notion data assets for the user.
@@ -47,11 +47,13 @@ namespace CarterGames.Standalone.NotionData.Editor
         /// <summary>
         /// Makes a menu item for the creator to open.
         /// </summary>
-        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Asset Creator", priority = 20)]
+        [MenuItem("Tools/Carter Games/Standalone/Notion Data/Notion Data Asset Creator", priority = 20)]
         private static void ShowWindow()
         {
             var window = GetWindow<NotionDataAssetCreator>(true);
             window.titleContent = new GUIContent("Notion Data Asset Creator");
+            window.minSize = new Vector2(450, 180);
+            window.maxSize = new Vector2(450, 180);
             window.Show();
         }
 
@@ -69,7 +71,7 @@ namespace CarterGames.Standalone.NotionData.Editor
             EditorGUILayout.BeginVertical("HelpBox");
             GUILayout.Space(1.5f);
 
-            EditorGUILayout.LabelField("Data Asset Name", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Notion Data Asset Name", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             dataAssetName = EditorGUILayout.TextField(dataAssetName);
 
@@ -92,15 +94,18 @@ namespace CarterGames.Standalone.NotionData.Editor
 
             GUILayout.Space(4f);
 
-            if (GUILayout.Button("Create"))
+            GUI.backgroundColor = string.IsNullOrEmpty(dataAssetName) ? Color.white : Color.green;
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(dataAssetName));
+            
+            if (GUILayout.Button("Create", GUILayout.Height(25f)))
             {
                 CreateDataFile();
                 CreateAssetFile(out string path);
                 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                
-                EditorUtility.RequestScriptReload();
+
+                dataAssetName = string.Empty;
 
                 if (EditorUtility.DisplayDialog("Notion Data Asset Creator",
                         "Would you like to open the newly created files for editing?", "Yes", "No"))
@@ -108,6 +113,8 @@ namespace CarterGames.Standalone.NotionData.Editor
                     AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<TextAsset>(path));
                 }
             }
+            
+            EditorGUI.EndDisabledGroup();
         }
 
 

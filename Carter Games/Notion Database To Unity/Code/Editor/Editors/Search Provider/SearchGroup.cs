@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CarterGames.Standalone.NotionData.Editor
+namespace CarterGames.NotionData.Editor
 {
     [Serializable]
     public class SearchGroup<T>

@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using CarterGames.Shared.NotionData;
 using CarterGames.NotionData.Filters;
 using CarterGames.NotionData.ThirdParty;
+using CarterGames.Shared.NotionData.Editor;
+using UnityEngine;
 
 namespace CarterGames.NotionData.Editor
 {
@@ -58,9 +60,16 @@ namespace CarterGames.NotionData.Editor
 		/// <summary>
 		/// The url for the call.
 		/// </summary>
-		public string Url => $"https://api.notion.com/{NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionApiVersion.ToString()}/databases/{databaseId}/query";
-		
-		
+		public string Url
+		{
+			get
+			{
+				return
+					$"https://api.notion.com/{ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.NotionApiVersion.ToString()}/databases/{databaseId}/query";
+			}
+		}
+
+
 		/// <summary>
 		/// The api key for the database to be accessed with.
 		/// </summary>

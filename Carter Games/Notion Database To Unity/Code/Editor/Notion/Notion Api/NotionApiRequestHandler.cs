@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using CarterGames.Shared.NotionData;
 using CarterGames.NotionData.Filters;
 using CarterGames.NotionData.ThirdParty;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -173,8 +174,8 @@ namespace CarterGames.NotionData.Editor
             
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.DownloadTimeout;
             
             return request;
         }
@@ -212,8 +213,8 @@ namespace CarterGames.NotionData.Editor
             request.method = "POST";
             request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Notion-Version", NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().NotionAPIReleaseVersion.ToVersionString());
-            request.timeout = NotionDataAccessor.GetAsset<AssetEditorGlobalSettings>().DownloadTimeout;
+            request.SetRequestHeader("Notion-Version", ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.NotionAPIReleaseVersion.ToVersionString());
+            request.timeout = ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.DownloadTimeout;
             
             return request;
         }

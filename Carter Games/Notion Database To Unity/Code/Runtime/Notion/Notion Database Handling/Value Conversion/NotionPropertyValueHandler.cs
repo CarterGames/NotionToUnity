@@ -1,17 +1,17 @@
 ﻿/*
  * Copyright (c) 2025 Carter Games
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
- *    
+ *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@ namespace CarterGames.NotionData
     public static class NotionPropertyValueHandler
     {
         /// <summary>
-        /// Gets the value in this property its type if possible. 
+        /// Gets the value in this property its type if possible.
         /// </summary>
         /// <param name="property">The notion property to read from.</param>
         /// <param name="fieldType">The field type to match.</param>
@@ -45,14 +45,10 @@ namespace CarterGames.NotionData
         /// <returns>If the parsing was successful.</returns>
         public static bool TryGetValueAs(NotionProperty property, Type fieldType, out object value)
         {
-            Debug.Log(fieldType);
-            Debug.Log(fieldType.IsArray);
- 
-            
             if (fieldType.IsArray)
             {
                 if (TryParseAsArray(property, fieldType, out value)) return true;
-                
+
                 if (fieldType.IsEnum)
                 {
                     if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
@@ -62,29 +58,28 @@ namespace CarterGames.NotionData
             if (fieldType.IsGenericList())
             {
                 if (TryParseAsList(property, fieldType, out value)) return true;
-                
+
                 if (fieldType.IsEnum)
                 {
                     if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
                 }
             }
-            
-            
+
+
             if (TryParseAsPrimitive(property, fieldType, out value)) return true;
-            
-            
+
+
             if (fieldType.IsEnum)
             {
                 if (TryParseEnumOrEnumFlags(property, fieldType, out value)) return true;
             }
-            
-            
+
+
             if (TryParseWrapper(property, fieldType, out value)) return true;
-            
-            Debug.Log(property.PropertyName);
-            
+
             if (fieldType.IsClass)
             {
+                Debug.Log(property.JsonValue);
                 value = JsonUtility.FromJson(property.JsonValue, fieldType);
                 return value != null;
             }
@@ -92,10 +87,10 @@ namespace CarterGames.NotionData
             Debug.LogError("Couldn't parse data");
             return false;
         }
-        
-        
+
+
         /// <summary>
-        /// Gets the value in this property its type if possible (Only as wrapper). 
+        /// Gets the value in this property its type if possible (Only as wrapper).
         /// </summary>
         /// <param name="property">The notion property to read from.</param>
         /// <param name="fieldType">The field type to match.</param>
@@ -104,16 +99,16 @@ namespace CarterGames.NotionData
         public static bool TryGetValueAsWrapper(NotionProperty property, Type fieldType, out object value)
         {
             if (TryParseWrapper(property, fieldType, out value)) return true;
-            
+
             Debug.LogError("Couldn't parse data");
             return false;
         }
 
-        
+
         private static bool TryParseAsPrimitive(NotionProperty property, Type fieldType, out object result)
         {
             result = null;
-            
+
             try
             {
                 switch (fieldType.Name)
@@ -137,15 +132,15 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 return result != null;
             }
         }
-        
-        
+
+
         private static bool TryParseWrapper(NotionProperty property, Type fieldType, out object result)
         {
             result = null;
@@ -167,9 +162,9 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 return false;
             }
@@ -190,9 +185,9 @@ namespace CarterGames.NotionData
                         // Tries to parse as an array normally.
                         return JSON.Parse(property.JsonValue).AsArray;
                     }
-#pragma warning disable 0168
+                    #pragma warning disable 0168
                     catch (Exception e)
-#pragma warning restore
+                    #pragma warning restore
                     {
                         // Bracket the data in the [] so it can be parsed correctly.
                         var builder = new StringBuilder();
@@ -236,9 +231,9 @@ namespace CarterGames.NotionData
                     }
                 }
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 // If the value is already bracketed when downloading, just use that.
                 //
@@ -246,7 +241,7 @@ namespace CarterGames.NotionData
                 {
                     return JSON.Parse(property.JsonValue).AsArray;
                 }
-                
+
                 //
                 // Bracket the data in the [] so it can be parsed correctly.
                 //
@@ -271,7 +266,6 @@ namespace CarterGames.NotionData
             try
             {
                 var data = GetPropertyValueAsCollection(property);
-                
                 if (fieldType.GetElementType().IsEnum)
                 {
                     var parsedStringArray = new string[data.Count];
@@ -288,7 +282,7 @@ namespace CarterGames.NotionData
                 {
                     switch (fieldType.GetElementType()?.Name)
                     {
-                        case { } x when x.Equals("Int"):
+                        case { } x when x.Contains("Int"):
 
                             var parsedIntArray = new int[data.Count];
 
@@ -299,7 +293,7 @@ namespace CarterGames.NotionData
 
                             result = parsedIntArray;
                             break;
-                        case { } x when x.Equals("Boolean"):
+                        case { } x when x.Contains("Boolean"):
 
                             var parsedBoolArray = new bool[data.Count];
 
@@ -310,7 +304,7 @@ namespace CarterGames.NotionData
 
                             result = parsedBoolArray;
                             break;
-                        case { } x when x.Equals("Single"):
+                        case { } x when x.Contains("Single"):
 
                             var parsedFloatArray = new float[data.Count];
 
@@ -321,7 +315,7 @@ namespace CarterGames.NotionData
 
                             result = parsedFloatArray;
                             break;
-                        case { } x when x.Equals("Double"):
+                        case { } x when x.Contains("Double"):
 
                             var parsedDoubleArray = new double[data.Count];
 
@@ -332,7 +326,7 @@ namespace CarterGames.NotionData
 
                             result = parsedDoubleArray;
                             break;
-                        case { } x when x.Equals("String"):
+                        case { } x when x.Contains("String"):
 
                             var parsedStringArray = new string[data.Count];
 
@@ -350,9 +344,9 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 return false;
             }
@@ -367,8 +361,8 @@ namespace CarterGames.NotionData
             {
                 var data = GetPropertyValueAsCollection(property);
                 var typeName = fieldType.GenericTypeArguments.Length > 0
-                    ? fieldType.GenericTypeArguments[0]
-                    : fieldType;
+                ? fieldType.GenericTypeArguments[0]
+                : fieldType;
 
 
                 switch (typeName.Name)
@@ -434,9 +428,9 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 return false;
             }
@@ -459,15 +453,15 @@ namespace CarterGames.NotionData
                         result = Enum.Parse(fieldType, elements[0].Value.Replace(" ", ""));
                         return result != null;
                     }
-                    
+
                     for (var index = 0; index < elements.Count; index++)
                     {
                         combined += elements[index].Value;
-                        
+
                         if (index == elements.Count - 1) continue;
                         combined += ",";
                     }
-                    
+
                     result = Enum.Parse(fieldType, combined);
                     return result != null;
                 }
@@ -478,24 +472,24 @@ namespace CarterGames.NotionData
                         result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
                         return result != null;
                     }
-#pragma warning disable 0168
+                    #pragma warning disable 0168
                     catch (Exception e)
-#pragma warning restore
+                    #pragma warning restore
                     {
                         result = fieldType.IsValueType ? Activator.CreateInstance(fieldType) : null;
                         return result != null;
                     }
                 }
             }
-#pragma warning disable 0168
+            #pragma warning disable 0168
             catch (Exception e)
-#pragma warning restore
+            #pragma warning restore
             {
                 return false;
             }
         }
-        
-        
+
+
         private static bool IsGenericList(this Type o)
         {
             return (o.IsGenericType && (o.GetGenericTypeDefinition() == typeof(List<>)));

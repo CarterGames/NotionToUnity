@@ -188,7 +188,7 @@ namespace CarterGames.NotionData.Editor
         /// <param name="apiKey">The api key to use.</param>
         /// <param name="body">The body to use in the API call.</param>
         /// <param name="sorts">The sort properties to apply.</param>
-        /// <param name="filter">The filter to apply.</param>
+        /// <param name="filters">The filter to apply.</param>
         /// <returns>A prepared UnityWebRequest.</returns>
         private static UnityWebRequest PrepareRequest(string url, string apiKey, JSONObject body, NotionSortProperty[] sorts = null, NotionFilterContainer filters = null)
         {
@@ -247,7 +247,7 @@ namespace CarterGames.NotionData.Editor
             }
             
             EditorUtility.ClearProgressBar();
-            Debug.Log("Completed Download Successfully.");
+            // Debug.Log("Completed Download Successfully.");
             DataReceived.Raise(requestData.ResultData);
         }
         

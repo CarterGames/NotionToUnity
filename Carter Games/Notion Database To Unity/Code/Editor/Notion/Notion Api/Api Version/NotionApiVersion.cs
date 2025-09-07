@@ -30,6 +30,6 @@ namespace CarterGames.NotionData.Editor
     /// </summary>
     public enum NotionApiVersion
     {
-        [InspectorName("V1 (Default)")] V1 = 0,
+        [InspectorName("V1 (Default)")] v1 = 0,
     }
 }

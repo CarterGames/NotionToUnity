@@ -154,7 +154,7 @@ namespace CarterGames.NotionData.Editor
                 {
                     EditorUtility.DisplayDialog("Standalone Notion Data", "You cannot download data while offline.",
                         "Continue");
-                    return;
+                    goto EndMarker;
                 }
                 
                 // Do download stuff...
@@ -176,9 +176,12 @@ namespace CarterGames.NotionData.Editor
                 var requestData = new NotionRequestData((NdAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
                 
                 NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
+                EditorGUILayout.BeginVertical();
             }
             
             GUI.backgroundColor = Color.white;
+
+            EndMarker: ;
             
             EditorGUI.EndDisabledGroup();
             

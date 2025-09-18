@@ -3,7 +3,6 @@
     "rootNamespace": "CarterGames.NotionData.Editor",
     "references": [
         "GUID:aa312903d0d2e3541bf075ab426e5d8d",
-        "GUID:f091c6eaefcd9154fbffa0b3a07f41fe",
         "GUID:f0ee9ecf377e42043831037e8ccfaaf9",
         "GUID:b7ef0f805fe70004c8b0b07af22ee394"
     ],

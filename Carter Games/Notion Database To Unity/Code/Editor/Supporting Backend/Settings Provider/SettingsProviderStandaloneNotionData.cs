@@ -116,10 +116,17 @@ namespace CarterGames.NotionData.Editor
             EditorGUILayout.LabelField("Settings", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
 
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("apiVersion"), NotionMetaData.ApiVersion);
+            EditorGUI.BeginChangeCheck();
+            
             EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("apiReleaseVersion"), NotionMetaData.ApiReleaseVersion);
             EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("downloadTimeout"), NotionMetaData.DownloadTimeout);
 
+            if (EditorGUI.EndChangeCheck())
+            {
+                ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.ApplyModifiedProperties();
+                ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Update();
+            }
+            
             GUILayout.Space(1.5f);
             EditorGUILayout.EndVertical();
         }

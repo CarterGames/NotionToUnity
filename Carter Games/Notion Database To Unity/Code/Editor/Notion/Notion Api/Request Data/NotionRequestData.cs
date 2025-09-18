@@ -24,9 +24,8 @@
 using System.Collections.Generic;
 using CarterGames.Shared.NotionData;
 using CarterGames.NotionData.Filters;
-using CarterGames.NotionData.ThirdParty;
-using CarterGames.Shared.NotionData.Editor;
-using UnityEngine;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 
 namespace CarterGames.NotionData.Editor
 {
@@ -55,21 +54,11 @@ namespace CarterGames.NotionData.Editor
 		/// The data asset the request is for.
 		/// </summary>
 		public NdAsset RequestingAsset => requestingAsset;
-		
-		
-		/// <summary>
-		/// The url for the call.
-		/// </summary>
-		public string Url
-		{
-			get
-			{
-				return
-					$"https://api.notion.com/{ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.NotionApiVersion.ToString()}/databases/{databaseId}/query";
-			}
-		}
 
 
+		public string DatabaseId => databaseId;
+		
+		
 		/// <summary>
 		/// The api key for the database to be accessed with.
 		/// </summary>
@@ -98,7 +87,7 @@ namespace CarterGames.NotionData.Editor
 		/// Should the dialogues show for this request?
 		/// </summary>
 		public bool ShowResponseDialogue => !silentCall;
-		
+
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Constructor
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -129,7 +118,7 @@ namespace CarterGames.NotionData.Editor
 		/// Appends the data with more info when called (when over 100 entries etc).
 		/// </summary>
 		/// <param name="data">The data to add.</param>
-		public void AppendResultData(List<KeyValuePair<string, JSONNode>> data)
+		public void AppendResultData(List<IDictionary<string, JToken>> data)
 		{
 			if (resultData == null)
 			{

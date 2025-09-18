@@ -21,8 +21,8 @@
  * THE SOFTWARE.
  */
 
+using Newtonsoft.Json.Linq;
 using UnityEditor;
-using CarterGames.NotionData.ThirdParty;
 
 namespace CarterGames.NotionData.Editor
 {
@@ -59,9 +59,9 @@ namespace CarterGames.NotionData.Editor
 		/// </summary>
 		/// <param name="sortProperty">The property to convert.</param>
 		/// <returns>The Json for the sort property.</returns>
-		private static JSONObject ToJsonObject(this NotionSortProperty sortProperty)
+		private static JObject ToJsonObject(this NotionSortProperty sortProperty)
 		{
-			return new JSONObject()
+			return new JObject()
 			{
 				["property"] = sortProperty.PropertyName,
 				["direction"] = sortProperty.SortAscending ? "ascending" : "descending"
@@ -74,9 +74,9 @@ namespace CarterGames.NotionData.Editor
 		/// </summary>
 		/// <param name="sortProperties">The properties to convert.</param>
 		/// <returns>The Json for the sort properties.</returns>
-		public static JSONArray ToJsonArray(this NotionSortProperty[] sortProperties)
+		public static JArray ToJsonArray(this NotionSortProperty[] sortProperties)
 		{
-			var array = new JSONArray();
+			var array = new JArray();
 
 			foreach (var entry in sortProperties)
 			{

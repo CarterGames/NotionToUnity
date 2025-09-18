@@ -30,6 +30,7 @@ namespace CarterGames.NotionData.Editor
     /// </summary>
     public enum NotionApiReleaseVersion
     {
+        [InspectorName("2025-09-03 (Latest)")] NotionApi20250903 = 1,
         [InspectorName("2022-06-28")] NotionApi20220628 = 0,
     }
 }

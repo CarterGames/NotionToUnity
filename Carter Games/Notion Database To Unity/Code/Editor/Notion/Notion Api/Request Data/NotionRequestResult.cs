@@ -22,7 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 
 namespace CarterGames.NotionData.Editor
 {
@@ -35,7 +35,7 @@ namespace CarterGames.NotionData.Editor
 		|   Fields
 		───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 		
-		private readonly List<KeyValuePair<string, JSONNode>> data;
+		private readonly List<IDictionary<string, JToken>> data;
 
 		/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 		|   Properties
@@ -50,7 +50,7 @@ namespace CarterGames.NotionData.Editor
 		/// <summary>
 		/// The json received stored per property name in a list.
 		/// </summary>
-		public List<KeyValuePair<string, JSONNode>> Data => data;
+		public List<IDictionary<string, JToken>> Data => data;
 		
 		
 		/// <summary>
@@ -67,7 +67,7 @@ namespace CarterGames.NotionData.Editor
 		/// </summary>
 		/// <param name="data">The data to set.</param>
 		/// <param name="silentResponse">Should the response be silenced in the editor?</param>
-		public NotionRequestResult(List<KeyValuePair<string, JSONNode>> data, bool silentResponse)
+		public NotionRequestResult(List<IDictionary<string, JToken>> data, bool silentResponse)
 		{
 			this.data = data;
 			SilentResponse = silentResponse;

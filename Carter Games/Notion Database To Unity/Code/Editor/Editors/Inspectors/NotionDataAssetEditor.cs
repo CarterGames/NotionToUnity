@@ -21,10 +21,12 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Linq;
 using System.Reflection;
 using CarterGames.Shared.NotionData;
 using CarterGames.NotionData.Filters;
+using CarterGames.Shared.NotionData.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -34,13 +36,6 @@ namespace CarterGames.NotionData.Editor
     [CustomEditor(typeof(NotionDataAsset<>), true)]
     public sealed class NotionDataAssetEditor : UnityEditor.Editor
     {
-        private void OnEnable()
-        {
-            NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
-            NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);
-        }
-
-
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space(5f);
@@ -150,9 +145,15 @@ namespace CarterGames.NotionData.Editor
             
             if (GUILayout.Button("Download Data", GUILayout.Height(22.5f)))
             {
+                // Add to index if not present...
+                if (!ScriptableRef.GetAssetDef<NotionDataAssetIndex>().AssetRef.Lookup[serializedObject.targetObject.GetType().ToString()].Contains((NdAsset) serializedObject.targetObject))
+                {
+                    NdAssetIndexHandler.UpdateIndex();
+                }
+                
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                    EditorUtility.DisplayDialog("Standalone Notion Data", "You cannot download data while offline.",
+                    EditorUtility.DisplayDialog("Notion Data", "You cannot download data while offline.",
                         "Continue");
                     goto EndMarker;
                 }
@@ -160,22 +161,14 @@ namespace CarterGames.NotionData.Editor
                 // Do download stuff...
                 var databaseId = serializedObject.Fp("linkToDatabase").stringValue.Split('/').Last().Split('?').First();
                 
-                NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
-                NotionApiRequestHandler.DataReceived.Add(OnDataReceived);
-                
-                NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);
-                NotionApiRequestHandler.RequestError.Add(OnErrorReceived);
-                
-                NotionApiRequestHandler.ResetRequestData();
-                
                 var sorts = serializedObject.Fp("sortProperties").ToSortPropertyArray();
                 var filters = (NotionFilterContainer) target.GetType().BaseType!
                     .GetField("filters", BindingFlags.NonPublic | BindingFlags.Instance)
                     !.GetValue(serializedObject.targetObject);
                 
                 var requestData = new NotionRequestData((NdAsset) serializedObject.targetObject, databaseId, serializedObject.Fp("databaseApiKey").stringValue, sorts, filters);
-                
-                NotionApiRequestHandler.WebRequestPostWithAuth(requestData);
+
+                NotionApiRequestManager.RunRequest(requestData, OnDataReceived, OnErrorReceived);
                 EditorGUILayout.BeginVertical();
             }
             
@@ -203,18 +196,44 @@ namespace CarterGames.NotionData.Editor
 
         private void OnDataReceived(NotionRequestResult data)
         {
-            var queryResult = NotionDownloadParser.Parse(data.Data);
+            NotionDatabaseQueryResult queryResult;
             
-            target.GetType().BaseType.GetMethod("Apply", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(serializedObject.targetObject, new object[] { queryResult });
-
-            if (!data.SilentResponse)
+            try
             {
-                EditorUtility.DisplayDialog("Notion Data Download", "Download completed successfully", "Continue");
+                queryResult = NotionDownloadParser.Parse(data.Data);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Parsing of downloaded data failed. See message below for more information:");
+                Debug.LogError(e);
+                EditorUtility.ClearProgressBar();
+                throw;
             }
             
-            NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
-            NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);
+            try
+            {
+                target.GetType().BaseType.GetMethod("Apply", BindingFlags.NonPublic | BindingFlags.Instance)
+                    ?.Invoke(serializedObject.targetObject, new object[] { queryResult });
+                
+                EditorUtility.ClearProgressBar();
+                
+                if (!data.SilentResponse)
+                {
+                    EditorUtility.DisplayDialog("Notion Data Download", "Download completed & parsed successfully", "Continue");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Applying values from parsed data failed. See message below for more information:");
+                Debug.LogError(e);
+                
+                EditorUtility.ClearProgressBar();
+                
+                if (!data.SilentResponse)
+                {
+                    EditorUtility.DisplayDialog("Notion Data Download", "Download completed, but failed to parse all properties. See console for more information.", "Continue");
+                }
+            }
 
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
@@ -224,9 +243,6 @@ namespace CarterGames.NotionData.Editor
         private void OnErrorReceived(NotionRequestError error)
         {
             EditorUtility.DisplayDialog("Notion Data Download", $"Download failed ({error.Error}):\n{error.Message}", "Continue");
-            
-            NotionApiRequestHandler.DataReceived.Remove(OnDataReceived);
-            NotionApiRequestHandler.RequestError.Remove(OnErrorReceived);
             
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();

@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CarterGames.Shared.NotionData;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.NotionData
@@ -76,15 +76,15 @@ namespace CarterGames.NotionData
 
 
             if (TryParseWrapper(property, fieldType, out value)) return true;
-
+            
+            
             if (fieldType.IsClass)
             {
-                Debug.Log(property.JsonValue);
                 value = JsonUtility.FromJson(property.JsonValue, fieldType);
                 return value != null;
             }
 
-            Debug.LogError("Couldn't parse data");
+            Debug.LogError($"Couldn't parse data for {property.PropertyName} - {fieldType}");
             return false;
         }
 
@@ -139,7 +139,7 @@ namespace CarterGames.NotionData
                 return result != null;
             }
         }
-
+        
 
         private static bool TryParseWrapper(NotionProperty property, Type fieldType, out object result)
         {
@@ -162,20 +162,20 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-            #pragma warning disable 0168
+#pragma warning disable 0168
             catch (Exception e)
-            #pragma warning restore
+#pragma warning restore
             {
                 return false;
             }
         }
 
 
-        private static JSONArray GetPropertyValueAsCollection(NotionProperty property)
+        private static JArray GetPropertyValueAsCollection(NotionProperty property)
         {
             try
             {
-                var value = property.MultiSelect().Value;
+                var value = property.MultiSelect().JsonValue;
 
                 // If the value is an collection of more than 1 element.
                 if (value.Length > 1)
@@ -183,11 +183,11 @@ namespace CarterGames.NotionData
                     try
                     {
                         // Tries to parse as an array normally.
-                        return JSON.Parse(property.JsonValue).AsArray;
+                        return JArray.Parse(property.JsonValue);
                     }
-                    #pragma warning disable 0168
+#pragma warning disable 0168
                     catch (Exception e)
-                    #pragma warning restore
+#pragma warning restore
                     {
                         // Bracket the data in the [] so it can be parsed correctly.
                         var builder = new StringBuilder();
@@ -204,7 +204,7 @@ namespace CarterGames.NotionData
 
                         builder.Append("]");
 
-                        return JSON.Parse(builder.ToString()).AsArray;
+                        return JArray.Parse(builder.ToString());
                     }
                 }
                 // Only a single element collection.
@@ -212,10 +212,13 @@ namespace CarterGames.NotionData
                 {
                     // If the value is already bracketed when downloading, just use that.
                     //
-                    if (property.JsonValue.Contains("[") && property.JsonValue.Contains("]"))
+                    var charArray = property.JsonValue.ToCharArray();
+                
+                    if (charArray[0].Equals('[') && charArray[charArray.Length - 1].Equals(']'))
                     {
-                        return JSON.Parse(property.JsonValue).AsArray;
+                        return JArray.Parse(property.JsonValue);
                     }
+                    
                     //
                     // Bracket the data in the [] so it can be parsed correctly.
                     //
@@ -227,19 +230,29 @@ namespace CarterGames.NotionData
                         builder.Append($"\"{property.JsonValue.Split(',')[0].Trim()}\"");
                         builder.Append("]");
 
-                        return JSON.Parse(builder.ToString()).AsArray;
+                        return JArray.Parse(builder.ToString());
                     }
                 }
             }
-            #pragma warning disable 0168
+#pragma warning disable 0168
             catch (Exception e)
-            #pragma warning restore
+#pragma warning restore
             {
                 // If the value is already bracketed when downloading, just use that.
                 //
-                if (property.JsonValue.Contains("[") && property.JsonValue.Contains("]"))
+                var charArray = property.JsonValue.ToCharArray();
+                
+                if (charArray[0].Equals('[') && charArray[charArray.Length - 1].Equals(']'))
                 {
-                    return JSON.Parse(property.JsonValue).AsArray;
+                    var raw = property.JsonValue.Replace("[", string.Empty).Replace("]", string.Empty);
+                    var collection = new JArray();
+
+                    foreach (var entry in raw.Split(','))
+                    {
+                        collection.Add(entry.Trim());
+                    }
+
+                    return collection;
                 }
 
                 //
@@ -253,7 +266,7 @@ namespace CarterGames.NotionData
                     builder.Append($"\"{property.JsonValue.Split(',')[0].Trim()}\"");
                     builder.Append("]");
 
-                    return JSON.Parse(builder.ToString()).AsArray;
+                    return JArray.Parse(builder.ToString());
                 }
             }
         }
@@ -266,21 +279,23 @@ namespace CarterGames.NotionData
             try
             {
                 var data = GetPropertyValueAsCollection(property);
+
+
                 if (fieldType.GetElementType().IsEnum)
                 {
                     var parsedStringArray = new string[data.Count];
 
                     for (var i = 0; i < data.Count; i++)
                     {
-                        parsedStringArray[i] = data[i].Value;
+                        parsedStringArray[i] = data[i].Value<string>();
                     }
 
-                    result = parsedStringArray.Select(t => (int) Enum.Parse(fieldType.GetElementType(), t)).ToArray();
+                    result = parsedStringArray.Select(t => (int)Enum.Parse(fieldType.GetElementType(), t)).ToArray();
                     return true;
                 }
                 else
                 {
-                    switch (fieldType.GetElementType()?.Name)
+                    switch (fieldType.GetElementType().Name)
                     {
                         case { } x when x.Contains("Int"):
 
@@ -288,7 +303,7 @@ namespace CarterGames.NotionData
 
                             for (var i = 0; i < data.Count; i++)
                             {
-                                parsedIntArray[i] = int.Parse(data[i].Value);
+                                parsedIntArray[i] = int.Parse(data[i].Value<string>());
                             }
 
                             result = parsedIntArray;
@@ -299,7 +314,7 @@ namespace CarterGames.NotionData
 
                             for (var i = 0; i < data.Count; i++)
                             {
-                                parsedBoolArray[i] = bool.Parse(data[i].Value);
+                                parsedBoolArray[i] = bool.Parse(data[i].Value<string>());
                             }
 
                             result = parsedBoolArray;
@@ -310,7 +325,7 @@ namespace CarterGames.NotionData
 
                             for (var i = 0; i < data.Count; i++)
                             {
-                                parsedFloatArray[i] = float.Parse(data[i].Value);
+                                parsedFloatArray[i] = float.Parse(data[i].Value<string>());
                             }
 
                             result = parsedFloatArray;
@@ -321,7 +336,7 @@ namespace CarterGames.NotionData
 
                             for (var i = 0; i < data.Count; i++)
                             {
-                                parsedDoubleArray[i] = double.Parse(data[i].Value);
+                                parsedDoubleArray[i] = double.Parse(data[i].Value<string>());
                             }
 
                             result = parsedDoubleArray;
@@ -332,7 +347,7 @@ namespace CarterGames.NotionData
 
                             for (var i = 0; i < data.Count; i++)
                             {
-                                parsedStringArray[i] = data[i].Value;
+                                parsedStringArray[i] = data[i].ToString();
                             }
 
                             result = parsedStringArray;
@@ -344,9 +359,9 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-            #pragma warning disable 0168
+#pragma warning disable 0168
             catch (Exception e)
-            #pragma warning restore
+#pragma warning restore
             {
                 return false;
             }
@@ -373,7 +388,7 @@ namespace CarterGames.NotionData
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedIntList.Add(int.Parse(data[i].Value));
+                            parsedIntList.Add(int.Parse(data[i].Value<string>()));
                         }
 
                         result = parsedIntList;
@@ -384,7 +399,7 @@ namespace CarterGames.NotionData
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedBoolList.Add(bool.Parse(data[i].Value));
+                            parsedBoolList.Add(bool.Parse(data[i].Value<string>()));
                         }
 
                         result = parsedBoolList;
@@ -395,7 +410,7 @@ namespace CarterGames.NotionData
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedFloatList.Add(float.Parse(data[i].Value));
+                            parsedFloatList.Add(float.Parse(data[i].Value<string>()));
                         }
 
                         result = parsedFloatList;
@@ -406,7 +421,7 @@ namespace CarterGames.NotionData
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedDoubleList.Add(double.Parse(data[i].Value));
+                            parsedDoubleList.Add(double.Parse(data[i].Value<string>()));
                         }
 
                         result = parsedDoubleList;
@@ -417,7 +432,7 @@ namespace CarterGames.NotionData
 
                         for (var i = 0; i < data.Count; i++)
                         {
-                            parsedStringList.Add(data[i].Value);
+                            parsedStringList.Add(data[i].Value<string>());
                         }
 
                         result = parsedStringList;
@@ -428,9 +443,9 @@ namespace CarterGames.NotionData
 
                 return result != null;
             }
-            #pragma warning disable 0168
+#pragma warning disable 0168
             catch (Exception e)
-            #pragma warning restore
+#pragma warning restore
             {
                 return false;
             }
@@ -443,20 +458,20 @@ namespace CarterGames.NotionData
 
             try
             {
-                if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && JSON.Parse(property.JsonValue).IsArray)
+                if (fieldType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0 && property.JsonValue.Contains("["))
                 {
                     var combined = string.Empty;
-                    var elements = JSON.Parse(property.JsonValue).AsArray;
+                    var elements = JArray.Parse(property.JsonValue);
 
                     if (elements.Count <= 1)
                     {
-                        result = Enum.Parse(fieldType, elements[0].Value.Replace(" ", ""));
+                        result = Enum.Parse(fieldType, elements[0].Value<string>().Replace(" ", ""));
                         return result != null;
                     }
 
                     for (var index = 0; index < elements.Count; index++)
                     {
-                        combined += elements[index].Value;
+                        combined += elements[index].Value<string>();
 
                         if (index == elements.Count - 1) continue;
                         combined += ",";
@@ -467,23 +482,44 @@ namespace CarterGames.NotionData
                 }
                 else
                 {
+                    if (GetPropertyValueAsCollection(property).Count > 0)
+                    {
+                        var combined = string.Empty;
+                        var data = GetPropertyValueAsCollection(property);
+                        
+                        for (var index = 0; index < data.Count; index++)
+                        {
+                            combined += data[index].Value<string>();
+
+                            if (index == data.Count - 1) continue;
+                            combined += ",";
+                        }
+
+                        result = Enum.Parse(fieldType, combined);
+                    }
+                    else
+                    {
+                        result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
+                        return result != null;
+                    }
+                    
                     try
                     {
                         result = Enum.Parse(fieldType, property.JsonValue.Replace(" ", ""));
                         return result != null;
                     }
-                    #pragma warning disable 0168
+#pragma warning disable 0168
                     catch (Exception e)
-                    #pragma warning restore
+#pragma warning restore
                     {
                         result = fieldType.IsValueType ? Activator.CreateInstance(fieldType) : null;
                         return result != null;
                     }
                 }
             }
-            #pragma warning disable 0168
+#pragma warning disable 0168
             catch (Exception e)
-            #pragma warning restore
+#pragma warning restore
             {
                 return false;
             }

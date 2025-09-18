@@ -37,7 +37,7 @@ namespace CarterGames.Shared.NotionData.Editor
         /// <summary>
         /// The version number of the asset.
         /// </summary>
-        public static string VersionNumber => "0.6.3";
+        public static string VersionNumber => "0.7.0";
         
         
         /// <summary>
@@ -46,6 +46,6 @@ namespace CarterGames.Shared.NotionData.Editor
         /// <remarks>
         /// Asset owner is in the UK, so its Y/M/D format.
         /// </remarks>
-        public static string ReleaseDate => "2025/09/07";
+        public static string ReleaseDate => "2025/09/20";
     }
 }

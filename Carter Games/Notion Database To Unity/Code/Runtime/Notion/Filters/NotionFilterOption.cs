@@ -22,7 +22,7 @@
  */
 
 using System;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.NotionData.Filters
@@ -46,7 +46,7 @@ namespace CarterGames.NotionData.Filters
 		
 		
 
-		public virtual JSONObject ToJson()
+		public virtual JObject ToJson()
 		{
 			return null;
 		}

@@ -1,6 +1,5 @@
-﻿using CarterGames.Standalone.NotionData;
+﻿using CarterGames.NotionData;
 using UnityEngine;
-
 
 namespace Data
 {

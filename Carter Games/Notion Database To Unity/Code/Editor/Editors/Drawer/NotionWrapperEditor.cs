@@ -33,11 +33,11 @@ namespace CarterGames.NotionData.Editor
         {
             EditorGUI.BeginProperty(position, label, property);
             
-            var spriteRef = property.Fpr("value");
+            var valueRef = property.Fpr("value");
             
             EditorGUI.BeginChangeCheck();
 
-            EditorGUI.PropertyField(position, spriteRef, label);
+            EditorGUI.PropertyField(position, valueRef, label);
             
             if (EditorGUI.EndChangeCheck())
             {

@@ -34,8 +34,7 @@ namespace CarterGames.NotionData.Editor
 	    |   Fields
 	    ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 	    
-        [SerializeField] private NotionApiVersion apiVersion;
-        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion;
+        [SerializeField] private NotionApiReleaseVersion apiReleaseVersion = NotionApiReleaseVersion.NotionApi20250903;
         [SerializeField] [Range(2, 25)] private int downloadTimeout = 10;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -46,12 +45,6 @@ namespace CarterGames.NotionData.Editor
         /// The Notion release API version to use.
         /// </summary>
         public NotionApiReleaseVersion NotionAPIReleaseVersion => apiReleaseVersion;
-        
-        
-        /// <summary>
-        /// The Notion API version to use.
-        /// </summary>
-        public NotionApiVersion NotionApiVersion => apiVersion;
 
 
         /// <summary>

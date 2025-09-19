@@ -123,6 +123,8 @@ namespace CarterGames.NotionData.Editor
                         "Continue");
                     return;
                 }
+                
+                NdAssetIndexHandler.UpdateIndex();
 
                 toProcess = NotionDataAccessor.GetAllAssets().Where(t => t.GetType() != typeof(EditorOnlyNdAsset))
                     .ToList();

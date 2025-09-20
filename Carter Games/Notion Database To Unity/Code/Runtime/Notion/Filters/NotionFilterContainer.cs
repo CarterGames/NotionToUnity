@@ -24,7 +24,7 @@
 using System;
 using System.Linq;
 using CarterGames.Shared.NotionData.Serializiation;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace CarterGames.NotionData.Filters
@@ -56,35 +56,35 @@ namespace CarterGames.NotionData.Filters
 		}
 
 
-		public JSONObject ToFilterJson()
+		public JObject ToFilterJson()
 		{
-			var json = new JSONObject();
+			var json = new JObject();
 
 			foreach (var group in filterGroups)
 			{
 				if (group.Value.IsNested) continue;
 
 				var type = group.Value.IsAndCheck ? "and" : "or";
-				json[type] = new JSONArray();
+				json[type] = new JArray();
 
 				foreach (var entry in group.Value.FilterOptions)
 				{
 					if (entry.TypeName == "Group")
 					{
 						var groupData = filterGroups.FirstOrDefault(t => t.Key == entry.Option.Value);
-						var groupJson = new JSONObject();
+						var groupJson = new JObject();
 
 						foreach (var groupEntry in groupData.Value.FilterOptions)
 						{
 							var groupType = groupData.Value.IsAndCheck ? "and" : "or";
-							groupJson[groupType].Add(groupEntry.ToJson());
+							((JArray) groupJson[groupType]).Add(groupEntry.ToJson());
 						}
 
-						json[type].Add(groupJson);
+						((JArray) json[type]).Add(groupJson);
 						continue;
 					}
 
-					json[type].Add(entry.ToJson());
+					((JArray) json[type]).Add(entry.ToJson());
 				}
 			}
 

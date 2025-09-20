@@ -75,5 +75,11 @@ namespace CarterGames.NotionData
         {
             return new NotionPropertyNumber(data);
         }
+
+        
+        public static NotionPropertyUrl Url(NotionPropertyData data)
+        {
+            return new NotionPropertyUrl(data);
+        }
     }
 }

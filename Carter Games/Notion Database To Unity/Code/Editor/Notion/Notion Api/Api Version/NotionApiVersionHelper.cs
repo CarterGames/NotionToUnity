@@ -33,6 +33,7 @@ namespace CarterGames.NotionData.Editor
             return apiReleaseVersion switch
             {
                 NotionApiReleaseVersion.NotionApi20220628 => "2022-06-28",
+                NotionApiReleaseVersion.NotionApi20250903 => "2025-09-03",
                 _ => string.Empty
             };
         }

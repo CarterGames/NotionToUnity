@@ -22,7 +22,7 @@
  */
 
 using System;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 
 namespace CarterGames.NotionData.Filters
 {
@@ -50,9 +50,9 @@ namespace CarterGames.NotionData.Filters
 		}
 		
 		
-		public override JSONObject ToJson()
+		public override JObject ToJson()
 		{
-			var data = new JSONObject();
+			var data = new JObject();
 
 			if (!isRollup)
 			{

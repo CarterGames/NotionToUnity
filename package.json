@@ -1,12 +1,14 @@
 {
-  "name": "games.carter.standalone.notiondata",
-  "version": "0.6.3",
-  "displayName": "Notion Data (Standalone)",
-  "description": "A system to import Notion databases into a Unity scriptable object for use in Unity projects. This is a standalone version of the system in the Cart library of the same name.",
-  "unity": "2020.3",
+  "name": "games.carter.notiondata",
+  "version": "0.7.0",
+  "displayName": "Notion Data",
+  "description": "A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more!"
   "unityRelease": "0f1",
   "documentationUrl": "https://carter.games/",
   "licensesUrl": "https://github.com/CarterGames/NotionToUnity/blob/main/LICENSE",
+  "dependencies": {
+      "com.unity.nuget.newtonsoft-json": "2.0.0"
+  },
   "author": {
     "name": "Carter Games",
     "email": "hello@carter.games",

@@ -22,13 +22,13 @@
  */
 
 using CarterGames.NotionData.Filters;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 
 namespace CarterGames.NotionData
 {
 	public static class FilterJsonHelper
 	{
-		public static JSONObject ToJson(this NotionFilterOptionDef filterOptionDef)
+		public static JObject ToJson(this NotionFilterOptionDef filterOptionDef)
 		{
 			return filterOptionDef.TypeName switch
 			{

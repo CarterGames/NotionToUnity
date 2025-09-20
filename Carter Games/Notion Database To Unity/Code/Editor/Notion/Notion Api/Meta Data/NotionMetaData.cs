@@ -39,12 +39,6 @@ namespace CarterGames.NotionData.Editor
                 "The release date of the standalone asset. In Year/Month/Day order.");
         
         
-        public static readonly GUIContent ApiVersion =
-            new GUIContent(
-                "API version:",
-                "The major API version to use in Notion API calls.");
-        
-        
         public static readonly GUIContent ApiReleaseVersion =
             new GUIContent(
                 "API release version:",

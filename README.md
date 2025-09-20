@@ -1,16 +1,23 @@
 # Notion Database to Unity Scriptable Object
 
-A flexible system to import Notion databases into a Unity scriptable object for use in Unity game projects. Note: This is experimental. While functional, there may be issues or edge cases that are not covered. Updates will also be slow/infrequent.
+A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more! 
 
 
 <br>
 
 
 ![Unity](https://img.shields.io/badge/Unity-2020.3.x_or_higher-critical?style=for-the-badge&color=8b8b8b)
-![Notion API](https://img.shields.io/badge/Notion_API-(V1)_2022/06/28-critical?style=for-the-badge&color=918f48)
+<br>
+![Notion API](https://img.shields.io/badge/Notion_API-2025/09/03-critical?style=for-the-badge&color=4f9148)
+<br>
+![Notion API 2](https://img.shields.io/badge/Notion_API-2022/06/28-critical?style=for-the-badge&color=918f48)
+<br>
 ![GitHub all releases](https://img.shields.io/github/downloads/CarterGames/NotionToUnity/total?style=for-the-badge&color=8d6ca1)
+<br>
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CarterGames/NotionToUnity?style=for-the-badge)
+<br>
 ![GitHub repo size](https://img.shields.io/github/repo-size/CarterGames/NotionToUnity?style=for-the-badge)
+<br>
 ![Static Badge](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
 
@@ -18,6 +25,14 @@ A flexible system to import Notion databases into a Unity scriptable object for 
 
 ### Authors
 - <a href="https://github.com/JonathanMCarter">Jonathan Carter</a>
+<br>
+
+
+### Dependencies
+- Newtonsoft Json Unity Package which can be added via the Unity package manager with the following:
+```
+com.unity.nuget.newtonsoft-json
+```
 <br>
 
 ### Documentation
@@ -34,9 +49,6 @@ Full documentation can be found here: <a href="https://carter.games/docs/notiond
    * [Unity Package Manager (Git URL)](#unity-package-manager-git-url-recommended)
    * [Package Import (.unityPackage)](#unity-package-unitypackage)
    * [Manual (Clone)](#manual-clone)
-* [Setup Guide](#setup-guide)
-   * [Notion Setup](#-notion-setup)
-   * [Unity Setup](#-unity-setup)
 
 <br><br>
 
@@ -76,6 +88,7 @@ Note that rollups are supported only when they show a property that is otherwise
 | Multi-Select | ```string[]``` ```List<string>``` ```enum flags``` |
 | Rollup | ```Any supported in this table.``` |
 | Date | ```SerializableDateTime``` |
+| Url | ```string```  |
 
 
 <br><br>

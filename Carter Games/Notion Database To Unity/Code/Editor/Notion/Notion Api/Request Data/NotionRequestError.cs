@@ -23,8 +23,8 @@
 
 using System;
 using CarterGames.Shared.NotionData;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
-using CarterGames.NotionData.ThirdParty;
 
 namespace CarterGames.NotionData.Editor
 {
@@ -79,13 +79,13 @@ namespace CarterGames.NotionData.Editor
         /// </summary>
         /// <param name="asset">The related asset.</param>
         /// <param name="errorJson">The json to read for the error message.</param>
-        public NotionRequestError(NdAsset asset, JSONNode errorJson)
+        public NotionRequestError(NdAsset asset, JObject errorJson)
         {
             this.asset = asset;
 
             try
             {
-                errorCode = errorJson["errorCode"].AsInt;
+                errorCode = errorJson["errorCode"].Value<int>();
             }
 #pragma warning disable 0168
             catch (Exception e)
@@ -94,8 +94,8 @@ namespace CarterGames.NotionData.Editor
                 errorCode = 0;
             }
 
-            code = errorJson["code"];
-            message = errorJson["message"];
+            code = errorJson["code"].Value<string>();
+            message = errorJson["message"].Value<string>();
         }
     }
 }

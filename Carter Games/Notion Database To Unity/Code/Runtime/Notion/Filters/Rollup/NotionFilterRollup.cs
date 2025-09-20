@@ -22,7 +22,7 @@
  */
 
 using System.Collections.Generic;
-using CarterGames.NotionData.ThirdParty;
+using Newtonsoft.Json.Linq;
 
 namespace CarterGames.NotionData.Filters
 {
@@ -37,9 +37,9 @@ namespace CarterGames.NotionData.Filters
 			};
 		
 		
-		public static JSONObject ToRollupJson(NotionFilterOption filterOptionDef)
+		public static JObject ToRollupJson(NotionFilterOption filterOptionDef)
 		{
-			var data = new JSONObject();
+			var data = new JObject();
 
 			data["property"] = filterOptionDef.PropertyName;
 			data["rollup"][FilterStringLookup[(NotionFilterRollupComparison) filterOptionDef.RollupComparisonEnumIndex]] = filterOptionDef.ToJson();

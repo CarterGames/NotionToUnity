@@ -1,6 +1,6 @@
 # Notion Database to Unity Scriptable Object
 
-A flexible system to import Notion databases into a Unity scriptable object for use in Unity game projects. Note: This is experimental. While functional, there may be issues or edge cases that are not covered. Updates will also be slow/infrequent.
+A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more! 
 
 
 <br>
@@ -26,6 +26,13 @@ A flexible system to import Notion databases into a Unity scriptable object for 
 ### Authors
 - <a href="https://github.com/JonathanMCarter">Jonathan Carter</a>
 <br>
+
+
+### Dependencies
+- Newtonsoft Json Unity Package which can be added via the Unity package manager with the following:
+```
+com.unity.nuget.newtonsoft-json
+```
 
 ### Documentation
 Full documentation can be found here: <a href="https://carter.games/docs/notiondata/documentation.pdf">https://carter.games/docs/notiondata/documentation.pdf</a>

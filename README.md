@@ -33,6 +33,7 @@ A tool to download Notion databases into a Unity scriptable object for use in Un
 ```
 com.unity.nuget.newtonsoft-json
 ```
+<br>
 
 ### Documentation
 Full documentation can be found here: <a href="https://carter.games/docs/notiondata/documentation.pdf">https://carter.games/docs/notiondata/documentation.pdf</a>

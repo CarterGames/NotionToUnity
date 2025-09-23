@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CarterGames.Shared.NotionData.Serializiation;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -120,6 +121,8 @@ namespace CarterGames.NotionData.Editor
                 
                 if (notionType == "rollup")
                 {
+                    if (entry.Value["rollup"]["array"].Count() <= 0) continue;
+                    
                     notionType = entry.Value["rollup"]["array"][0]["type"].Value<string>();
                     downloadText = entry.Value["rollup"]["array"][0].ToString();
                     valueJson = GetValueForType(notionType, entry.Value["rollup"]["array"][0]);

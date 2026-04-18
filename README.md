@@ -1,3 +1,5 @@
+![NotionData_Logo_160](https://github.com/user-attachments/assets/ca1e5436-dcce-44aa-a96b-7638ac9a8e7d)
+
 # Notion Database to Unity Scriptable Object
 
 A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more! 

@@ -19,6 +19,7 @@ Notion to Unity is a tool to import Notion databases into scriptable objects so 
     - [Filters](#filters)
     - [Sorting properties](#sorting-properties)
     - [Wrapper classes](#wrapper-classes)
+    - [Ignore properties](#ignore-properties)
     - [Post download logic](#post-download-logic)
     - [Update all assets](#update-all-assets)
 - [Scripting](#scripting-api)
@@ -39,6 +40,7 @@ use the latest version where possible.
 
 > **Note**: Support for multiple data sources is still early days,
 > but should work fine as long as the properties are the same on all sources.
+
 <br/>
 
 ## Supported Notion properties
@@ -88,7 +90,7 @@ data class which holds the data structure for the data asset
 to store. There is a tool to make these for you which can be
 found under:
 ```
-Tools > Standalone > Notion Data > Asset Creator
+Tools > Carter Games > Notion Data > Asset Creator
 ```
 
 <br/>
@@ -198,6 +200,26 @@ compile for builds.
 
 <br/>
 
+### Ignore properties
+You can have the setup ignore properties from a Notion database by assigning a prefix the property name in Notion.
+The default prefix to apply is `#`. Properties that match the prefix are still technically downloaded, 
+but are skipped when processing the data.
+
+You can change the prefix used in the settings for the asset under:
+
+```
+Project Settings > Carter Games > Notion Data
+```
+
+Or from the navigation bar:
+
+```
+Tools > Carter Games > Notion Data > Settings
+```
+
+
+<br/>
+
 ### Post download logic
 You can also manipulate the data you download after
 receiving it by writing an override to the method called
@@ -236,7 +258,7 @@ You can download all data assets in one process through an
 additional editor window. The window can be found under:
 
 ```
-Tools > Carter Games > Standalone > Notion Data > UpdateData
+Tools > Carter Games > Notion Data > UpdateData
 ```
 
 The window has the option to halt the downloading of

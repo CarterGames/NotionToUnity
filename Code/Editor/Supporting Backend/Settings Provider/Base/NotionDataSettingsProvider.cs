@@ -27,7 +27,7 @@ namespace CarterGames.NotionData.Editor
         |   Fields
         ───────────────────────────────────────────────────────────────────────────────────────────────────────────── */
         
-        private const string Path = "Carter Games/Assets/Notion Data";
+        private const string Path = "Carter Games/Notion Data";
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Properties

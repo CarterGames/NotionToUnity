@@ -107,8 +107,8 @@ namespace CarterGames.NotionData.Editor
             {
                 var adjustedKey = entry.Key.Trim().ToLower().Replace(" ", string.Empty);
 
-                if (adjustedKey.StartsWith(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef
-                        .Fp("ignorePropertyPrefix").stringValue))
+                // Ignore if the name starts with the ignore prefix defined in the settings.
+                if (adjustedKey.StartsWith(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.IgnorePropertyPrefix))
                 {
                     continue;
                 }

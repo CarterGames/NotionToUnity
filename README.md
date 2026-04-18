@@ -38,7 +38,7 @@ com.unity.nuget.newtonsoft-json
 <br>
 
 ### Documentation
-Full documentation can be found here: <a href="https://carter.games/docs/notiondata/documentation.pdf">https://carter.games/docs/notiondata/documentation.pdf</a>
+Full documentation can be found [here](Docs/Docs.md)
 
 
 <br><br>
@@ -129,4 +129,4 @@ Download the repo/clone it and import the files into your project manually.
 <br><br>
 
 
-Please refer to <a href="https://carter.games/docs/notiondata/documentation.pdf">documentation</a> for details on setup in your project & usage.
+Please refer to the [documentation](Docs/Docs.md) for details on setup in your project & usage.

@@ -99,8 +99,6 @@ namespace CarterGames.NotionData.Editor
         /// <returns>The database row generated.</returns>
         private static NotionDatabaseRow GetRowData(IDictionary<string, JToken> data)
         {
-            var keys = new List<string>();
-            var values = new List<JToken>();
             var lookup = new SerializableDictionary<string, NotionProperty>();
 
             foreach (var entry in data)
@@ -108,9 +106,13 @@ namespace CarterGames.NotionData.Editor
                 var adjustedKey = entry.Key.Trim().ToLower().Replace(" ", string.Empty);
 
                 // Ignore if the name starts with the ignore prefix defined in the settings.
-                if (adjustedKey.StartsWith(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.IgnorePropertyPrefix))
+                if (ScriptableRef.GetAssetDef<NotionDataEditorSettings>().AssetRef.UseIgnorePrefix)
                 {
-                    continue;
+                    if (adjustedKey.StartsWith(ScriptableRef.GetAssetDef<NotionDataEditorSettings>().AssetRef
+                            .IgnorePropertyPrefix))
+                    {
+                        continue;
+                    }
                 }
                 
                 var actualKey = entry.Key;

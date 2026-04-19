@@ -21,7 +21,7 @@ using UnityEngine;
 namespace CarterGames.NotionData.Editor
 {
 	[Serializable]
-    public class AssetEditorGlobalSettings : EditorOnlyNdAsset
+    public class NotionDataEditorSettings : EditorOnlyNdAsset
     {
 	    /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 	    |   Fields
@@ -45,8 +45,21 @@ namespace CarterGames.NotionData.Editor
         /// The time required to wait until a download attempt will fail automatically.
         /// </summary>
         public int DownloadTimeout => downloadTimeout;
-        
-        
+
+
+        /// <summary>
+        /// Gets if the ignore prefix should be used.
+        /// </summary>
+        public bool UseIgnorePrefix
+        {
+	        get
+	        {
+		        if (string.IsNullOrEmpty(IgnorePropertyPrefix)) return false;
+		        return IgnorePropertyPrefix.Length > 0;
+	        }
+        }
+
+
         /// <summary>
         /// Defines the prefix of properties in Notion the system should ignore.
         /// </summary>

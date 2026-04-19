@@ -31,7 +31,7 @@ namespace CarterGames.NotionData.Editor
         };
 
 
-        private static NotionApiReleaseVersion TargetVersion => ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>()
+        private static NotionApiReleaseVersion TargetVersion => ScriptableRef.GetAssetDef<NotionDataEditorSettings>()
             .AssetRef.NotionAPIReleaseVersion;
 
 

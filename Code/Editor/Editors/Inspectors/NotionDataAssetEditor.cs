@@ -29,6 +29,10 @@ namespace CarterGames.NotionData.Editor
     [CustomEditor(typeof(NotionDataAsset<>), true)]
     public sealed class NotionDataAssetEditor : UnityEditor.Editor
     {
+        private static readonly GUIContent ApiKey = new GUIContent("API key:", "The API key to use with the download.");
+        private static readonly GUIContent DatabaseLink = new GUIContent("Link to database:", "The link to the page with the database on that you want to download.");
+        
+        
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space(5f);
@@ -57,8 +61,8 @@ namespace CarterGames.NotionData.Editor
             EditorGUILayout.LabelField("Notion Database Settings", EditorStyles.boldLabel);
             GeneralUtilEditor.DrawHorizontalGUILine();
             
-            EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), NotionMetaData.DatabaseLink);
-            EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), NotionMetaData.ApiKey);
+            EditorGUILayout.PropertyField(serializedObject.Fp("linkToDatabase"), DatabaseLink);
+            EditorGUILayout.PropertyField(serializedObject.Fp("databaseApiKey"), ApiKey);
 
             if (string.IsNullOrEmpty(serializedObject.Fp("processor").Fpr("type").stringValue))
             {

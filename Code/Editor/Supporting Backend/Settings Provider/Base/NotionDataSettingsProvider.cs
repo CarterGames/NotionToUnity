@@ -36,7 +36,7 @@ namespace CarterGames.NotionData.Editor
         /// <summary>
         /// Gets the settings asset in the project as a SerializedObject.
         /// </summary>
-        private static SerializedObject SettingsAssetObject => ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef;
+        private static SerializedObject SettingsAssetObject => ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef;
         
         /* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
         |   Menu Item

@@ -49,7 +49,7 @@ namespace CarterGames.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {webRequestData.ApiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", ApiVersion.ToVersionString());
-            request.timeout = ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.DownloadTimeout;
+            request.timeout = ScriptableRef.GetAssetDef<NotionDataEditorSettings>().AssetRef.DownloadTimeout;
             
             return request;
         }
@@ -90,7 +90,7 @@ namespace CarterGames.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {webRequestData.ApiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", ApiVersion.ToVersionString());
-            request.timeout = ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.DownloadTimeout;
+            request.timeout = ScriptableRef.GetAssetDef<NotionDataEditorSettings>().AssetRef.DownloadTimeout;
             
             return request;
         }
@@ -120,7 +120,7 @@ namespace CarterGames.NotionData.Editor
             request.SetRequestHeader("Authorization", $"Bearer {webRequestData.ApiKey}");
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Notion-Version", ApiVersion.ToVersionString());
-            request.timeout = ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().AssetRef.DownloadTimeout;
+            request.timeout = ScriptableRef.GetAssetDef<NotionDataEditorSettings>().AssetRef.DownloadTimeout;
             
             return request;
         }

@@ -23,17 +23,17 @@ namespace CarterGames.NotionData.Editor
     /// <summary>
     /// Handles asset generation & referencing for the editor settings.
     /// </summary>
-    public class ScriptableDefCoreSettings : IScriptableAssetDef<AssetEditorGlobalSettings>
+    public class ScriptableDefEditorSettings : IScriptableAssetDef<NotionDataEditorSettings>
     {
-        private static AssetEditorGlobalSettings cache;
+        private static NotionDataEditorSettings cache;
         private static SerializedObject objCache;
 
-        public Type AssetType => typeof(AssetEditorGlobalSettings);
-        public string DataAssetFileName => "[Notion Data] Core Settings.asset";
-        public string DataAssetFilter => $"t:{typeof(AssetEditorGlobalSettings).FullName} name={DataAssetFileName}";
+        public Type AssetType => typeof(NotionDataEditorSettings);
+        public string DataAssetFileName => "[Notion Data] Editor Settings.asset";
+        public string DataAssetFilter => $"t:{typeof(NotionDataEditorSettings).FullName} name={DataAssetFileName}";
         public string DataAssetPath => $"{ScriptableRef.FullPathData}{DataAssetFileName}";
 
-        public AssetEditorGlobalSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
+        public NotionDataEditorSettings AssetRef => ScriptableRef.GetOrCreateAsset(this, ref cache);
         public SerializedObject ObjectRef => ScriptableRef.GetOrCreateAssetObject(this, ref objCache);
 
         public void TryCreate()

@@ -22,14 +22,14 @@ namespace CarterGames.NotionData.Editor
 
             EditorGUI.BeginChangeCheck();
             
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("apiReleaseVersion"), ApiReleaseVersion);
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("downloadTimeout"), DownloadTimeout);
-            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Fp("ignorePropertyPrefix"), IgnorePrefix);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef.Fp("apiReleaseVersion"), ApiReleaseVersion);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef.Fp("downloadTimeout"), DownloadTimeout);
+            EditorGUILayout.PropertyField(ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef.Fp("ignorePropertyPrefix"), IgnorePrefix);
 
             if (EditorGUI.EndChangeCheck())
             {
-                ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.ApplyModifiedProperties();
-                ScriptableRef.GetAssetDef<AssetEditorGlobalSettings>().ObjectRef.Update();
+                ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef.ApplyModifiedProperties();
+                ScriptableRef.GetAssetDef<NotionDataEditorSettings>().ObjectRef.Update();
             }
             
             GUILayout.Space(1.5f);

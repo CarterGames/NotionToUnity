@@ -5,7 +5,6 @@
   "description": "A tool to download Notion databases into a Unity scriptable object for use in Unity projects. Handy for game data such as items, localization, skills and more!",
   "unity": "2020.3",
   "unityRelease": "0f1",
-  "documentationUrl": "https://carter.games/",
   "licensesUrl": "https://github.com/CarterGames/NotionToUnity/blob/main/LICENSE",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.0.0"
